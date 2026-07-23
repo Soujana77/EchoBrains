@@ -1,0 +1,105 @@
+Business intelligence
+Business intelligence is the process of collecting ,transforming ,analyzing,and visualizing data to help organizations make better decisions.
+
+power bi converts data into 
+*charts
+*Dashboards
+*KPIs
+*Reports(MIS Reports)
+
+What is power BI?
+Power bi is Microsoft's business tool used to:
+connect data 
+clean and transform data
+
+Power Bi components
+Power BI applications
+*windows application
+*Free
+*Used to create reports
+*Includes Power query
+*Includes data modeling 
+*Includes DAX
+
+Power BI Service
+*cloud-based
+*published reports
+*share dashboards
+*schedule refresh
+*collaboration 
+ 
+Power Bi mobile:Used only to view dashboards
+*Android
+*ios
+*windows
+
+Power bi gateway
+Used to 
+*Refresh on-premise Data
+*connect local database
+*Secure data transfer 
+
+
+Other BI tools
+Tool - company
+Power Bi               | - Microsoft
+Tableau                |-salesforce
+Qlick Sense             -Qlick
+Looker                  -Google
+spotfire                -TIBCO
+SAP Businessobjects     - SAP
+IBM Congos              - IBM             
+
+
+Power BI Advantages
+*Lower cost
+*Easy to learn
+*excel integration
+*Large community support
+* DAX language
+
+Data Sources:
+EXcel files
+csv/xml/json/text files
+folder
+database- MySQL server,oracle etc
+cloud platform -azure,aws,website
+website 
+OLAP
+
+
+POWER BI DESKTOP WINDOWS ELEMENTS PARTS 
+
+Tabs, ribbions
+file menu 
+views
+canvas area 
+panels
+report pages
+zooming tool 
+
+4 views available while generating reports :
+report view - generate reports
+data model view - create relationship between table
+table view - view the table
+dax query view -create measures ,calculations for analysis
+
+Interactive graphs or charts built in feature
+bar/column chart
+1.plot for country wise total sales
+2.plot for product wise boxes shipment
+3.plot for customers for each product   
+
+Datatypes supported by Power BI
+*Decimal Number
+*Fixed decimal number
+*whole number
+*Percentage
+*Date/Time
+*Date
+*Time
+*Date/Time/Timezone
+*Duration
+*text
+*True/False
+*Binary
