@@ -27,10 +27,40 @@ add all 3 variable(a+b+c)
 divide the multiplied value by added values print it
 '''
 
+
 a=int(input("Enter the value of a ="))
 b=int(input("Enter the value of b ="))     
 c=int(input("Enter the value of c ="))
-d=print("product of a*b*c=:",a*b*c)
-e=print("sum of a+b+c=:",a+b+c)
-f=print("the output of values is =",d/e)     
+mul=print(a*b*c)
+add=print(a+b+c)
+print(mul/add)
+
+
+#Assignment operator : (+=,-=,*=,/=,//=,**=)
+x=1
+x+=4 #x=x+1
+print(x)
+
+y=2
+y-=2 #y=y-2
+print(y)
+
+z=4
+z*=3 #z=z*3
+print(z)
+
+w=9
+w/=4 #w=w/4
+print(w)
+
+u=6
+u//=5 #u=u//5
+print(u)
+
+v=7
+v**=2 #v=v**2
+print(v)
+
+
+
       
