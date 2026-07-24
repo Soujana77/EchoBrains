@@ -155,6 +155,43 @@ print(x>=y)
 print(x>y)
 print(x<y)
 
+#Logical operator(anf,or,not)
+'''
+and gate
+x y x*y
+0 0  0
+0 1  0
+1 0  0
+1 1  1
+'''
+x=3
+y=8
+print(x==y and x!=y)
+
+'''
+or gate
+x y x*y
+0 0  0
+0 1  1
+1 0  1
+1 1  1
+'''
+print(x==y and x!=y)
+
+x=3
+y=8
+print(x==y and x!=y or x>=y and x<=y) #order wise execution
+
+'''
+not gate
+x ~x
+0 1
+1 0
+'''
+x=3
+y=8
+print(not(x==y))
+
 
 
 
