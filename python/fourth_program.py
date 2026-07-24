@@ -118,7 +118,7 @@ _________
 '''
 
 
-#Left shif and Right shift
+#Left shift and Right shift
 print(2>>1) #right shift
 '''
 8421
@@ -133,85 +133,6 @@ print(11<<4)
 print(13>>3)
 
 print(16>>5)
-
-
-#negation
-print(~7)
-'''
-~ = -(n+1)
-    -(7+1)
-    -8
-    '''
-
-#Comparision Operators(==,<=,>=,!=,<,>)
-
-x=3
-y=8
-print(x==y)
-print(x!=y)
-print(x<=y)
-print(x>=y)
-print(x>y)
-print(x<y)
-
-
-#Logical operator(anf,or,not)
-'''
-and gate
-x y x*y
-0 0  0
-0 1  0
-1 0  0
-1 1  1
-'''
-x=3
-y=8
-print(x==y and x!=y)
-
-'''
-or gate
-x y x*y
-0 0  0
-0 1  1
-1 0  1
-1 1  1
-'''
-print(x==y and x!=y)
-
-x=3
-y=8
-print(x==y and x!=y or x>=y and x<=y) #order wise execution
-
-'''
-not gate
-x ~x
-0 1
-1 0
-'''
-x=3
-y=8
-print(not(x==y))
-
-#Special operators
-#spl ---> . membership ->(in , not in)
-#id (is , is not )
-
-#spl ---> . membership ->(in , not in)
-l = [1, 2, 3]
-print(4 in l)
-print(1 in 1)
-print(5 not in l)
-print(1 not in l)
-
-#id (is , is not )
-
-
-
-
-
-
-
-
 
 
 
