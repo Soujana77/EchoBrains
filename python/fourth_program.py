@@ -136,6 +136,25 @@ print(16>>5)
 
 
 
+#negation
+print(~7)
+'''
+~ = -(n+1)
+    -(7+1)
+    -8
+    '''
+
+#Comparision Operators(==,<=,>=,!=,<,>)
+
+x=3
+y=8
+print(x==y)
+print(x!=y)
+print(x<=y)
+print(x>=y)
+print(x>y)
+print(x<y)
+
 
 
 
