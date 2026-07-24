@@ -193,6 +193,18 @@ y=8
 print(not(x==y))
 
 
+#Special operators
+#spl ---> . membership ->(in , not in)
+#id (is , is not )
+
+#spl ---> . membership ->(in , not in)
+l = [1, 2, 3]
+print(4 in l)
+print(1 in 1)
+print(5 not in l)
+print(1 not in l)
+
+#id (is , is not )
 
 
 
