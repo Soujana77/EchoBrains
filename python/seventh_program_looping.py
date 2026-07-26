@@ -30,6 +30,7 @@ for i in range(6):
 for i in range(6):
     print(5*" *")
 
+#ASSIGNMENT QUESTIONS
 #using for loop print 5,4,3,2,1,0
 #using for loop print 5 table eg : 5X1=5,5X2=10....5X10=50
 #using for loop print the number from 1 to 10 where every even number should say hi i am 2 , hi i am 4 till the last even number for given range    
@@ -53,3 +54,35 @@ for i in range(1,11):
     print("5 X ",i,"=",5*i)
 
 
+#using for loop print the number from 1 to 10 where every even number should say hi i am 2 , hi i am 4 till the last even number for given range 
+    
+for i in range(1,11):
+    if i%2==0:
+        print("Hi i am ",i)
+    else:
+        print(i)
+
+#using for loop print the number from 1 to 10 where every even number should say hi i am 2 , hi i am 4 till the last even number for given range    
+'''
+print this pattern        ****  using for loop
+                          *  *
+                          *  *
+                          ****
+                          '''
+#Method-1
+for i in range(4):
+    if i==0 or i==3:
+        print("****")
+    else:
+        print("*  *")
+
+#Method-2
+for row in range(4):
+    for col in range(4):
+        if row == 0 or row == 3 or col == 0 or col == 3:
+            print("*", end="")
+        else:
+            print(" ", end="")
+    print()
+
+        
