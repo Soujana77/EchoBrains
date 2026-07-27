@@ -11,7 +11,7 @@
     otherwise print "Incorrect password"
     if the username is incorrect print "invalid Username"
 '''
-'''
+
 username=input("enter the username: ")
 password=input("enter the password: ")
 if username=='admin':
@@ -20,7 +20,7 @@ if username=='admin':
     else:
         print("Incorrect Password")
 else:
-    print("Incorrect Username")'''
+    print("Incorrect Username")
 
 #task-2
 '''
@@ -30,11 +30,83 @@ accept age,monthly salary,credit score,loan is approved only if :
 *credit score>=700
 otherwise,print loan rejected
 '''
-age=input("enter the age")
-salary=input("enter the salary")
-credit_score=input("enter the credit score")
+'''
+age=int(input("enter the age: "))
+salary=int(input("enter the salary: "))
+credit_score=int(input("enter the credit score: "))
 if age>=21 and salary>=30000 and credit_score>=700:
     print("Loan approved")
 else:
     print("Loan rejected")
-          
+
+#right angle triangle          
+for row in range(5):
+    for col in range(row):
+            print("*", end="") #end="" end of line
+    print() #\n(new line)
+
+
+x=65
+for i in range(5):
+    print(chr(x),end="")
+    x+=1
+
+#27-07-2026 tasks
+'''
+'''task h/w-1
+    *
+   *** 
+  *****
+ *******
+ '''
+'''Task h/w -2  
+1
+12
+123
+1234
+'''
+
+''' task-3
+1
+23
+456
+78910
+'''
+
+'''
+task h/w-4
+1234
+123
+12
+1
+'''
+
+'''
+task h/w-5
+AAAAA
+ABBBA
+ABBBA
+ABBBA
+AAAAA
+'''
+
+'''task h/w-1
+    *
+   *** 
+  *****
+ *******
+ '''
+#Solution
+rows = 4
+
+for i in range(1, rows + 1):
+    for j in range(rows - i):
+        print(" ",end="")
+    for k in range(2 * i - 1):
+        print("*",end="")
+            
+    print()
+
+       
+
+

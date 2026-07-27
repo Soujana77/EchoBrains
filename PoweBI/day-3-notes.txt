@@ -1,0 +1,65 @@
+Data Modeling
+
+Data modeling is a process of structuring and connecting tables so Powe BI can efficiently filter , aggregate and calculate across your data. a good model turns disconnected tables into a single coherent story your report can query .
+
+*Organize-group data into logical tables-facts and dimensions
+*connect - group relationships so filters flow between tables 
+*Optimize-shape tables for speed ,clarity and reuse 
+
+Star schema and snowflake schema
+
+Star schema:
+dimensions connect directly to the fact table ,fewer joins, simpler relationships and faster performance .Recommended Power BI models
+
+structure of star schema 
+                               ______________        
+                              |              |
+                              |______________|
+                                    |
+ ________________             ______________             _____________     
+|                |           |              |            |            |
+|________________|___________|              |____________|____________|
+                             |______________|
+                                  |    |
+                                  |    |
+                                  |    |
+                          __________   _____________
+                         |         |   |            |
+                         |_________|   |____________|
+
+Snowflake schema
+In snowflake schema dimensions are further normalizedinto sub tables (eg product-> category->department)Saves storage but adds joins usually unnecessary in power BI's in memeory engine.
+
+                               ______________        
+                              |              |
+                              |______________|
+                                    |
+ ________________             ______________             _____________            __________
+|                |           |              |            |            |___________|         |
+|________________|___________|              |____________|____________|           |         |
+         |                   |______________|                   |                 |_________|
+         |                        |    |                        |
+         |                        |    |                        |
+   ____________                   |    |                   _____________
+   |           |          __________   _____________       |            |
+   |___________|         |         |   |            |      |____________|
+                         |_________|   |____________|       
+
+
+                         
+
+Under Power bi when you are creating relationships and cardinality , a relationship links two tables on a common so filters on one table propogate to the other Power BI supports three cardinality types
+
+One to many  1:*
+many to many *:* Both tables can have duplicate key values .Use carefully -can create ambiguous filtering
+one to one   1:1 Each row matches exactly one row in the other table.Rare in reporting models
+
+Cross filter direction 
+Cross filter direction controls which way a filter travels across a relationships ,It determines whether filtering the dimension affects the fact tables or both directions at once
+
+*Single direction (default)
+  filters flow from the dimension to the fact table only the safe,predectible choice for star schemas
+
+*Both direction
+  filters flow from both ways , useful for many scenarios but can cause ambiguity and slower performance if overused
+                                  
