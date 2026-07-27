@@ -126,13 +126,25 @@ for i in range(1,5):
 78910
 '''
 #Solution
-num = 1 
+num = 1
 for i in range(1,5):
     for j in range(i):
         print(num,end="")
-        num += 1
-    print()  
+        num+=1
+    print()
 
+'''
+task h/w-4
+1234
+123
+12
+1
+'''
+#Solution
+for i in range(4,0,-1):
+    for j in range(1,i+1):
+        print(j,end="")
+    print()    
 
 '''
 task h/w-5
