@@ -50,7 +50,7 @@ if condition:
    statement
    if condition:
       statement
-   else:
+   else: 
 else:statement
 '''
 b=int(input("enter a number"))
