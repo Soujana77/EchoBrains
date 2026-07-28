@@ -1,0 +1,8 @@
+DAX-Data Analysis Expression.
+it is the formula language behind power BI,excel,Powerpivot,and analysis sevices .If you already know excel formulas.some of the syntax willlook familiar right away.
+
+teh key mental shift:DAX thinks in tables and columns, never single cells. An excel formula acts on one cell at a time .a DAX formula acts on an entire column or table and recalcylates automatically based on whatever filters are currently applies to a report.
+
+*Used to build measures and calculated columns
+*Operates on entire tables and columns, not individual cells.
+*Same language across Power BI, Excel for data analysis
