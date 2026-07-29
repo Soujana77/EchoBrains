@@ -1,0 +1,22 @@
+what are the ways we can use DAX
+Measure-Dynamic calculations based on filters
+Calculated column-Row by Row calculations
+Calculated Table-Create new table from existing data 
+
+Power bi supports two types of measures :
+1.Implicit measure (Automatically Created)
+2.Explicit ,measures(User created using DAX)
+
+DAX Operations:
+Arithmetic Operations
+Relational Operations
+Logical Operators
+Concatination Operations 
+
+Total Sales Amount = SUMX(PizzaSales,PizzaSales[Price_USD]*PizzaSales[Sales]) 
+
+*task
+add a column to pizzasales table Discounted price = sales price - 15%
+
+*task
+Draw a graph to compare acutual price v/s discounted price for each category 
