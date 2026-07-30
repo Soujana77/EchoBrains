@@ -105,7 +105,8 @@ for k in square_list:
     if k%2!=0: #when i tried this i came to know that i can use the same variable or change the variable in for loop to print odd and even separately
         odd_numbers.append(k)
 print(odd_numbers)        
-    
+
+
       
 
 
