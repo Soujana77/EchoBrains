@@ -106,8 +106,16 @@ for k in square_list:
         odd_numbers.append(k)
 print(odd_numbers)        
 
-
-      
+#Print a list from an existing list
+#o/p - [1,2,4,8,9,10]
+p=[1,2,3,4,5,6,7,8,9,10]
+value_to_remove=[3,5,6,7]
+q=[]
+for i in p:
+    if i not in value_to_remove:
+        q.append(i)
+print(q)    
+    
 
 
 

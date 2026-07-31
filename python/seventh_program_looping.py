@@ -52,7 +52,7 @@ for i in range(5,-1,-1):
 
 for i in range(1,11):
     print("5 X ",i,"=",5*i)
-
+ 
 
 #using for loop print the number from 1 to 10 where every even number should say hi i am 2 , hi i am 4 till the last even number for given range 
     

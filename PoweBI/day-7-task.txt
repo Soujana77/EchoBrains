@@ -1,0 +1,41 @@
+Step 1: Copy the Dataset
+Copy the raw CSV text below, paste it into Notepad, and save it as PowerBI_Practice_Data.csv (or paste it directly into Excel / Power BI via Enter Data):
+Order_ID,Order_Date,Customer_Name,Product_Details,Region,Units_Sold,Unit_Price,Discount
+1001,2024-01-15, john DOE ,PROD-ELEC-101|Laptop,North,2,$1200.00,0.05
+1002,16/01/2024,JANE smith,PROD-FURN-202|Office Chair,south,,$150.00,0
+1003,17-Jan-2024, Robert Johnson ,PROD-ELEC-103|Headphones,East,5,$50.00,N/A
+1004,2024/01/18,mario ROSSI,PROD-STAT-301|Notebook,West,10,$5.00,0.1
+1005,19.01.2024,  SARAH CONNOR,PROD-ELEC-101|Laptop,North,1,$1200.00,0.05
+1006,2024-01-20,john DOE,PROD-FURN-204|Desk,north,null,$300.00,0
+1007,2024-01-21,  alice williams ,PROD-STAT-302|Pen Set,East,15,$12.50,0
+1008,22/01/2024,BOB MARTIN,PROD-ELEC-102|Monitor,west,2,$250.00,0.15
+1009,23-Jan-2024,Charlie Brown,PROD-FURN-202|Office Chair,,3,$150.00,0
+1010,2024-01-24,jane smith ,PROD-ELEC-103|Headphones,South,8,$50.00,0.05
+Phase 1: Data Cleaning (Power Query)
+	Trim & Clean Whitespace: Remove leading/trailing spaces from Customer_Name and Region.
+	Capitalization Standardizing: Convert Customer_Name and Region to Proper Case (e.g., john DOE → John Doe, south → South).
+	Column Splitting: Split Product_Details by the pipe symbol (|) into two separate columns: Product_SKU and Product_Name.
+	Data Type Conversions:
+	Clean Unit_Price by removing the $ currency sign and converting it to Fixed Decimal Number.
+	Convert Discount to Decimal Number after replacing "N/A" with 0.
+	Convert Order_Date into a standard Date type (handle mixed date formats).
+	Missing Value Handling:
+	Impute or fill missing Units_Sold (e.g., replace null or blanks with 1 or column average).
+	Handle missing Region values (e.g., replace blank with "Unknown").
+Phase 2: Text & Date Calculated Columns
+	Customer Initials: Create a column extracting customer initials (e.g., John Doe → JD).
+	Category Extraction: Extract the category code from Product_SKU (e.g., PROD-ELEC-101 → ELEC).
+	Date Attributes: Extract Year, Month Name, Quarter, and Day of Week from Order_Date.
+	Gross Revenue Column: Calculate Gross_Sales = Units_Sold * Unit_Price.
+	Net Sales Column: Calculate Net_Sales = Gross_Sales * (1 - Discount).
+Phase 3: DAX Measures (Power BI)
+Ask interns to build explicit DAX measures for the report:
+	Total Net Sales:
+"Total Sales"=∑▒("Net_Sales" ) 
+	Total Units Sold:
+"Total Units"=∑▒("Units_Sold" ) 
+	Average Order Value (AOV):
+"AOV"="Total Sales" /"DISTINCTCOUNT" ("Order_ID" ) 
+	Discounted Orders Count: Count orders where Discount > 0.
+	Conditional Sales Performance: Rank or categorize regions based on sales performance using CALCULATE or SWITCH.
+

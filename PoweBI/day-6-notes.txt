@@ -1,0 +1,8 @@
+1. Logical Functions
+Logical functions are used to make decisions based on conditions.
+Function	Syntax	Example	Output
+IF	IF(condition,value1,value2)	Result = IF(Student[Marks]>=35,"Pass","Fail")	Pass/Fail
+AND	AND(cond1,cond2)	Eligible = IF(AND(Student[Marks]>=60,Student[Attendance]>=75),"Eligible","Not Eligible")	Eligible
+OR	OR(cond1,cond2)	Sports = IF(OR(Student[Attendance]>=95,Student[Marks]>=90),"Selected","No")	Selected
+NOT	NOT(condition)	Hostel = IF(NOT(Student[City]="Bangalore"),"Hostel","Day Scholar")	Hostel
+SWITCH	SWITCH(expression,...)	Grade = SWITCH(TRUE(),Student[Marks]>=90,"A+",Student[Marks]>=75,"A",Student[Marks]>=60,"B",Student[Marks]>=35,"C","Fail")	Grade
