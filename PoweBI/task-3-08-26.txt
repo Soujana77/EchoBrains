@@ -1,0 +1,135 @@
+The workbook contains:
+Sheet 1 – HR_Data
+•	200 employee records
+•	Employee ID
+•	Name
+•	Gender
+•	Department
+•	Designation
+•	Location
+•	Joining Date
+•	Salary
+•	Experience
+•	Age
+•	Performance Rating
+•	Attrition
+•	Training Hours
+•	Leave Days
+Sheet 2 – Dashboard_Questions
+12 dashboard creation tasks, including:
+1.	Total Employees KPI
+2.	Average Salary KPI
+3.	Attrition Count KPI
+4.	Department-wise Employee Count
+5.	Gender Distribution
+6.	Salary by Department
+7.	Attrition by Department
+8.	Employees by Location
+9.	Average Salary by Designation
+10.	Performance Rating Analysis
+11.	Training Hours Analysis
+12.	Add slicers for Department, Gender, Location, and Attrition
+Recommended Dashboard Layout
+----------------------------------------------------------
+| Total Emp | Avg Salary | Attrition | Avg Experience     |
+----------------------------------------------------------
+| Department-wise Employees | Gender Distribution         |
+----------------------------------------------------------
+| Salary by Department | Performance Rating              |
+----------------------------------------------------------
+| Attrition by Dept | Employees by Location              |
+----------------------------------------------------------
+| Joining Trend | Training Hours | Leave Analysis         |
+----------------------------------------------------------
+| Department | Gender | Location | Attrition (Slicers)    |
+----------------------------------------------------------
+
+
+No	Business Question	Visualization
+1	How many employees are in each department?	Clustered Bar Chart
+2	What is the gender distribution?	Pie Chart
+3	Which locations have the most employees?	Map or Bar Chart
+4	Average salary by department?	Clustered Column Chart
+5	Average salary by designation?	Horizontal Bar Chart
+6	Attrition by department?	Stacked Column Chart
+7	Performance rating distribution?	Donut Chart
+8	Employees joined year-wise?	Line Chart
+9	Training hours by department?	Column Chart
+10	Leave days by department?	Bar Chart
+11	Experience vs Salary	Scatter Chart
+12	Top 10 highest-paid employees	Horizontal Bar Chart
+
+ 
+HR Analytics Dashboard :  cards, charts, slicers, maps, DAX, and drill-through).
+HR Dashboard Requirements
+KPI Cards
+Display the following as Cards:
+•	👨‍💼 Total Employees
+•	💰 Average Salary
+•	📉 Attrition Count
+•	📈 Attrition %
+•	⭐ Average Performance Rating
+•	🎓 Average Training Hours
+
+
+Slicers
+Add the following slicers:
+•	Department
+•	Gender
+•	Location
+•	Designation
+•	Attrition
+•	Performance
+•	Join Year
+________________________________________
+Dashboard Layout
+---------------------------------------------------------------
+| Total Employees | Avg Salary | Attrition % | Avg Experience |
+---------------------------------------------------------------
+| Department-wise Employees | Gender Distribution             |
+---------------------------------------------------------------
+| Salary by Department | Attrition by Department              |
+---------------------------------------------------------------
+| Performance Rating | Training Hours by Department           |
+---------------------------------------------------------------
+| Joining Trend | Experience vs Salary (Scatter Plot)         |
+---------------------------------------------------------------
+| Top 10 Highest Paid Employees                              |
+---------------------------------------------------------------
+| Department | Gender | Location | Performance (Slicers)      |
+---------------------------------------------------------------
+________________________________________
+Practice Questions
+1.	Create a KPI showing the total number of employees.
+2.	Calculate the average salary.
+3.	Find the attrition percentage.
+4.	Display department-wise employee count.
+5.	Show gender distribution.
+6.	Find the department with the highest average salary.
+7.	Compare attrition across departments.
+8.	Show average training hours by department.
+9.	Display employees joined each year.
+10.	Show the top 10 highest-paid employees.
+11.	Create a scatter chart showing Experience vs Salary.
+12.	Add slicers to filter the dashboard dynamically.
+________________________________________
+Suggested DAX Measures
+Total Employees =
+COUNT(Employee[EmpID])
+Average Salary =
+AVERAGE(Employee[Salary])
+Attrition Count =
+CALCULATE(
+    COUNT(Employee[EmpID]),
+    Employee[Attrition] = "Yes"
+)
+Attrition % =
+DIVIDE(
+    [Attrition Count],
+    [Total Employees]
+)
+Average Experience =
+AVERAGE(Employee[Experience])
+Average Training Hours =
+AVERAGE(Employee[TrainingHours])
+
