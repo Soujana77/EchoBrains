@@ -1,6 +1,6 @@
 
 
-# DATATYPE:
+# **DATATYPE:**
 
 ## 1.NUMERIC TYPES
 
@@ -54,6 +54,8 @@ LONGBLOB
 
 #### 
 
+## **DDL COMMANDS**
+
 #### RENAME TABLE OLD\_T\_N TO NEW\_T\_N;
 
 eg:  rename table Employees to emp;
@@ -96,15 +98,11 @@ DROP TABLE emp;
 
 
 
-ALTER is used to 
-
-create new column in existing table:
 
 
+#### ALETR TABLE table\_name
 
-ALETR TABLE table\_name
-
-ADD column datatype;
+#### ADD column datatype;
 
 &#x20;eg:ALTER TABLE EMP 
 
@@ -114,7 +112,38 @@ ADD column datatype;
 
 
 
+ALTER TABLE emp add bonus decimal(5,2)AFTER Salary ;
+this adds the column in the desired palce
 
+
+
+
+
+ALTER TABLE emp RENAME column old\_col TO new\_col;
+
+ALTER TABLE emp 
+
+RENAME COLUMN dob to Date of Birth;
+
+
+
+
+
+create table course (
+
+&#x20;    course\_id VARCHAR(20),
+
+&#x20;    course\_name VARCHAR(20),
+
+
+
+TRUNCATE table\_name:
+
+Deletes all the row in the table ,without changing the structure of the table.
+
+
+
+##### **NOTE:Drop table deletes the entire table , while Truncate deletes all the datafrom rows but the structure remains, Delete ->rows**
 
 
 
