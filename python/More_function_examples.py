@@ -21,3 +21,9 @@ def print_numbers(n):
         print(i)
 print_numbers(5)
 
+#Function Calling another Function
+def square(n):
+    return n*n
+def cube(n):
+    return square(n)*n
+print(cube(3))
