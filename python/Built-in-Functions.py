@@ -44,3 +44,25 @@ print("Hello")
 #len()
 word = "Python"
 print(len(word))
+
+#Type Conversion Functions
+x = "100"
+y = int(x)
+print(y)
+print(type(y))
+
+#---------------
+x = "10.5"
+print(float(x))
+
+#---------------
+x = 100
+print(str(x))
+
+#---------------
+x = 10
+print(bool(x))
+
+#---------------
+numbers = [10, 20, 30, 40]
+print(sum(numbers))
