@@ -51,7 +51,7 @@ y = int(x)
 print(y)
 print(type(y))
 
-#---------------
+#--------------
 x = "10.5"
 print(float(x))
 
@@ -65,4 +65,59 @@ print(bool(x))
 
 #---------------
 numbers = [10, 20, 30, 40]
-print(sum(numbers))
+print(sum(numbers)) #Used to find the total of numbers.
+
+#---------------
+numbers = [10, 50, 20, 80, 30]
+print(max(numbers)) #finds the largest value
+
+
+#---------------
+numbers = [10, 50, 20, 80, 30]
+print(min(numbers))#finds the smallest value
+
+#---------------
+print(abs(-10)) #Returns the absolute value o/p = 10
+
+#---------------
+x = 10.5678
+print(round(x))#Used to return numbers 
+
+#---------------
+numbers = [5, 2, 8, 1, 3]
+print(sorted(numbers)) #Used to sort values 
+
+#range()
+for i in range(5):
+    print(i)
+
+#enumerate()
+names = ["Soujanya", "Anu", "Rahul"]
+for i in range(len(names)):
+    print(i, names[i])
+
+for index, name in enumerate(names):
+    print(index, name)
+
+#zip()
+names = ["Soujanya", "Anu", "Rahul"]
+marks = [90, 85, 95]
+
+for name, mark in zip(names, marks):
+    print(name, mark)
+
+#any()
+numbers = [1, 3, 5, 8]
+print(any(x % 2 == 0 for x in numbers))
+
+#all()
+numbers = [2, 4, 6, 8]
+print(all(x % 2 == 0 for x in numbers))
+
+#id()
+x=10
+print(id(x)) #Returns the identity of an object.
+
+#isinstance()
+x = 10
+print(isinstance(x,int))#Checks whether something belongs to a particular data type.
