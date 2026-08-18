@@ -258,5 +258,37 @@ class Dog(Animal):
 
 
 d = Dog()
-        
- 
+
+'''
+Inheritance:
+Parent method → Child uses it
+
+Method Overriding:
+Parent method → Child changes it
+
+super():
+
+Child → calls Parent's method
+
+'''
+
+class Employee:
+    def salary(self):
+        print("Employee salary is calculated")
+
+
+class Developer(Employee):
+    def salary(self):
+        print("Developer salary = 60000")
+
+
+class Manager(Employee):
+    def salary(self):
+        print("Manager salary = 80000")
+
+
+d = Developer()
+m = Manager()
+
+d.salary()
+m.salary()
