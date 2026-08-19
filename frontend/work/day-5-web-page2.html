@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Multimedia Webpage</title>
+</head>
+
+<body>
+
+    <h1>My Multimedia Page</h1>
+
+    <!-- Audio Section -->
+    <h2>My Favorite Audio</h2>
+
+    <audio controls>
+        <source src="music.mp3" type="audio/mpeg">
+        <source src="music.ogg" type="audio/ogg">
+
+        Your browser does not support the audio element.
+    </audio>
+
+
+    <!-- Video Section -->
+    <h2>Introduction Video</h2>
+
+    <video
+        width="700"
+        height="400"
+        controls
+        poster="thumbnail.jpg">
+
+        <source src="video.mp4" type="video/mp4">
+        <source src="video.webm" type="video/webm">
+
+        Your browser does not support the video element.
+
+    </video>
+
+
+    <!-- Autoplay Video -->
+    <h2>Background Video</h2>
+
+    <video
+        width="700"
+        autoplay
+        muted
+        loop
+        poster="background.jpg">
+
+        <source src="background.mp4" type="video/mp4">
+
+        Your browser does not support the video element.
+
+    </video>
+
+</body>
+
+</html>
