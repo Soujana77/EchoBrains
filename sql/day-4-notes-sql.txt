@@ -1,0 +1,256 @@
+DDL COMMANDS IN SQL
+
+DDL stands for Data Definition Language. It is used to create, modify, and delete the structure of database objects such as databases and tables.
+
+The main DDL commands are:
+
+1. CREATE
+
+2. ALTER
+
+3. DROP
+
+4. TRUNCATE
+
+5. RENAME
+
+6. CREATE
+
+The CREATE command is used to create a new database or table.
+
+CREATE DATABASE:
+
+CREATE DATABASE college;
+
+This creates a database named "college".
+
+To select the database:
+
+USE college;
+
+CREATE TABLE:
+
+Syntax:
+
+CREATE TABLE table_name (
+column1 datatype,
+column2 datatype,
+column3 datatype
+);
+
+Example:
+
+CREATE TABLE students (
+id INT,
+name VARCHAR(50),
+age INT,
+course VARCHAR(50)
+);
+
+This creates a table named "students" with four columns: id, name, age, and course.
+
+To view the structure of the table:
+
+DESC students;
+
+2. ALTER
+
+The ALTER command is used to modify the structure of an existing table.
+
+It can be used to:
+
+* Add a column
+* Modify a column
+* Rename a column
+* Delete a column
+
+A. ADD COLUMN
+
+Used to add a new column to an existing table.
+
+Example:
+
+ALTER TABLE students
+ADD email VARCHAR(100);
+
+This adds an "email" column to the students table.
+
+To add multiple columns:
+
+ALTER TABLE students
+ADD phone VARCHAR(15),
+ADD city VARCHAR(50);
+
+B. MODIFY COLUMN
+
+Used to change the datatype or size of an existing column.
+
+Example:
+
+ALTER TABLE students
+MODIFY name VARCHAR(100);
+
+Here, the size of the name column is changed from VARCHAR(50) to VARCHAR(100).
+
+C. RENAME COLUMN
+
+Used to change the name of an existing column.
+
+Example:
+
+ALTER TABLE students
+RENAME COLUMN name TO student_name;
+
+The column "name" is now renamed to "student_name".
+
+D. DROP COLUMN
+
+Used to remove a column from an existing table.
+
+Example:
+
+ALTER TABLE students
+DROP COLUMN age;
+
+The age column is permanently removed from the table.
+
+3. DROP
+
+The DROP command is used to completely delete a database object.
+
+DROP TABLE:
+
+DROP TABLE students;
+
+This completely deletes the students table, including its structure and data.
+
+DROP DATABASE:
+
+DROP DATABASE college;
+
+This completely deletes the college database and all the tables inside it.
+
+IMPORTANT:
+DROP is a destructive command. Once an object is dropped, it cannot normally be accessed again.
+
+4. TRUNCATE
+
+The TRUNCATE command is used to remove all records from a table while keeping the table structure.
+
+Example:
+
+TRUNCATE TABLE students;
+
+Before TRUNCATE:
+
+1  Soujanya  21
+2  Rahul     22
+3  Priya     20
+
+After TRUNCATE:
+
+The table becomes empty, but the table structure still exists.
+
+We can still use:
+
+DESC students;
+
+The important difference is:
+
+TRUNCATE removes the data but keeps the table.
+
+DROP removes the entire table.
+
+5. RENAME
+
+The RENAME command is used to change the name of an existing table.
+
+Syntax:
+
+RENAME TABLE old_table_name TO new_table_name;
+
+Example:
+
+RENAME TABLE students TO college_students;
+
+The table "students" is now called "college_students".
+
+COMPLETE EXAMPLE
+
+CREATE DATABASE college;
+
+USE college;
+
+CREATE TABLE students (
+id INT,
+name VARCHAR(50),
+age INT
+);
+
+ALTER TABLE students
+ADD email VARCHAR(100);
+
+ALTER TABLE students
+MODIFY name VARCHAR(100);
+
+ALTER TABLE students
+RENAME COLUMN name TO student_name;
+
+ALTER TABLE students
+DROP COLUMN age;
+
+RENAME TABLE students TO college_students;
+
+TRUNCATE TABLE college_students;
+
+DROP TABLE college_students;
+
+QUICK REVISION
+
+CREATE → Creates a new database or table.
+
+ALTER → Changes the structure of an existing table.
+
+TRUNCATE → Removes all data but keeps the table structure.
+
+RENAME → Changes the name of a table or column.
+
+DROP → Completely deletes a database or table.
+
+EASY WAY TO REMEMBER:
+
+CREATE = MAKE
+
+ALTER = CHANGE
+
+TRUNCATE = EMPTY
+
+RENAME = CHANGE NAME
+
+DROP = DESTROY
+
+DDL VS DML
+
+DDL deals with the structure of the database.
+
+Examples:
+
+CREATE
+ALTER
+DROP
+TRUNCATE
+RENAME
+
+DML deals with the data stored inside the table.
+
+Examples:
+
+INSERT
+UPDATE
+DELETE
+
+In simple words:
+
+DDL = Structure
+
+DML = Data
