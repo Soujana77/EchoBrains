@@ -9,4 +9,36 @@ WHERE dept = 'HR'
 Query 3 : WAQTD EMPLOYEE_NAME, DEPT , INCREASE THE BONUS  500 TO EVERY EMPLOYEE 
 
 Query 4 : WAQTD emp name per day salary per day bonus
-SELECT from 
+ 	SELECT name, salary*12/365, bonus*12/365 
+ 	FROM employees;
+
+Comparision operators:
+Comparision operators compare two values and return TRUE or FALSE ,  They are used with WHERE clause to filter rows 
+= ,!=/<>, <=,
+Query 1 : WAQTD employess whose dept is equal to IT
+	SELECT * FROM employess
+	WHERE dept = "IT"
+
+Query 2 :WAQTD all the employes except finance dept 
+	SELECT * FROM employees
+        WHERE dept<>"finance";
+
+Query 3 :display the employees whose age is less than 30 years 
+	SELECT * FROM employees
+	WHERE age < 30;
+
+Query 4 :WAQTD whose city is chennai 
+	SELECT * FROM employees
+	WHERE city= "Chennai
+Query 5 :WAQTD name, salary and bonus as a total salary who is working in IT depeartment  
+        SELECT name, salary + bonus as TotalSalary   
+	FROM employees WHERE dept= "IT" 
+Query 6 :WAQTD Deduct the salary 8800 whose salary is >50000
+      SELECT salary-8800 
+      FROM employees 
+      WHERE salary>50000;
+
+Query 7 : WAQTD  the employees data who joined after 2020
+     SELECT * FROM employees
+     where joining date > '2020-01-01' ;
+
