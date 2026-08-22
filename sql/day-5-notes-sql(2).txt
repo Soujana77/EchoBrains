@@ -1,0 +1,230 @@
+DML COMMANDS IN SQL
+
+DML stands for Data Manipulation Language. It is used to insert, modify, and delete the data stored inside database tables.
+
+The main DML commands are:
+
+1. INSERT
+
+2. UPDATE
+
+3. DELETE
+
+4. INSERT
+
+The INSERT command is used to add new records (rows) into a table.
+
+Syntax:
+
+INSERT INTO table_name
+VALUES (value1, value2, value3);
+
+Example:
+
+INSERT INTO students
+VALUES (1, 'Soujanya', 21, 'CSE');
+
+This inserts a new row into the students table.
+
+If the table contains:
+
+id | name | age | course
+1  | Soujanya | 21 | CSE
+
+We can also specify the column names:
+
+INSERT INTO students (id, name, age, course)
+VALUES (2, 'Rahul', 22, 'ISE');
+
+This is preferred because we explicitly specify which value belongs to which column.
+
+INSERTING MULTIPLE ROWS
+
+We can insert multiple records using a single INSERT statement.
+
+INSERT INTO students (id, name, age, course)
+VALUES
+(3, 'Priya', 20, 'ECE'),
+(4, 'Arun', 21, 'CSE'),
+(5, 'Ravi', 22, 'ME');
+
+This inserts three records into the students table.
+
+2. UPDATE
+
+The UPDATE command is used to modify existing data in a table.
+
+Syntax:
+
+UPDATE table_name
+SET column_name = new_value
+WHERE condition;
+
+Example:
+
+UPDATE students
+SET age = 22
+WHERE id = 1;
+
+This changes the age of the student whose id is 1 to 22.
+
+Before:
+
+id | name | age
+1  | Soujanya | 21
+
+After:
+
+id | name | age
+1  | Soujanya | 22
+
+UPDATING MULTIPLE COLUMNS
+
+We can update more than one column at the same time.
+
+UPDATE students
+SET age = 23, course = 'CSE'
+WHERE id = 1;
+
+This changes both the age and course of the student whose id is 1.
+
+IMPORTANT: WHERE CLAUSE
+
+The WHERE clause is very important when using UPDATE.
+
+Example:
+
+UPDATE students
+SET age = 25;
+
+This changes the age of EVERY student in the table to 25.
+
+Therefore, use WHERE when you want to update specific records.
+
+Example:
+
+UPDATE students
+SET age = 25
+WHERE id = 3;
+
+Only the student with id = 3 is updated.
+
+3. DELETE
+
+The DELETE command is used to remove existing records from a table.
+
+Syntax:
+
+DELETE FROM table_name
+WHERE condition;
+
+Example:
+
+DELETE FROM students
+WHERE id = 3;
+
+This deletes the student whose id is 3.
+
+DELETE MULTIPLE RECORDS
+
+Example:
+
+DELETE FROM students
+WHERE age > 25;
+
+This deletes all students whose age is greater than 25.
+
+IMPORTANT: DELETE WITHOUT WHERE
+
+DELETE FROM students;
+
+This deletes ALL records from the students table.
+
+However, the table itself still exists.
+
+For example, after:
+
+DELETE FROM students;
+
+The table structure remains:
+
+id
+name
+age
+course
+
+But there are no records inside it.
+
+COMPLETE EXAMPLE
+
+CREATE TABLE students (
+id INT,
+name VARCHAR(50),
+age INT,
+course VARCHAR(50)
+);
+
+INSERT INTO students (id, name, age, course)
+VALUES (1, 'Soujanya', 21, 'CSE');
+
+INSERT INTO students (id, name, age, course)
+VALUES (2, 'Rahul', 22, 'ISE');
+
+INSERT INTO students (id, name, age, course)
+VALUES
+(3, 'Priya', 20, 'ECE'),
+(4, 'Arun', 21, 'CSE'),
+(5, 'Ravi', 22, 'ME');
+
+UPDATE students
+SET age = 22
+WHERE id = 1;
+
+UPDATE students
+SET course = 'CSE'
+WHERE id = 2;
+
+DELETE FROM students
+WHERE id = 5;
+
+QUICK REVISION
+
+INSERT → Adds new records
+
+UPDATE → Modifies existing records
+
+DELETE → Removes records
+
+EASY WAY TO REMEMBER:
+
+INSERT = ADD DATA
+
+UPDATE = CHANGE DATA
+
+DELETE = REMOVE DATA
+
+DDL VS DML
+
+DDL (Data Definition Language) deals with the structure of the database.
+
+DDL commands:
+
+CREATE
+ALTER
+DROP
+TRUNCATE
+RENAME
+
+DML (Data Manipulation Language) deals with the data inside the table.
+
+DML commands:
+
+INSERT
+UPDATE
+DELETE
+
+In simple words:
+
+DDL = Structure of the table
+
+DML = Data inside the table
