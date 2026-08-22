@@ -1,0 +1,12 @@
+Operators in sql 
+Query 1 : Write a query to display employee's name and salary into 2x(double salary)for sales department.
+
+Query 2 :WAQTD employee name, 2 months salary from employee from sales dep 
+SELECT name, salary * 2
+FROM employees
+WHERE dept = 'HR'
+
+Query 3 : WAQTD EMPLOYEE_NAME, DEPT , INCREASE THE BONUS  500 TO EVERY EMPLOYEE 
+
+Query 4 : WAQTD emp name per day salary per day bonus
+SELECT from 
