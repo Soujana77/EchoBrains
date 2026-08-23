@@ -41,6 +41,7 @@ result = re.search(r'\d+', test)
 
 print(result.group())
 
+
 #Solution for Task 2
 import re
 
@@ -49,3 +50,13 @@ text2 = "Python is easy"
 result2 = re.match(r"Python", text2)
 
 print(result.group())
+
+
+#Solution for task 3
+import re
+
+text = "I have 2 pens 5 books and 10 pencils"
+
+result = re.findall(r'\d+', text)
+
+print(result)
