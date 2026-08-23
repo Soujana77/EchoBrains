@@ -55,8 +55,14 @@ print(result.group())
 #Solution for task 3
 import re
 
-text = "I have 2 pens 5 books and 10 pencils"
+text3 = "I have 2 pens 5 books and 10 pencils"
 
-result = re.findall(r'\d+', text)
+result3 = re.findall(r'\d+', text3)
 
-print(result)
+print(result3)
+
+#Solution for task 4
+import re
+text4 = "Contact as at abc@gmail.com or supoort@yahoo.com"
+result4 = re.findall(r'\S+@\S+\.\S+', text4)
+print(result4)
