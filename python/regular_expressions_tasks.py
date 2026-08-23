@@ -32,8 +32,20 @@ Expected O/P : ['abc@gmail.com ','supoort@yahoo.com']
 
 '''
 
-#Task 1 Solution
+#Solution for Task 1
 import re
-text = "My age is 25"
-result =  re.search(r"\d",text)
-print(result)
+
+test = "My age is 25"
+
+result = re.search(r'\d+', test)
+
+print(result.group())
+
+#Solution for Task 2
+import re
+
+text2 = "Python is easy"
+
+result2 = re.match(r"Python", text2)
+
+print(result.group())
