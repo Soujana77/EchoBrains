@@ -142,3 +142,72 @@ SELECT name, dept, salary * 12 AS annual_salary
 FROM employees
 WHERE salary * 12 > 700000
 AND dept != 'IT';
+
+-- 41. Display all details of employees whose salary is greater than 60000.
+
+SELECT *
+FROM employees
+WHERE salary > 60000;
+
+
+-- 42. Display the name, salary, and experience of employees whose salary is greater than 50000 and experience is less than or equal to 10 years.
+
+SELECT name, salary, exp
+FROM employees
+WHERE salary > 50000
+AND exp <= 10;
+
+
+-- 43. Display the name, department, and total earnings of employees whose salary is between 50000 and 90000.
+
+SELECT name, dept, salary + bonus AS total_earnings
+FROM employees
+WHERE salary BETWEEN 50000 AND 90000;
+
+
+-- 44. Display the name, city, and annual salary of employees whose annual salary is greater than 700000.
+
+SELECT name, city, salary * 12 AS annual_salary
+FROM employees
+WHERE salary * 12 > 700000;
+
+
+-- 45. Display the name, salary, and bonus of employees whose salary after deducting bonus is greater than 50000.
+
+SELECT name, salary, bonus
+FROM employees
+WHERE salary - bonus > 50000;
+
+
+-- 46. Increase the salary of all IT employees by 5000.
+
+UPDATE employees
+SET salary = salary + 5000
+WHERE dept = 'IT';
+
+
+-- 47. Increase the bonus of all Finance employees by 2000.
+
+UPDATE employees
+SET bonus = bonus + 2000
+WHERE dept = 'Finance';
+
+
+-- 48. Increase the salary by 3000 for employees whose salary is greater than 60000.
+
+UPDATE employees
+SET salary = salary + 3000
+WHERE salary > 60000;
+
+
+-- 49. Update the bonus to 5000 for employees whose current bonus is less than 5000.
+
+UPDATE employees
+SET bonus = 5000
+WHERE bonus < 5000;
+
+
+-- 50. Delete employees whose salary is less than 50000.
+
+DELETE FROM employees
+WHERE salary < 50000;
