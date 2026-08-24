@@ -49,7 +49,7 @@ text2 = "Python is easy"
 
 result2 = re.match(r"Python", text2)
 
-print(result.group())
+print(result2.group())
 
 
 #Solution for task 3

@@ -1,0 +1,144 @@
+-- 21. Display the name and annual salary of employees whose annual salary is greater than 700000.
+
+SELECT name, salary * 12 AS annual_salary
+FROM employees
+WHERE salary * 12 > 700000;
+
+
+-- 22. Display the name and salary after adding 5000 for employees working in the IT department.
+
+SELECT name, salary + 5000 AS salary_after_addition
+FROM employees
+WHERE dept = 'IT';
+
+
+-- 23. Display the name and total earnings after adding salary and bonus for employees working in the Sales department.
+
+SELECT name, salary + bonus AS total_earnings
+FROM employees
+WHERE dept = 'Sales';
+
+
+-- 24. Display the name, salary, and annual salary for employees whose salary is greater than 50000.
+
+SELECT name, salary, salary * 12 AS annual_salary
+FROM employees
+WHERE salary > 50000;
+
+
+-- 25. Display the name and salary after deducting the bonus from salary for employees whose salary is greater than 60000.
+
+SELECT name, salary - bonus AS salary_after_bonus_deduction
+FROM employees
+WHERE salary > 60000;
+
+
+-- 26. Display the name and salary of employees whose bonus is greater than 5000.
+
+SELECT name, salary
+FROM employees
+WHERE bonus > 5000;
+
+
+-- 27. Display the name and salary of employees whose salary is between 50000 and 90000.
+
+SELECT name, salary
+FROM employees
+WHERE salary BETWEEN 50000 AND 90000;
+
+
+-- 28. Display the name, age, and salary of employees whose age is between 25 and 40.
+
+SELECT name, age, salary
+FROM employees
+WHERE age BETWEEN 25 AND 40;
+
+
+-- 29. Display the name and experience of employees whose experience is greater than 5 years.
+
+SELECT name, exp
+FROM employees
+WHERE exp > 5;
+
+
+-- 30. Display the name, department, and total earnings of employees whose salary plus bonus is greater than 70000.
+
+SELECT name, dept, salary + bonus AS total_earnings
+FROM employees
+WHERE salary + bonus > 70000;
+
+-- 31. Display the name and annual salary as Annual_Salary for employees whose annual salary is greater than 800000.
+
+SELECT name, salary * 12 AS Annual_Salary
+FROM employees
+WHERE salary * 12 > 800000;
+
+
+-- 32. Display the name, salary, and bonus of employees whose salary is not equal to 55000.
+
+SELECT name, salary, bonus
+FROM employees
+WHERE salary != 55000;
+
+
+-- 33. Display the name, department, and city of employees who are not working in the Sales department.
+
+SELECT name, dept, city
+FROM employees
+WHERE dept != 'Sales';
+
+
+-- 34. Display the name, salary, and experience of employees whose salary is greater than 60000 and experience is greater than 5 years.
+
+SELECT name, salary, exp
+FROM employees
+WHERE salary > 60000
+AND exp > 5;
+
+
+-- 35. Display the name, department, and salary of employees working in the IT department whose salary is greater than 50000.
+
+SELECT name, dept, salary
+FROM employees
+WHERE dept = 'IT'
+AND salary > 50000;
+
+
+-- 36. Display the name, city, and bonus of employees from Bengaluru whose bonus is less than 5000.
+
+SELECT name, city, bonus
+FROM employees
+WHERE city = 'Bengaluru'
+AND bonus < 5000;
+
+
+-- 37. Display the name, salary, and annual salary of employees from Finance whose annual salary is greater than 900000.
+
+SELECT name, salary, salary * 12 AS annual_salary
+FROM employees
+WHERE dept = 'Finance'
+AND salary * 12 > 900000;
+
+
+-- 38. Display the name as Employee_Name, salary as Salary, and salary + bonus as Total_Earnings for employees whose salary is greater than 60000.
+
+SELECT name AS Employee_Name,
+       salary AS Salary,
+       salary + bonus AS Total_Earnings
+FROM employees
+WHERE salary > 60000;
+
+
+-- 39. Display the name, salary, and bonus of employees whose salary + bonus is less than 70000.
+
+SELECT name, salary, bonus
+FROM employees
+WHERE salary + bonus < 70000;
+
+
+-- 40. Display the name, department, and annual salary of employees whose annual salary is greater than 700000 and whose department is not IT.
+
+SELECT name, dept, salary * 12 AS annual_salary
+FROM employees
+WHERE salary * 12 > 700000
+AND dept != 'IT';
