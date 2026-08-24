@@ -76,6 +76,7 @@ greater than 50000.
 49. Update the bonus to 5000 for employees whose current bonus is less than 5000.
 50. Delete employees whose salary is less than 50000.
 
+quries  for 1st 10 questions :
 -- 1. Display all employee records.
 
 SELECT *
@@ -136,3 +137,72 @@ SELECT *
 FROM employees
 WHERE dept = 'IT';
 
+-- 11. Display the name and salary of employees whose salary is greater than 60000.
+
+SELECT name, salary
+FROM employees
+WHERE salary > 60000;
+
+
+-- 12. Display the name and age of employees whose age is less than 30.
+
+SELECT name, age
+FROM employees
+WHERE age < 30;
+
+
+-- 13. Display the name and department of employees who are not working in the IT department.
+
+SELECT name, dept
+FROM employees
+WHERE dept != 'IT';
+
+
+-- 14. Display the name and salary of employees whose salary is equal to 65000.
+
+SELECT name, salary
+FROM employees
+WHERE salary = 65000;
+
+
+-- 15. Display the name and experience of employees having experience greater than or equal to 10 years.
+
+SELECT name, exp
+FROM employees
+WHERE exp >= 10;
+
+
+-- 16. Display the name, salary, and annual salary of employees whose salary is greater than 60000.
+
+SELECT name, salary, salary * 12 AS annual_salary
+FROM employees
+WHERE salary > 60000;
+
+
+-- 17. Display the name and total earnings (salary + bonus) of employees whose total earnings are greater than 70000.
+
+SELECT name, salary + bonus AS total_earnings
+FROM employees
+WHERE salary + bonus > 70000;
+
+
+-- 18. Display the name, salary, and bonus of employees whose salary is less than or equal to 65000.
+
+SELECT name, salary, bonus
+FROM employees
+WHERE salary <= 65000;
+
+
+-- 19. Display the name and experience of employees whose experience is not equal to 10 years.
+
+SELECT name, exp
+FROM employees
+WHERE exp != 10;
+
+
+-- 20. Display the name, department, and salary of employees working in the Finance department and earning more than 80000.
+
+SELECT name, dept, salary
+FROM employees
+WHERE dept = 'Finance'
+AND salary > 80000;
