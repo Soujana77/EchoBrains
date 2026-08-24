@@ -1,0 +1,138 @@
+Assignment on arithmetic and comparison
+
+1. Display all employee records.
+2. Display only the employee name and salary.
+3. Display the employee name and salary after adding 5000 to the salary.
+4. Display the employee name and salary after deducting 2000 from the salary.
+5. Display the employee name and double the bonus.
+6. Display the employee name and annual salary.
+7. Display the employee name, salary, and bonus along with the total amount of salary and
+bonus.
+8. Display the employee name as Employee_Name and salary as Monthly_Salary.
+9. Display the employee name as Employee_Name and annual salary as Annual_Salary.
+10. Display all details of employees working in the IT department.
+11. Display the name and salary of employees whose salary is greater than 60000.
+12. Display the name and age of employees whose age is less than 30.
+13. Display the name and department of employees who are not working in the IT department.
+14. Display the name and salary of employees whose salary is equal to 65000.
+15. Display the name and experience of employees having experience greater than or equal to
+10 years.
+16. Display the name, salary, and annual salary of employees whose salary is greater than
+60000.
+17. Display the name and total earnings (salary + bonus) of employees whose total earnings
+are greater than 70000.
+18. Display the name, salary, and bonus of employees whose salary is less than or equal to
+65000.
+19. Display the name and experience of employees whose experience is not equal to 10 years.
+20. Display the name, department, and salary of employees working in the Finance department
+and earning more than 80000.
+21. Display the name and annual salary of employees whose annual salary is greater than
+700000.
+22. Display the name and salary after adding 5000 for employees working in the IT department.
+23. Display the name and total earnings after adding salary and bonus for employees working
+in the Sales department.
+24. Display the name, salary, and annual salary for employees whose salary is greater than
+50000.
+25. Display the name and salary after deducting the bonus from salary for employees whose
+salary is greater than 60000.
+26. Display the name, salary, and bonus of employees whose bonus is greater than 5000.
+27. Display the name and salary of employees whose salary is between 50000 and 90000.
+28. Display the name, age, and salary of employees whose age is between 25 and 40.
+29. Display the name and experience of employees whose experience is greater than 5 years.
+30. Display the name, department, and total earnings of employees whose salary plus bonus is
+greater than 70000.
+31. Display the name and annual salary as Annual_Salary for employees whose annual salary
+is greater than 800000.
+32. Display the name, salary, and bonus of employees whose salary is not equal to 55000.
+33. Display the name, department, and city of employees who are not working in the Sales
+department.
+
+34. Display the name, salary, and experience of employees whose salary is greater than 60000
+and experience is greater than 5 years.
+35. Display the name, department, and salary of employees working in the IT department
+whose salary is greater than 50000.
+36. Display the name, city, and bonus of employees from Bengaluru whose bonus is less than
+5000.
+37. Display the name, salary, and annual salary of employees from Finance whose annual
+salary is greater than 900000.
+38. Display the name as Employee_Name, salary as Salary, and salary + bonus as
+Total_Earnings for employees whose salary is greater than 60000.
+39. Display the name, salary, and bonus of employees whose salary + bonus is less than
+70000.
+40. Display the name, department, and annual salary of employees whose annual salary is
+greater than 700000 and whose department is not IT.
+41. Display all details of employees whose salary is greater than 60000.
+42. Display the name, salary, and experience of employees whose salary is greater than 50000
+and experience is less than or equal to 10 years.
+43. Display the name, department, and total earnings of employees whose salary is between
+50000 and 90000.
+44. Display the name, city, and annual salary of employees whose annual salary is greater than
+700000.
+45. Display the name, salary, and bonus of employees whose salary after deducting bonus is
+greater than 50000.
+46. Increase the salary of all IT employees by 5000.
+47. Increase the bonus of all Finance employees by 2000.
+48. Increase the salary by 3000 for employees whose salary is greater than 60000.
+49. Update the bonus to 5000 for employees whose current bonus is less than 5000.
+50. Delete employees whose salary is less than 50000.
+
+-- 1. Display all employee records.
+
+SELECT *
+FROM employees;
+
+
+-- 2. Display only the employee name and salary.
+
+SELECT name, salary
+FROM employees;
+
+
+-- 3. Display the employee name and salary after adding 5000 to the salary.
+
+SELECT name, salary + 5000 AS salary_after_addition
+FROM employees;
+
+
+-- 4. Display the employee name and salary after deducting 2000 from the salary.
+
+SELECT name, salary - 2000 AS salary_after_deduction
+FROM employees;
+
+
+-- 5. Display the employee name and double the bonus.
+
+SELECT name, bonus * 2 AS double_bonus
+FROM employees;
+
+
+-- 6. Display the employee name and annual salary.
+
+SELECT name, salary * 12 AS annual_salary
+FROM employees;
+
+
+-- 7. Display the employee name, salary, and bonus along with the total amount of salary and bonus.
+
+SELECT name, salary, bonus, salary + bonus AS total_amount
+FROM employees;
+
+
+-- 8. Display the employee name as Employee_Name and salary as Monthly_Salary.
+
+SELECT name AS Employee_Name, salary AS Monthly_Salary
+FROM employees;
+
+
+-- 9. Display the employee name as Employee_Name and annual salary as Annual_Salary.
+
+SELECT name AS Employee_Name, salary * 12 AS Annual_Salary
+FROM employees;
+
+
+-- 10. Display all details of employees working in the IT department.
+
+SELECT *
+FROM employees
+WHERE dept = 'IT';
+
