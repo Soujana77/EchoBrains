@@ -1,0 +1,37 @@
+Queries on NOT operator 
+Query 1 : WAQTD name and department of the employee whose bonus not less than 5000
+SELECT name, department from employees where not bonus <5000
+
+Query 2 :WAQTD employees whose salary is greater than 10000 and less than 35000
+SELECT *
+FROM employees
+WHERE >= 10000 and salary <= 35000;
+
+SELECT * FROM 
+employee 
+WHERE salary between 10000 and 35000
+
+Query 3 :WAQTD employee name and salary and joining date who joined in between 2022 and 2025 
+SELECT name , salary , joining_date 
+FROM employee
+WHERE joining date between '2020-01-01' and '2025-12-31'
+
+
+Query 4 :list the employees who not joined in 2025 and salary is greater than 35000 and working in sales department or location Chennai 
+SELECT * FROM employees 
+WHERE joining_date < '2025-01-01' AND joining_date > '2025-12-31'
+AND salary >35000 AND dept = "IT" OR city = "Chennai";
+
+Using not between 
+SELECT * FROM employees where joining_date not between '2025-01-01' and '2025-12-31'
+and salary > 35000 and dept = 'IT' or city ="Chennai";
+
+BETWEEN is a special operator used to filter records where condition ies in specific range 
+-will use between after where 
+syntax : SELECT * FROM table_name 
+where colname between stand and end 
+
+we can use logical not operator with between 
+eg: filter emps whos salary not between 32000  to 45000
+SELECT * FROM employees 
+WHERE salary NOT BETWEEN 32000 AND 45000
