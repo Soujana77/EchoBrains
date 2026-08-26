@@ -109,3 +109,79 @@
 
 
 
+
+
+**LIMIT:**
+
+**Limit is used to restrict the number of rows returned by the query.**
+
+
+
+**SYNTAX:**
+
+**SELECT \***
+
+**FROM table\_name** 
+
+**LIMIT number;**
+
+
+
+**EXAMPLE :**
+
+**SELECT \***
+
+**FROM employees**
+
+**LIMIT 5;**
+
+
+
+**this returns only the first 5 records from the result**
+
+
+
+
+
+**LIMIT with ORDER BY**
+
+**This combination is extremely useful.**
+
+**top 3 highest-paid employees.**
+
+
+
+**SELECT \***
+
+**FROM employees**
+
+**ORDER BY salary DESC**
+
+**LIMIT 3;**
+
+
+
+**Example: 5 youngest employees**
+
+**SELECT \***
+
+**FROM employees**
+
+**ORDER BY age ASC**
+
+**LIMIT 5;**
+
+
+
+**Example: 3 employees with the highest bonus**
+
+**SELECT \***
+
+**FROM employees**
+
+**ORDER BY bonus DESC**
+
+**LIMIT 3;**
+
+
+
