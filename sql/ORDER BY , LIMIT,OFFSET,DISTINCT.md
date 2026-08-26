@@ -185,3 +185,259 @@
 
 
 
+
+
+#### **OFFSET** 
+
+**OFFSET is used to skip a specific number of rows before returning the result** 
+
+
+
+**Is is specifically useful for pagination .**
+
+
+
+**SELECT \***
+
+**FROM table\_name**
+
+**LIMIT number**
+
+**OFFSET number;**
+
+
+
+**Example :**
+
+**SELECT \*** 
+
+**FROM employees** 
+
+**LIMIT 5 OFFSET 2;**
+
+
+
+###### **This means:**
+
+###### 
+
+###### **Skip the first 2 rows**
+
+###### **Then return the next 5 rows**
+
+###### 
+
+**Imagine the sorted result is:**
+
+
+
+**1. Soujanya**
+
+**2. Rahul**
+
+**3. Priya**
+
+**4. Arun**
+
+**5. Sneha**
+
+**6. Vikram**
+
+**7. Ananya**
+
+**8. Karan**
+
+
+
+**LIMIT 5 OFFSET 2**
+
+
+
+**SQL skips:**
+
+
+
+**1. Soujanya**
+
+**2. Rahul**
+
+
+
+**and returns:**
+
+
+
+**3. Priya**
+
+**4. Arun**
+
+**5. Sneha**
+
+**6. Vikram**
+
+**7. Ananya**
+
+
+
+
+
+
+
+**OFFSET WITH ORDER BY**
+
+
+
+**Usually, OFFSET makes more sense when combined with ORDER BY.**
+
+
+
+**Example:**
+
+
+
+**SELECT \***
+
+**FROM employees**
+
+**ORDER BY salary DESC**
+
+**LIMIT 3 OFFSET 3;**
+
+
+
+**First, employees are sorted by salary:**
+
+
+
+**1. Highest salary**
+
+**2. 2nd highest**
+
+**3. 3rd highest**
+
+**4. 4th highest**
+
+**5. 5th highest**
+
+**6. 6th highest**
+
+**...**
+
+
+
+**Then:**
+
+
+
+**OFFSET 3**
+
+
+
+**skips the first 3.**
+
+
+
+**Then:**
+
+
+
+**LIMIT 3**
+
+
+
+**returns the next 3.**
+
+
+
+**So this gives you the:**
+
+
+
+**4th highest**
+
+**5th highest**
+
+**6th highest**
+
+**OFFSET AND PAGINATION**
+
+
+
+**This is one of the most common real-world uses of LIMIT and OFFSET.**
+
+
+
+**Suppose a website displays 10 employees per page.**
+
+
+
+**Page 1**
+
+**SELECT \***
+
+**FROM employees**
+
+**LIMIT 10 OFFSET 0;**
+
+
+
+**Returns:**
+
+
+
+**Rows 1–10**
+
+**Page 2**
+
+**SELECT \***
+
+**FROM employees**
+
+**LIMIT 10 OFFSET 10;**
+
+
+
+**Returns:**
+
+
+
+**Rows 11–20**
+
+**Page 3**
+
+**SELECT \***
+
+**FROM employees**
+
+**LIMIT 10 OFFSET 20;**
+
+
+
+**Returns:**
+
+
+
+**Rows 21–30**
+
+
+
+**The formula is:**
+
+
+
+**OFFSET = (page\_number - 1) × number\_of\_rows\_per\_page**
+
+
+
+**For 10 records per page:**
+
+
+
+**Page 1 → OFFSET 0**
+
+**Page 2 → OFFSET 10**
+
+**Page 3 → OFFSET 20**
+
+**Page 4 → OFFSET 30**
+
