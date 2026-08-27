@@ -1,0 +1,10 @@
+.myheading
+{
+    font-size :62px;
+    font-weight:bolder;
+    padding:10px;
+    background-color:orange;
+    width:400px;
+    height:200px;
+    margin:10px;
+}
