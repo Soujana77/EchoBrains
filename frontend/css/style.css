@@ -1,10 +1,26 @@
 .myheading
 {
+    text-align:center;
     font-size :62px;
     font-weight:bolder;
     padding:10px;
     background-color:orange;
     width:400px;
     height:200px;
-    margin:10px;
+    margin: left 100px;
+    border-radius:30px;
+    border:5px solid black;
+    color:white;
+}
+
+/* tag selector*/
+img{
+    width:200px;
+    height:200px;
+    border-radius:30px;
+    border:5px solid black;
+}
+
+body{
+    backgroung-image:
 }
