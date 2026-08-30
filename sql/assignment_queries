@@ -1,0 +1,116 @@
+Display the total number of products available in the table.
+2. Display the product names and prices in ascending order of price.
+3. Display the total quantity of all products.
+4. Display the number of products available in each category.
+5. Display the highest product price.
+6. Display the first 3 products based on the highest price.
+7. Display all different product categories available in the table.
+8. Display the average price of all products.
+9. Display the total quantity available in each category.
+10. Display the product names, prices, and quantities arranged by quantity from
+highest to lowest.
+11. Display the lowest product price.
+12. Display categories having more than 2 products.
+13. Display the 2 products having the lowest prices.
+14. Display the total discount available for all products.
+15. Display the supplier-wise number of products.
+16. Display the average price of products in each category.
+
+17. Display the 3 most recently ordered products.
+18. Display the different cities available in the product table in alphabetical order.
+19. Display the category-wise highest product price.
+20. Display the category-wise lowest product price.
+21. Display categories whose average product price is greater than 10000.
+22. Display the product name, price, and quantity, and arrange the products based
+on price * quantity from highest to lowest.
+23. Display the total quantity supplied by each supplier.
+24. Display the first 3 products based on total stock value, where total stock value is
+calculated using price * quantity.
+25. Display cities having more than 2 products.
+26. Display the total discount for each category.
+27. Display the product name, price, and discount, arranging the products based on
+the price after subtracting the discount.
+28. Display suppliers who supply more than one product.
+29. Display the average product price for each city.
+30. Display the 2 categories having the highest total quantity.
+31. Display the total stock value of all products using price * quantity.
+32. Display the category-wise total stock value using price * quantity.
+33. Display categories whose total stock value is greater than 500000.
+34. Display the product names and order dates, arranged from newest order to
+oldest order.
+35. Display the total quantity and average price for each category.
+36. Display the first 2 suppliers based on their total supplied quantity.
+37. Display the different combinations of category and city.
+38. Display the category-wise total discount and arrange the categories from highest
+total discount to lowest.
+39. Display cities whose average product price is greater than 10000.
+40. Display the product name, category, price, and calculated final price after
+subtracting the discount, arranged by final price from highest to lowest.
+
+41. Display the number of products supplied by each supplier and show only
+suppliers having more than one product.
+42. Display the category-wise average price and show only categories whose
+average price is between 5000 and 20000.
+43. Display the 3 products having the highest quantity.
+44. Display the total quantity available in each city and arrange the cities from
+highest quantity to lowest.
+45. Display categories whose total quantity is greater than 40.
+46. Display the product name, price, quantity, and total stock value, and display only
+the first 5 products after arranging by total stock value from highest to lowest.
+47. Display the supplier-wise average product price and arrange the suppliers from
+highest average price to lowest.
+48. Display the category-wise number of products, total quantity, and average price.
+49. Display categories having more than one product and whose total quantity is
+greater than 20.
+50. Display the category-wise total stock value, arrange the result from highest to
+lowest, and display only the top 2 categories.
+51. Display the product name, price, and quantity for products whose calculated
+stock value (price * quantity) is greater than 200000, and arrange them by stock
+value.
+52. Display the total quantity and total discount for each category.
+53. Display cities having more than one product and arrange them based on their
+total product quantity.
+54. Display the product names and prices for the second, third, and fourth highest-
+priced products.
+55. Display the category-wise maximum price and minimum price, and arrange the
+categories based on maximum price.
+56. Display the supplier-wise total quantity and show only suppliers whose total
+quantity is greater than 20.
+57. Display the product name, category, and total stock value for the 3 products
+having the lowest stock value.
+58. Display the average price of products in each category and show only categories
+whose average price is greater than 8000.
+
+59. Display the different supplier and city combinations without repeating the same
+combination.
+60. Display the category-wise total stock value and total discount, and show only
+categories whose total stock value is greater than 100000.
+61. Display the total number of products in each city and arrange the result
+alphabetically by city.
+62. Display the product name, category, and price for the 3 most expensive products.
+63. Display the category-wise total quantity and show only categories having a total
+quantity between 20 and 60.
+64. Display the supplier-wise total stock value using price * quantity, arranged from
+highest to lowest.
+65. Display the city-wise average price and show only cities whose average price is
+greater than 7000.
+66. Display the product name, price, discount, and final price after discount,
+arranging the result from lowest final price to highest.
+67. Display categories having at least 2 products and arrange them based on their
+average price.
+68. Display the total quantity of all products after excluding the 2 products with the
+highest prices.
+69. Display the category-wise total quantity and total stock value, showing only
+categories whose total stock value is greater than 200000.
+70. Display the 3 suppliers having the highest total quantity.
+71. Display the number of products and average price for each supplier.
+72. Display suppliers whose average product price is greater than 10000.
+73. Display the product names and order dates for the 4 earliest orders.
+74. Display the category-wise highest quantity and lowest quantity.
+75. Display cities whose total quantity is greater than 30 and arrange them from
+highest total quantity to lowest.
+76. Display the category-wise total discount and show only categories having total
+discount greater than 1000.
+77. Display the product name, price, quantity, and total stock value for products
+where price * quantity is greater than 150000.
+78. Display the 2 categories having the highest average product price.
