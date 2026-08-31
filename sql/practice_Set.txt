@@ -1,0 +1,292 @@
+mysql> select * from product;
++------------+--------------+-------------+----------+----------+----------+-------------+-----------+------------+
+| product_id | product_name | category    | price    | quantity | discount | supplier    | city      | order_date |
++------------+--------------+-------------+----------+----------+----------+-------------+-----------+------------+
+|          1 | Laptop       | Electronics | 65000.00 |        8 |  3000.00 | TechWorld   | Bengaluru | 2025-01-15 |
+|          2 | Smartphone   | Electronics | 42000.00 |       15 |  2000.00 | MobileHub   | Mumbai    | 2025-02-10 |
+|          3 | Office Chair | Furniture   |  8500.00 |       25 |   500.00 | ComfortZone | Delhi     | 2025-02-18 |
+|          4 | Headphones   | Electronics |  4500.00 |       30 |   300.00 | SoundMax    | Bengaluru | 2025-03-05 |
+|          5 | Study Table  | Furniture   | 12000.00 |       12 |  1000.00 | HomeStyle   | Chennai   | 2025-03-22 |
+|          6 | Keyboard     | Electronics |  2500.00 |       40 |   200.00 | TechWorld   | Hyderabad | 2025-04-12 |
+|          7 | Monitor      | Electronics | 18000.00 |       18 |   800.00 | DisplayPro  | Delhi     | 2025-04-25 |
+|          8 | Bookshelf    | Furniture   |  7000.00 |       20 |   400.00 | HomeStyle   | Chennai   | 2025-05-08 |
+|          9 | Printer      | Electronics | 15500.00 |       10 |   700.00 | PrintTech   | Mumbai    | 2025-05-19 |
+|         10 | Desk Lamp    | Accessories |  1800.00 |       35 |   150.00 | BrightLite  | Bengaluru | 2025-06-03 |
++------------+--------------+-------------+----------+----------+----------+-------------+-----------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select count(*)
+    -> from product;
++----------+
+| count(*) |
++----------+
+|       10 |
++----------+
+1 row in set (0.01 sec)
+
+mysql> select *
+    -> from product
+    -> order by asc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'asc' at line 3
+mysql> select *
+    -> from product
+    -> order by
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 3
+mysql> select product_name,price from product order by price;
++--------------+----------+
+| product_name | price    |
++--------------+----------+
+| Desk Lamp    |  1800.00 |
+| Keyboard     |  2500.00 |
+| Headphones   |  4500.00 |
+| Bookshelf    |  7000.00 |
+| Office Chair |  8500.00 |
+| Study Table  | 12000.00 |
+| Printer      | 15500.00 |
+| Monitor      | 18000.00 |
+| Smartphone   | 42000.00 |
+| Laptop       | 65000.00 |
++--------------+----------+
+10 rows in set (0.00 sec)
+
+mysql> select SUM(quantity) from product ;
++---------------+
+| SUM(quantity) |
++---------------+
+|           213 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select quantity count(*)
+    -> from product
+    -> group by quantity;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'count(*)
+from product
+group by quantity' at line 1
+mysql> select category count(quantity)
+    -> from product
+    -> group by category;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'count(quantity)
+from product
+group by category' at line 1
+mysql> select category count(*)
+    -> from product
+    -> group by quantity;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'count(*)
+from product
+group by quantity' at line 1
+mysql> SELECT category, COUNT(*) AS number_of_products
+    -> FROM product
+    -> GROUP BY category;
++-------------+--------------------+
+| category    | number_of_products |
++-------------+--------------------+
+| Electronics |                  6 |
+| Furniture   |                  3 |
+| Accessories |                  1 |
++-------------+--------------------+
+3 rows in set (0.01 sec)
+
+mysql> select upper(abcd) ad uppername
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'uppername' at line 1
+mysql> select upper(abcd) as uppername;
+ERROR 1054 (42S22): Unknown column 'abcd' in 'field list'
+mysql> select upper('abcd') as uppername;
++-----------+
+| uppername |
++-----------+
+| ABCD      |
++-----------+
+1 row in set (0.01 sec)
+
+mysql> select length ('qwertyuiopljhfdsazxcvbnm') as total;
++-------+
+| total |
++-------+
+|    24 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select concat('email','mobile','-')
+    -> ;
++------------------------------+
+| concat('email','mobile','-') |
++------------------------------+
+| emailmobile-                 |
++------------------------------+
+1 row in set (0.01 sec)
+
+mysql> show tables;
++----------------------+
+| Tables_in_company_db |
++----------------------+
+| product              |
++----------------------+
+1 row in set (0.04 sec)
+
+mysql> select upper(name)from emp;
+ERROR 1146 (42S02): Table 'company_db.emp' doesn't exist
+mysql> select upper(name)from product;
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+mysql> select product_name upper(name) from product;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(name) from product' at line 1
+mysql> select product_name from product where length(product_name)>5;
++--------------+
+| product_name |
++--------------+
+| Laptop       |
+| Smartphone   |
+| Office Chair |
+| Headphones   |
+| Study Table  |
+| Keyboard     |
+| Monitor      |
+| Bookshelf    |
+| Printer      |
+| Desk Lamp    |
++--------------+
+10 rows in set (0.00 sec)
+
+mysql> select * from emp;
+ERROR 1146 (42S02): Table 'company_db.emp' doesn't exist
+mysql> select * from product;
++------------+--------------+-------------+----------+----------+----------+-------------+-----------+------------+
+| product_id | product_name | category    | price    | quantity | discount | supplier    | city      | order_date |
++------------+--------------+-------------+----------+----------+----------+-------------+-----------+------------+
+|          1 | Laptop       | Electronics | 65000.00 |        8 |  3000.00 | TechWorld   | Bengaluru | 2025-01-15 |
+|          2 | Smartphone   | Electronics | 42000.00 |       15 |  2000.00 | MobileHub   | Mumbai    | 2025-02-10 |
+|          3 | Office Chair | Furniture   |  8500.00 |       25 |   500.00 | ComfortZone | Delhi     | 2025-02-18 |
+|          4 | Headphones   | Electronics |  4500.00 |       30 |   300.00 | SoundMax    | Bengaluru | 2025-03-05 |
+|          5 | Study Table  | Furniture   | 12000.00 |       12 |  1000.00 | HomeStyle   | Chennai   | 2025-03-22 |
+|          6 | Keyboard     | Electronics |  2500.00 |       40 |   200.00 | TechWorld   | Hyderabad | 2025-04-12 |
+|          7 | Monitor      | Electronics | 18000.00 |       18 |   800.00 | DisplayPro  | Delhi     | 2025-04-25 |
+|          8 | Bookshelf    | Furniture   |  7000.00 |       20 |   400.00 | HomeStyle   | Chennai   | 2025-05-08 |
+|          9 | Printer      | Electronics | 15500.00 |       10 |   700.00 | PrintTech   | Mumbai    | 2025-05-19 |
+|         10 | Desk Lamp    | Accessories |  1800.00 |       35 |   150.00 | BrightLite  | Bengaluru | 2025-06-03 |
++------------+--------------+-------------+----------+----------+----------+-------------+-----------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select substring(city,1,3) from product;
++---------------------+
+| substring(city,1,3) |
++---------------------+
+| Ben                 |
+| Mum                 |
+| Del                 |
+| Ben                 |
+| Che                 |
+| Hyd                 |
+| Del                 |
+| Che                 |
+| Mum                 |
+| Ben                 |
++---------------------+
+10 rows in set (0.01 sec)
+
+mysql> select upper(substring(city,1,3))from product;
++----------------------------+
+| upper(substring(city,1,3)) |
++----------------------------+
+| BEN                        |
+| MUM                        |
+| DEL                        |
+| BEN                        |
+| CHE                        |
+| HYD                        |
+| DEL                        |
+| CHE                        |
+| MUM                        |
+| BEN                        |
++----------------------------+
+10 rows in set (0.00 sec)
+
+mysql> select concat_ws(' - ','product_name',' - ','category',' - ','price') from product;
++----------------------------------------------------------------+
+| concat_ws(' - ','product_name',' - ','category',' - ','price') |
++----------------------------------------------------------------+
+| product_name -  -  - category -  -  - price                    |
+| product_name -  -  - category -  -  - price                    |
+| product_name -  -  - category -  -  - price                    |
+| product_name -  -  - category -  -  - price                    |
+| product_name -  -  - category -  -  - price                    |
+| product_name -  -  - category -  -  - price                    |
+| product_name -  -  - category -  -  - price                    |
+| product_name -  -  - category -  -  - price                    |
+| product_name -  -  - category -  -  - price                    |
+| product_name -  -  - category -  -  - price                    |
++----------------------------------------------------------------+
+10 rows in set (0.01 sec)
+
+mysql> select concat_ws(' - ','product_name','category','price') from product;
++----------------------------------------------------+
+| concat_ws(' - ','product_name','category','price') |
++----------------------------------------------------+
+| product_name - category - price                    |
+| product_name - category - price                    |
+| product_name - category - price                    |
+| product_name - category - price                    |
+| product_name - category - price                    |
+| product_name - category - price                    |
+| product_name - category - price                    |
+| product_name - category - price                    |
+| product_name - category - price                    |
+| product_name - category - price                    |
++----------------------------------------------------+
+10 rows in set (0.00 sec)
+
+mysql> select concat_ws(' - ',product_name,category,price) from product;
++----------------------------------------------+
+| concat_ws(' - ',product_name,category,price) |
++----------------------------------------------+
+| Laptop - Electronics - 65000.00              |
+| Smartphone - Electronics - 42000.00          |
+| Office Chair - Furniture - 8500.00           |
+| Headphones - Electronics - 4500.00           |
+| Study Table - Furniture - 12000.00           |
+| Keyboard - Electronics - 2500.00             |
+| Monitor - Electronics - 18000.00             |
+| Bookshelf - Furniture - 7000.00              |
+| Printer - Electronics - 15500.00             |
+| Desk Lamp - Accessories - 1800.00            |
++----------------------------------------------+
+10 rows in set (0.00 sec)
+
+mysql> use company;
+Database changed
+mysql> select concat_ws('My name is ',name , 'working in',department,'department with', exp, ' years of experience ') from employees;
+ERROR 1054 (42S22): Unknown column 'department' in 'field list'
+mysql> select concat_ws('My name is ',name , 'working in',dept,'department with', exp, ' years of experience ') from employees;
++------------------------------------------------------------------------------------------------------------------------+
+| concat_ws('My name is ',name , 'working in',dept,'department with', exp, ' years of experience ')                      |
++------------------------------------------------------------------------------------------------------------------------+
+| SoujanyaMy name is working inMy name is ITMy name is department withMy name is 1.5My name is  years of experience      |
+| RahulMy name is working inMy name is HRMy name is department withMy name is 3.0My name is  years of experience         |
+| PriyaMy name is working inMy name is FinanceMy name is department withMy name is 5.0My name is  years of experience    |
+| ArunMy name is working inMy name is ITMy name is department withMy name is 2.0My name is  years of experience          |
+| SnehaMy name is working inMy name is MarketingMy name is department withMy name is 7.0My name is  years of experience  |
+| VikramMy name is working inMy name is ITMy name is department withMy name is 4.0My name is  years of experience        |
+| AnanyaMy name is working inMy name is HRMy name is department withMy name is 1.0My name is  years of experience        |
+| KaranMy name is working inMy name is FinanceMy name is department withMy name is 9.0My name is  years of experience    |
+| DivyaMy name is working inMy name is MarketingMy name is department withMy name is 3.5My name is  years of experience  |
+| RohitMy name is working inMy name is ITMy name is department withMy name is 6.0My name is  years of experience         |
++------------------------------------------------------------------------------------------------------------------------+
+10 rows in set (0.00 sec)
+
+mysql> select concat_ws(' ','My name is ', name , 'working in',dept,'department with', exp, ' years of experience ') from employees;
++--------------------------------------------------------------------------------------------------------+
+| concat_ws(' ','My name is ', name , 'working in',dept,'department with', exp, ' years of experience ') |
++--------------------------------------------------------------------------------------------------------+
+| My name is  Soujanya working in IT department with 1.5  years of experience                            |
+| My name is  Rahul working in HR department with 3.0  years of experience                               |
+| My name is  Priya working in Finance department with 5.0  years of experience                          |
+| My name is  Arun working in IT department with 2.0  years of experience                                |
+| My name is  Sneha working in Marketing department with 7.0  years of experience                        |
+| My name is  Vikram working in IT department with 4.0  years of experience                              |
+| My name is  Ananya working in HR department with 1.0  years of experience                              |
+| My name is  Karan working in Finance department with 9.0  years of experience                          |
+| My name is  Divya working in Marketing department with 3.5  years of experience                        |
+| My name is  Rohit working in IT department with 6.0  years of experience                               |
++--------------------------------------------------------------------------------------------------------+
+10 rows in set (0.00 sec)

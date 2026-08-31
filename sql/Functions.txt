@@ -1,0 +1,28 @@
+Functions :
+Types of functiond 
+1.Aggregate functions 
+2.String functions 
+3.Numeric functions
+4.Date functions
+5.Member functions
+
+string functions:
+upper()
+lower()
+length()
+concat()
+concat_ws()->ws means with separator 
+substring()
+right() is a function which displays the characters from  right
+left() is a function which displays the characters from left 
+trim() is function which is used to remove spaces before and after the string 
+
+
+format :
+my name is raju working in developer department with 6 years of experience  
+query: 
+select concat_ws(' ','My name is ', name , 'working in',dept,'department with', exp, ' years of experience ') from employees;
+
+2. display the last 3 letters of employee names
+Q.select right(name,3) from employees;
+
