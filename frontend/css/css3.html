@@ -5,18 +5,28 @@
        
       <style>
         .gallery{
-            display:grid;
-            padding:2 rem;
-            grid-template-columns:repeat(auto-fit,minamx(200px,1fr));
+            display: grid;
+            padding: 2rem;
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .card{
-            background-color:#f1f5f9;
-            border:1px solid #cbd5e0;
-            border-radius:8px;
-            padding :2rem;
+            background-color: #f1f5f9;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            padding: 0.5rem;
+            overflow: hidden;
 
+        }
+         .card img{
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            border-radius: 6px;
         }
       </style>
       
