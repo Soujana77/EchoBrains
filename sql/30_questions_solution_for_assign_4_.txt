@@ -1,0 +1,465 @@
+mysql> use company_db;
+Database changed
+mysql> show tables;
++----------------------+
+| Tables_in_company_db |
++----------------------+
+| product              |
++----------------------+
+1 row in set (0.02 sec)
+
+mysql> select MAX(price)from product ;
++------------+
+| MAX(price) |
++------------+
+|   65000.00 |
++------------+
+1 row in set (0.01 sec)
+
+mysql> select product_name from product
+    -> order by asc
+    -> limit 3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'asc
+limit 3' at line 2
+mysql> select product_name from product
+    -> order by
+    -> price
+    -> limit 3;
++--------------+
+| product_name |
++--------------+
+| Desk Lamp    |
+| Keyboard     |
+| Headphones   |
++--------------+
+3 rows in set (0.01 sec)
+
+mysql> select distinct category from product;
++-------------+
+| category    |
++-------------+
+| Electronics |
+| Furniture   |
+| Accessories |
++-------------+
+3 rows in set (0.00 sec)
+
+mysql> select AVG(price) from product;
++--------------+
+| AVG(price)   |
++--------------+
+| 17680.000000 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(quantity) from product;
++---------------+
+| sum(quantity) |
++---------------+
+|           213 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select category sum(quantity)from product group by category;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'sum(quantity)from product group by category' at line 1
+mysql> select category, sum(quantity) from product group by category;
++-------------+---------------+
+| category    | sum(quantity) |
++-------------+---------------+
+| Electronics |           121 |
+| Furniture   |            57 |
+| Accessories |            35 |
++-------------+---------------+
+3 rows in set (0.00 sec)
+
+mysql> select product_name,price,quantity from product order by quantity ;
++--------------+----------+----------+
+| product_name | price    | quantity |
++--------------+----------+----------+
+| Laptop       | 65000.00 |        8 |
+| Printer      | 15500.00 |       10 |
+| Study Table  | 12000.00 |       12 |
+| Smartphone   | 42000.00 |       15 |
+| Monitor      | 18000.00 |       18 |
+| Bookshelf    |  7000.00 |       20 |
+| Office Chair |  8500.00 |       25 |
+| Headphones   |  4500.00 |       30 |
+| Desk Lamp    |  1800.00 |       35 |
+| Keyboard     |  2500.00 |       40 |
++--------------+----------+----------+
+10 rows in set (0.00 sec)
+
+mysql> select min(price) from product;
++------------+
+| min(price) |
++------------+
+|    1800.00 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select category from product where quantity>2;
++-------------+
+| category    |
++-------------+
+| Electronics |
+| Electronics |
+| Furniture   |
+| Electronics |
+| Furniture   |
+| Electronics |
+| Electronics |
+| Furniture   |
+| Electronics |
+| Accessories |
++-------------+
+10 rows in set (0.01 sec)
+
+mysql> select distinct category from product where quantity > 2;
++-------------+
+| category    |
++-------------+
+| Electronics |
+| Furniture   |
+| Accessories |
++-------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from product order by price desc limit 2;
++------------+--------------+-------------+----------+----------+----------+-----------+-----------+------------+
+| product_id | product_name | category    | price    | quantity | discount | supplier  | city      | order_date |
++------------+--------------+-------------+----------+----------+----------+-----------+-----------+------------+
+|          1 | Laptop       | Electronics | 65000.00 |        8 |  3000.00 | TechWorld | Bengaluru | 2025-01-15 |
+|          2 | Smartphone   | Electronics | 42000.00 |       15 |  2000.00 | MobileHub | Mumbai    | 2025-02-10 |
++------------+--------------+-------------+----------+----------+----------+-----------+-----------+------------+
+2 rows in set (0.00 sec)
+
+mysql> desc product;
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| product_id   | int           | YES  |     | NULL    |       |
+| product_name | varchar(50)   | YES  |     | NULL    |       |
+| category     | varchar(30)   | YES  |     | NULL    |       |
+| price        | decimal(10,2) | YES  |     | NULL    |       |
+| quantity     | int           | YES  |     | NULL    |       |
+| discount     | decimal(10,2) | YES  |     | NULL    |       |
+| supplier     | varchar(50)   | YES  |     | NULL    |       |
+| city         | varchar(30)   | YES  |     | NULL    |       |
+| order_date   | date          | YES  |     | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+9 rows in set (0.01 sec)
+
+mysql> select * from product;
++------------+--------------+-------------+----------+----------+----------+-------------+-----------+------------+
+| product_id | product_name | category    | price    | quantity | discount | supplier    | city      | order_date |
++------------+--------------+-------------+----------+----------+----------+-------------+-----------+------------+
+|          1 | Laptop       | Electronics | 65000.00 |        8 |  3000.00 | TechWorld   | Bengaluru | 2025-01-15 |
+|          2 | Smartphone   | Electronics | 42000.00 |       15 |  2000.00 | MobileHub   | Mumbai    | 2025-02-10 |
+|          3 | Office Chair | Furniture   |  8500.00 |       25 |   500.00 | ComfortZone | Delhi     | 2025-02-18 |
+|          4 | Headphones   | Electronics |  4500.00 |       30 |   300.00 | SoundMax    | Bengaluru | 2025-03-05 |
+|          5 | Study Table  | Furniture   | 12000.00 |       12 |  1000.00 | HomeStyle   | Chennai   | 2025-03-22 |
+|          6 | Keyboard     | Electronics |  2500.00 |       40 |   200.00 | TechWorld   | Hyderabad | 2025-04-12 |
+|          7 | Monitor      | Electronics | 18000.00 |       18 |   800.00 | DisplayPro  | Delhi     | 2025-04-25 |
+|          8 | Bookshelf    | Furniture   |  7000.00 |       20 |   400.00 | HomeStyle   | Chennai   | 2025-05-08 |
+|          9 | Printer      | Electronics | 15500.00 |       10 |   700.00 | PrintTech   | Mumbai    | 2025-05-19 |
+|         10 | Desk Lamp    | Accessories |  1800.00 |       35 |   150.00 | BrightLite  | Bengaluru | 2025-06-03 |
++------------+--------------+-------------+----------+----------+----------+-------------+-----------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select count(discount) from product;
++-----------------+
+| count(discount) |
++-----------------+
+|              10 |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(discount) from product;
++---------------+
+| sum(discount) |
++---------------+
+|       9050.00 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select distinct supplier , count(quantity) from product group by supplier ;
++-------------+-----------------+
+| supplier    | count(quantity) |
++-------------+-----------------+
+| TechWorld   |               2 |
+| MobileHub   |               1 |
+| ComfortZone |               1 |
+| SoundMax    |               1 |
+| HomeStyle   |               2 |
+| DisplayPro  |               1 |
+| PrintTech   |               1 |
+| BrightLite  |               1 |
++-------------+-----------------+
+8 rows in set (0.00 sec)
+
+mysql> select category avg(price) from product group by category ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(price) from product group by category' at line 1
+mysql> select category, avg(price) from product group by category ;
++-------------+--------------+
+| category    | avg(price)   |
++-------------+--------------+
+| Electronics | 24583.333333 |
+| Furniture   |  9166.666667 |
+| Accessories |  1800.000000 |
++-------------+--------------+
+3 rows in set (0.01 sec)
+
+mysql> select * from product order by order_date limit 2 ;
++------------+--------------+-------------+----------+----------+----------+-----------+-----------+------------+
+| product_id | product_name | category    | price    | quantity | discount | supplier  | city      | order_date |
++------------+--------------+-------------+----------+----------+----------+-----------+-----------+------------+
+|          1 | Laptop       | Electronics | 65000.00 |        8 |  3000.00 | TechWorld | Bengaluru | 2025-01-15 |
+|          2 | Smartphone   | Electronics | 42000.00 |       15 |  2000.00 | MobileHub | Mumbai    | 2025-02-10 |
++------------+--------------+-------------+----------+----------+----------+-----------+-----------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from product order by desc order_date limit 2 ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc order_date limit 2' at line 1
+mysql> select * from product order by  order_date desc limit 2 ;
++------------+--------------+-------------+----------+----------+----------+------------+-----------+------------+
+| product_id | product_name | category    | price    | quantity | discount | supplier   | city      | order_date |
++------------+--------------+-------------+----------+----------+----------+------------+-----------+------------+
+|         10 | Desk Lamp    | Accessories |  1800.00 |       35 |   150.00 | BrightLite | Bengaluru | 2025-06-03 |
+|          9 | Printer      | Electronics | 15500.00 |       10 |   700.00 | PrintTech  | Mumbai    | 2025-05-19 |
++------------+--------------+-------------+----------+----------+----------+------------+-----------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select distinct city from product order by city ;
++-----------+
+| city      |
++-----------+
+| Bengaluru |
+| Chennai   |
+| Delhi     |
+| Hyderabad |
+| Mumbai    |
++-----------+
+5 rows in set (0.01 sec)
+
+mysql> select category , max(price) from product group by category;
++-------------+------------+
+| category    | max(price) |
++-------------+------------+
+| Electronics |   65000.00 |
+| Furniture   |   12000.00 |
+| Accessories |    1800.00 |
++-------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select category min(
+    -> price) from product group by category;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'min(
+price) from product group by category' at line 1
+mysql> select category, min(
+    -> price) from product group by category;
++-------------+-------------+
+| category    | min(
+price) |
++-------------+-------------+
+| Electronics |     2500.00 |
+| Furniture   |     7000.00 |
+| Accessories |     1800.00 |
++-------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select category , avg(price) from product group by category where avg(price)>10000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where avg(price)>10000' at line 1
+mysql> select category , avg(price) from product where avg(price)>10000;
+ERROR 1111 (HY000): Invalid use of group function
+mysql> select category, avg(price) from product group by category having avg(price)>10000;
++-------------+--------------+
+| category    | avg(price)   |
++-------------+--------------+
+| Electronics | 24583.333333 |
++-------------+--------------+
+1 row in set (0.01 sec)
+
+mysql> select product_name, price , quantity from product where price*quantity order by price*quantity;
++--------------+----------+----------+
+| product_name | price    | quantity |
++--------------+----------+----------+
+| Desk Lamp    |  1800.00 |       35 |
+| Keyboard     |  2500.00 |       40 |
+| Headphones   |  4500.00 |       30 |
+| Bookshelf    |  7000.00 |       20 |
+| Study Table  | 12000.00 |       12 |
+| Printer      | 15500.00 |       10 |
+| Office Chair |  8500.00 |       25 |
+| Monitor      | 18000.00 |       18 |
+| Laptop       | 65000.00 |        8 |
+| Smartphone   | 42000.00 |       15 |
++--------------+----------+----------+
+10 rows in set (0.01 sec)
+
+mysql> select product_name,price , quantity ,(price*quantity) as total_stock_value from product order by (price*quantity) desc;
++--------------+----------+----------+-------------------+
+| product_name | price    | quantity | total_stock_value |
++--------------+----------+----------+-------------------+
+| Smartphone   | 42000.00 |       15 |         630000.00 |
+| Laptop       | 65000.00 |        8 |         520000.00 |
+| Monitor      | 18000.00 |       18 |         324000.00 |
+| Office Chair |  8500.00 |       25 |         212500.00 |
+| Printer      | 15500.00 |       10 |         155000.00 |
+| Study Table  | 12000.00 |       12 |         144000.00 |
+| Bookshelf    |  7000.00 |       20 |         140000.00 |
+| Headphones   |  4500.00 |       30 |         135000.00 |
+| Keyboard     |  2500.00 |       40 |         100000.00 |
+| Desk Lamp    |  1800.00 |       35 |          63000.00 |
++--------------+----------+----------+-------------------+
+10 rows in set (0.00 sec)
+
+mysql> select supplier , sum(quantity) from product group by supplier;
++-------------+---------------+
+| supplier    | sum(quantity) |
++-------------+---------------+
+| TechWorld   |            48 |
+| MobileHub   |            15 |
+| ComfortZone |            25 |
+| SoundMax    |            30 |
+| HomeStyle   |            32 |
+| DisplayPro  |            18 |
+| PrintTech   |            10 |
+| BrightLite  |            35 |
++-------------+---------------+
+8 rows in set (0.00 sec)
+
+mysql> select (price*quantity) as toatl_stock_value from product order by (price*quantity);
++-------------------+
+| toatl_stock_value |
++-------------------+
+|          63000.00 |
+|         100000.00 |
+|         135000.00 |
+|         140000.00 |
+|         144000.00 |
+|         155000.00 |
+|         212500.00 |
+|         324000.00 |
+|         520000.00 |
+|         630000.00 |
++-------------------+
+10 rows in set (0.00 sec)
+
+mysql> select product_name,(price*quantity) as toatl_stock_value from product order by (price*quantity) limit 3 ;
++--------------+-------------------+
+| product_name | toatl_stock_value |
++--------------+-------------------+
+| Desk Lamp    |          63000.00 |
+| Keyboard     |         100000.00 |
+| Headphones   |         135000.00 |
++--------------+-------------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from city where quantity>2;
+ERROR 1146 (42S02): Table 'company_db.city' doesn't exist
+mysql> select city from product where quantity>2;
++-----------+
+| city      |
++-----------+
+| Bengaluru |
+| Mumbai    |
+| Delhi     |
+| Bengaluru |
+| Chennai   |
+| Hyderabad |
+| Delhi     |
+| Chennai   |
+| Mumbai    |
+| Bengaluru |
++-----------+
+10 rows in set (0.00 sec)
+
+mysql> select city , count(*) from product group by city having count(*)>2;
++-----------+----------+
+| city      | count(*) |
++-----------+----------+
+| Bengaluru |        3 |
++-----------+----------+
+1 row in set (0.01 sec)
+
+mysql> select city , count(*) from product group by city ;
++-----------+----------+
+| city      | count(*) |
++-----------+----------+
+| Bengaluru |        3 |
+| Mumbai    |        2 |
+| Delhi     |        2 |
+| Chennai   |        2 |
+| Hyderabad |        1 |
++-----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select category , sum(discount) from product group by category ;
++-------------+---------------+
+| category    | sum(discount) |
++-------------+---------------+
+| Electronics |       7000.00 |
+| Furniture   |       1900.00 |
+| Accessories |        150.00 |
++-------------+---------------+
+3 rows in set (0.00 sec)
+
+mysql> select product_name , price , discount ,(price-discont) as actual_price from product order by (price-discount);
+ERROR 1054 (42S22): Unknown column 'discont' in 'field list'
+mysql> select product_name , price , discount ,(price-discount) as actual_price from product order by (price-discount);
++--------------+----------+----------+--------------+
+| product_name | price    | discount | actual_price |
++--------------+----------+----------+--------------+
+| Desk Lamp    |  1800.00 |   150.00 |      1650.00 |
+| Keyboard     |  2500.00 |   200.00 |      2300.00 |
+| Headphones   |  4500.00 |   300.00 |      4200.00 |
+| Bookshelf    |  7000.00 |   400.00 |      6600.00 |
+| Office Chair |  8500.00 |   500.00 |      8000.00 |
+| Study Table  | 12000.00 |  1000.00 |     11000.00 |
+| Printer      | 15500.00 |   700.00 |     14800.00 |
+| Monitor      | 18000.00 |   800.00 |     17200.00 |
+| Smartphone   | 42000.00 |  2000.00 |     40000.00 |
+| Laptop       | 65000.00 |  3000.00 |     62000.00 |
++--------------+----------+----------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> select supplier , count(*) as number_of_products from product group by supplier having count(*)>1;
++-----------+--------------------+
+| supplier  | number_of_products |
++-----------+--------------------+
+| TechWorld |                  2 |
+| HomeStyle |                  2 |
++-----------+--------------------+
+2 rows in set (0.00 sec)
+
+mysql> select city, avg(price) from product group by city;
++-----------+--------------+
+| city      | avg(price)   |
++-----------+--------------+
+| Bengaluru | 23766.666667 |
+| Mumbai    | 28750.000000 |
+| Delhi     | 13250.000000 |
+| Chennai   |  9500.000000 |
+| Hyderabad |  2500.000000 |
++-----------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select category ,sum(quantity) from product group by category order by sum(quantity) limit 2 ;
++-------------+---------------+
+| category    | sum(quantity) |
++-------------+---------------+
+| Accessories |            35 |
+| Furniture   |            57 |
++-------------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> select category ,sum(quantity) from product group by category order by sum(quantity) desc limit 2 ;
++-------------+---------------+
+| category    | sum(quantity) |
++-------------+---------------+
+| Electronics |           121 |
+| Furniture   |            57 |
++-------------+---------------+
+2 rows in set (0.00 sec)
+
+mysql>
