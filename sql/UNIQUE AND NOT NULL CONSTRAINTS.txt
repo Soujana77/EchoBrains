@@ -1,0 +1,435 @@
+# UNIQUE AND NOT NULL CONSTRAINTS IN SQL
+
+`UNIQUE` and `NOT NULL` are **constraints** in SQL.
+
+A constraint is a rule applied to a column to control what kind of data can be stored in a table.
+
+The main purpose of these two constraints is:
+
+```text
+UNIQUE  → Prevents duplicate values
+NOT NULL → Prevents empty (NULL) values
+```
+
+---
+
+# 1. UNIQUE CONSTRAINT
+
+The `UNIQUE` constraint is used to ensure that **all values in a column are different**.
+
+In simple words:
+
+> A column with `UNIQUE` cannot contain duplicate values.
+
+### Syntax
+
+```sql
+CREATE TABLE table_name (
+    column_name datatype UNIQUE
+);
+```
+
+### Example
+
+```sql
+CREATE TABLE employees (
+    name VARCHAR(50),
+    email VARCHAR(100) UNIQUE
+);
+```
+
+Here, every employee must have a different email address.
+
+For example:
+
+```text
+name       email
+--------------------------------
+Rahul      rahul@gmail.com
+Priya      priya@gmail.com
+Arun       arun@gmail.com
+```
+
+This is allowed because all emails are different.
+
+But:
+
+```text
+name       email
+--------------------------------
+Rahul      rahul@gmail.com
+Priya      rahul@gmail.com
+```
+
+will give an error because the email is duplicated.
+
+---
+
+## UNIQUE using ALTER TABLE
+
+We can also add a `UNIQUE` constraint to an existing table.
+
+```sql
+ALTER TABLE employees
+ADD CONSTRAINT unique_email UNIQUE (email);
+```
+
+Here:
+
+```text
+unique_email
+```
+
+is the name given to the constraint.
+
+---
+
+# 2. NOT NULL CONSTRAINT
+
+The `NOT NULL` constraint is used to ensure that a column **cannot contain NULL values**.
+
+`NULL` means that the value is **missing or unknown**.
+
+### Syntax
+
+```sql
+CREATE TABLE table_name (
+    column_name datatype NOT NULL
+);
+```
+
+### Example
+
+```sql
+CREATE TABLE employees (
+    name VARCHAR(50) NOT NULL,
+    age INT
+);
+```
+
+Here, `name` cannot be NULL.
+
+This is valid:
+
+```sql
+INSERT INTO employees (name, age)
+VALUES ('Rahul', 25);
+```
+
+But this is not valid:
+
+```sql
+INSERT INTO employees (name, age)
+VALUES (NULL, 25);
+```
+
+because `name` has a `NOT NULL` constraint.
+
+---
+
+# UNIQUE VS NOT NULL
+
+This is very important.
+
+### UNIQUE
+
+Prevents **duplicate values**.
+
+```sql
+email VARCHAR(100) UNIQUE
+```
+
+Example:
+
+```text
+rahul@gmail.com
+priya@gmail.com
+arun@gmail.com
+```
+
+All are different → allowed.
+
+---
+
+### NOT NULL
+
+Prevents **NULL values**.
+
+```sql
+name VARCHAR(50) NOT NULL
+```
+
+Example:
+
+```text
+Rahul
+Priya
+Arun
+```
+
+All contain values → allowed.
+
+But:
+
+```text
+NULL
+```
+
+→ Not allowed.
+
+---
+
+# USING UNIQUE AND NOT NULL TOGETHER
+
+You can use both constraints on the same column.
+
+Example:
+
+```sql
+CREATE TABLE employees (
+    employee_id INT UNIQUE NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE
+);
+```
+
+Here:
+
+```text
+employee_id → Cannot be NULL + Cannot be duplicate
+name        → Cannot be NULL
+email       → Cannot be duplicate
+```
+
+For example:
+
+```text
+employee_id    name       email
+------------------------------------------
+101            Rahul      rahul@gmail.com
+102            Priya      priya@gmail.com
+103            Arun       arun@gmail.com
+```
+
+Valid.
+
+But:
+
+```text
+employee_id    name       email
+------------------------------------------
+101            Rahul      rahul@gmail.com
+101            Priya      priya@gmail.com
+```
+
+Invalid because `employee_id` is duplicated.
+
+And:
+
+```text
+employee_id    name       email
+------------------------------------------
+101            NULL       rahul@gmail.com
+```
+
+Invalid because `name` is `NOT NULL`.
+
+---
+
+# ADD NOT NULL TO AN EXISTING COLUMN
+
+In MySQL, you can modify an existing column:
+
+```sql
+ALTER TABLE employees
+MODIFY name VARCHAR(50) NOT NULL;
+```
+
+Now the `name` column cannot contain NULL values.
+
+---
+
+# ADD UNIQUE TO AN EXISTING COLUMN
+
+```sql
+ALTER TABLE employees
+ADD CONSTRAINT unique_email UNIQUE (email);
+```
+
+Now duplicate email addresses are not allowed.
+
+---
+
+# UNIQUE WITH MULTIPLE COLUMNS
+
+`UNIQUE` can also be applied to a **combination of columns**.
+
+Example:
+
+```sql
+CREATE TABLE employee_project (
+    employee_id INT,
+    project_id INT,
+    UNIQUE (employee_id, project_id)
+);
+```
+
+Here, the **combination** of `employee_id` and `project_id` must be unique.
+
+This is allowed:
+
+```text
+employee_id    project_id
+-------------------------
+101            1
+101            2
+102            1
+```
+
+Because the combinations are different.
+
+But this is not allowed:
+
+```text
+employee_id    project_id
+-------------------------
+101            1
+101            1
+```
+
+because the same combination appears twice.
+
+---
+
+# IMPORTANT: UNIQUE AND NULL
+
+In MySQL, a `UNIQUE` column can generally contain `NULL` values.
+
+For example:
+
+```sql
+CREATE TABLE students (
+    id INT UNIQUE,
+    email VARCHAR(100) UNIQUE
+);
+```
+
+You could have:
+
+```text
+id       email
+----------------------
+1        a@gmail.com
+2        b@gmail.com
+3        NULL
+4        NULL
+```
+
+The exact handling of multiple `NULL`s can vary by database system, but **in MySQL multiple NULLs are allowed in a UNIQUE column**.
+
+Therefore, if you want:
+
+> No duplicates AND no NULL values
+
+use:
+
+```sql
+email VARCHAR(100) UNIQUE NOT NULL
+```
+
+---
+
+# REAL-WORLD EXAMPLE
+
+Consider a student table:
+
+```sql
+CREATE TABLE students (
+    student_id INT UNIQUE NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    phone VARCHAR(15) UNIQUE
+);
+```
+
+Here:
+
+```text
+student_id → Unique + Cannot be NULL
+name       → Cannot be NULL
+email      → Unique
+phone      → Unique
+```
+
+This prevents things like:
+
+```text
+student_id = 101
+student_id = 101
+```
+
+and:
+
+```text
+name = NULL
+```
+
+---
+
+# QUICK REVISION
+
+```text
+UNIQUE
+→ Prevents duplicate values.
+
+NOT NULL
+→ Prevents NULL values.
+```
+
+### UNIQUE example:
+
+```sql
+email VARCHAR(100) UNIQUE
+```
+
+Means:
+
+> Two rows cannot have the same email.
+
+### NOT NULL example:
+
+```sql
+name VARCHAR(50) NOT NULL
+```
+
+Means:
+
+> Every row must have a value for name.
+
+### Both together:
+
+```sql
+email VARCHAR(100) UNIQUE NOT NULL
+```
+
+Means:
+
+> Email must be provided AND every email must be different.
+
+---
+
+# EASY WAY TO REMEMBER
+
+```text
+UNIQUE = NO DUPLICATES
+
+NOT NULL = NO EMPTY VALUE
+```
+
+And the difference in one table:
+
+| Constraint        | Allows duplicate? | Allows NULL?    |
+| ----------------- | ----------------- | --------------- |
+| `UNIQUE`          | ❌ No              | ✅ Yes, in MySQL |
+| `NOT NULL`        | ✅ Yes             | ❌ No            |
+| `UNIQUE NOT NULL` | ❌ No              | ❌ No            |
