@@ -1,0 +1,38 @@
+Primary Key :
+
+Rules of primary key:
+*primary key values must be unique
+*primary key 
+
+create table user
+     (id int primary key,
+     name varchar(20) not null,
+     age int);
+
+Default:
+
+Check:
+Check allows a value only when a specified condition is satisfied then it takes the value .
+
+Add check to column
+remove check from column
+
+Foreign key 
+create table parent(
+id int primary key,
+col..);
+
+create table child(
+c_id int primary key ,
+cols....
+parent_ref_id datatype
+
+foreign key parent_ref_id
+References parent(id));
+
+Join : Join 
+
+inner join 
+left join
+right join 
+ 
