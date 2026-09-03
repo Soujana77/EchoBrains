@@ -1,0 +1,35 @@
+1.WAQTD emp name and dept names and their respective department names from emp and dept tables 
+Q:select emp.employee_name,dept.department_name from emp INNER JOIN dept ON emp.department_id = dept.department_id;
++---------------+-----------------+
+| employee_name | department_name |
++---------------+-----------------+
+| Rahul         | Development     |
+| Anjali        | Development     |
+| Kiran         | Testing         |
+| Sneha         | Testing         |
+| Arun          | HR              |
+| Priya         | Finance         |
++---------------+-----------------+
+
+2.WAQTD emp name and dept names and their respective department names from emp and dept tables 
+whose employee name start with letter 'A'
+Q: select emp.employee_name , dept.department_name from emp INNER JOIN dept ON emp.department_id = dept.department_id where emp.employee_name LIKE 'a%';
++---------------+-----------------+
+| employee_name | department_name |
++---------------+-----------------+
+| Anjali        | Development     |
+| Arun          | HR              |
++---------------+-----------------+
+
+3.WAQTD emp name and dept names and their respective department names from emp and dept tables 
+how many employees are working in each department
+Q:select dept.department_name,COUNT(emp.employee_name) from emp INNER JOIN dept ON emp.department_id = dept.department_id group by dept.department_name;
++-----------------+--------------------------+
+| department_name | COUNT(emp.employee_name) |
++-----------------+--------------------------+
+| Development     |                        2 |
+| Testing         |                        2 |
+| HR              |                        1 |
+| Finance         |                        1 |
++-----------------+--------------------------+
+

@@ -30,9 +30,5 @@ parent_ref_id datatype
 foreign key parent_ref_id
 References parent(id));
 
-Join : Join 
 
-inner join 
-left join
-right join 
  

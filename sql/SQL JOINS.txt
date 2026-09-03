@@ -1,0 +1,40 @@
+SQL JOINS
+
+A JOIN is used to combine data from two or more tables based on a related column.
+
+For example, suppose we have these two tables.
+
+employees
+id	name	dept_id
+1	Soujanya	101
+2	Rahul	102
+3	Priya	103
+4	Arun	101
+5	Sneha	104
+departments
+dept_id	dept_name
+101	IT
+102	HR
+103	Finance
+105	Marketing
+
+Notice:
+
+Employee dept_id = 104 has no matching department
+Department 105 has no matching employee
+
+This makes it easier to understand the different JOINs.
+
+Types of joins :
+
+1.cross join 
+2.inner join 
+3.left join
+4.right join 
+
+
+3.Right join returns all records from right side tables and matching records from the left table 
+Syntax:
+SELECT t1.c1,t2.c2 
+FROM t1 RIGHT JOIN t2
+ON t1.comman_col = t2.comman_col;
