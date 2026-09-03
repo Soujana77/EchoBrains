@@ -33,3 +33,48 @@ Q:select dept.department_name,COUNT(emp.employee_name) from emp INNER JOIN dept 
 | Finance         |                        1 |
 +-----------------+--------------------------+
 
+RIGHT JOIN 
+
+1. WAQTD all department with emp names
+select dept.department_name,  emp.employee_name from dept RIGHT JOIN emp ON  dept.department_id = emp.department_id;
+ +-----------------+---------------+
+| department_name | employee_name |
++-----------------+---------------+
+| Development     | Rahul         |
+| Development     | Anjali        |
+| Testing         | Kiran         |
+| Testing         | Sneha         |
+| HR              | Arun          |
+| Finance         | Priya         |
++-----------------+---------------+
+
+2.WAQTD dept name whose employee count is 0
+Q:SELECT d.department_name
+    -> FROM dept d
+    -> LEFT JOIN emp e
+    -> ON d.department_id = e.department_id
+    -> GROUP BY d.department_id, d.department_name
+    -> HAVING COUNT(e.employee_id) = 0;
++-----------------+
+| department_name |
++-----------------+
+| Marketing       |
++-----------------+
+
+
+LEFT JOIN
+
+ select emp.* ,dept.* from emp LEFT JOIN dept on emp.department_id = dept.department_id;
++-------------+---------------+----------+---------------+------------+---------------+-----------------+-----------+
+| employee_id | employee_name | salary   | department_id | manager_id | department_id | department_name | location  |
++-------------+---------------+----------+---------------+------------+---------------+-----------------+-----------+
+|           1 | Rahul         | 90000.00 |           101 |       NULL |           101 | Development     | Bengaluru |
+|           2 | Anjali        | 70000.00 |           101 |          1 |           101 | Development     | Bengaluru |
+|           3 | Kiran         | 65000.00 |           102 |          1 |           102 | Testing         | Hyderabad |
+|           4 | Sneha         | 60000.00 |           102 |          3 |           102 | Testing         | Hyderabad |
+|           5 | Arun          | 55000.00 |           103 |          2 |           103 | HR              | Chennai   |
+|           6 | Priya         | 75000.00 |           104 |          1 |           104 | Finance         | Mumbai    |
++-------------+---------------+----------+---------------+------------+---------------+-----------------+-----------+
+
+SELF JOIN :
+1.WAQTD the employees name and their manager name 
