@@ -1,0 +1,227 @@
+-- 1. Display the total stock value of all products using price * quantity.
+SELECT SUM(price * quantity) AS total_stock_value
+FROM product;
+
+
+-- 2. Display the category-wise total stock value using price * quantity.
+SELECT category, SUM(price * quantity) AS total_stock_value
+FROM product
+GROUP BY category;
+
+
+-- 3. Display categories whose total stock value is greater than 500000.
+SELECT category, SUM(price * quantity) AS total_stock_value
+FROM product
+GROUP BY category
+HAVING SUM(price * quantity) > 500000;
+
+
+-- 4. Display the product names and order dates, arranged from newest order to oldest order.
+SELECT product_name, order_date
+FROM product
+ORDER BY order_date DESC;
+
+
+-- 5. Display the total quantity and average price for each category.
+SELECT category,
+       SUM(quantity) AS total_quantity,
+       AVG(price) AS average_price
+FROM product
+GROUP BY category;
+
+
+-- 6. Display the first 2 suppliers based on their total supplied quantity.
+SELECT supplier, SUM(quantity) AS total_supplied_quantity
+FROM product
+GROUP BY supplier
+ORDER BY SUM(quantity) DESC
+LIMIT 2;
+
+
+-- 7. Display the different combinations of category and city.
+SELECT DISTINCT category, city
+FROM product;
+
+
+-- 8. Display the category-wise total discount and arrange the categories
+-- from highest total discount to lowest.
+SELECT category, SUM(discount) AS total_discount
+FROM product
+GROUP BY category
+ORDER BY SUM(discount) DESC;
+
+
+-- 9. Display cities whose average product price is greater than 10000.
+SELECT city, AVG(price) AS average_price
+FROM product
+GROUP BY city
+HAVING AVG(price) > 10000;
+
+
+-- 10. Display the product name, category, price, and calculated final price
+-- after subtracting the discount, arranged by final price from highest to lowest.
+SELECT product_name,
+       category,
+       price,
+       (price - discount) AS final_price
+FROM product
+ORDER BY final_price DESC;
+
+
+--41. Number of products supplied by each supplier, only suppliers having more than one product
+SELECT supplier, COUNT(*) AS number_of_products
+FROM product
+GROUP BY supplier
+HAVING COUNT(*) > 1;
+--42. Category-wise average price, only categories whose average price is between 5000 and 20000
+SELECT category, AVG(price) AS average_price
+FROM product
+GROUP BY category
+HAVING AVG(price) BETWEEN 5000 AND 20000;
+--43. 3 products having the highest quantity
+SELECT *
+FROM product
+ORDER BY quantity DESC
+LIMIT 3;
+--44. Total quantity available in each city, highest to lowest
+SELECT city, SUM(quantity) AS total_quantity
+FROM product
+GROUP BY city
+ORDER BY total_quantity DESC;
+--45. Categories whose total quantity is greater than 40
+SELECT category, SUM(quantity) AS total_quantity
+FROM product
+GROUP BY category
+HAVING SUM(quantity) > 40;
+--46. Product name, price, quantity, total stock value — top 5 by stock value
+SELECT product_name,
+       price,
+       quantity,
+       (price * quantity) AS total_stock_value
+FROM product
+ORDER BY total_stock_value DESC
+LIMIT 5;
+--47. Supplier-wise average product price, highest average to lowest
+SELECT supplier, AVG(price) AS average_price
+FROM product
+GROUP BY supplier
+ORDER BY average_price DESC;
+--48. Category-wise number of products, total quantity, and average price
+SELECT category,
+       COUNT(*) AS number_of_products,
+       SUM(quantity) AS total_quantity,
+       AVG(price) AS average_price
+FROM product
+GROUP BY category;
+--49. Categories having more than one product AND total quantity greater than 20
+SELECT category,
+       COUNT(*) AS number_of_products,
+       SUM(quantity) AS total_quantity
+FROM product
+GROUP BY category
+HAVING COUNT(*) > 1
+AND SUM(quantity) > 20;
+--50. Category-wise total stock value, highest to lowest, top 2 categories
+SELECT category,
+       SUM(price * quantity) AS total_stock_value
+FROM product
+GROUP BY category
+ORDER BY total_stock_value DESC
+LIMIT 2;
+
+-- 51. Display the product name, price, and quantity for products whose
+-- stock value (price * quantity) is greater than 200000,
+-- and arrange them by stock value.
+
+SELECT product_name, price, quantity, (price * quantity) AS stock_value
+FROM product
+WHERE (price * quantity) > 200000
+ORDER BY stock_value DESC;
+
+
+-- 52. Display the total quantity and total discount for each category.
+
+SELECT category,
+       SUM(quantity) AS total_quantity,
+       SUM(discount) AS total_discount
+FROM product
+GROUP BY category;
+
+
+-- 53. Display cities having more than one product and arrange them
+-- based on their total product quantity.
+
+SELECT city,
+       COUNT(*) AS number_of_products,
+       SUM(quantity) AS total_quantity
+FROM product
+GROUP BY city
+HAVING COUNT(*) > 1
+ORDER BY total_quantity DESC;
+
+
+-- 54. Display the product names and prices for the second, third,
+-- and fourth highest-priced products.
+
+SELECT product_name, price
+FROM product
+ORDER BY price DESC
+LIMIT 3 OFFSET 1;
+
+
+-- 55. Display the category-wise maximum price and minimum price,
+-- and arrange the categories based on maximum price.
+
+SELECT category,
+       MAX(price) AS maximum_price,
+       MIN(price) AS minimum_price
+FROM product
+GROUP BY category
+ORDER BY maximum_price DESC;
+
+
+-- 56. Display the supplier-wise total quantity and show only suppliers
+-- whose total quantity is greater than 20.
+
+SELECT supplier,
+       SUM(quantity) AS total_quantity
+FROM product
+GROUP BY supplier
+HAVING SUM(quantity) > 20;
+
+
+-- 57. Display the product name, category, and total stock value
+-- for the 3 products having the lowest stock value.
+
+SELECT product_name,
+       category,
+       (price * quantity) AS total_stock_value
+FROM product
+ORDER BY total_stock_value ASC
+LIMIT 3;
+
+
+-- 58. Display the average price of products in each category and
+-- show only categories whose average price is greater than 8000.
+
+SELECT category,
+       AVG(price) AS average_price
+FROM product
+GROUP BY category
+HAVING AVG(price) > 8000;
+
+
+-- 59. Display the different supplier and city combinations
+-- without repeating the same combination.
+
+SELECT DISTINCT supplier, city
+FROM product;
+
+
+-- 60. Display the category-wise total stock value and total discount.
+
+SELECT category,
+       SUM(price * quantity) AS total_stock_value,
+       SUM(discount) AS total_discount
+FROM product
+GROUP BY category;
