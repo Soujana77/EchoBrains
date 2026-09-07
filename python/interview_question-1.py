@@ -39,3 +39,30 @@ if python >=40 and SQL >=40 and Java >=40 and HTML >=40 and CSS >=40:
     print("Result: Pass")
 else:
     print("Result: Fail")
+
+highest = python
+
+if SQL > highest:
+    highest = SQL
+if Java > highest:
+    highest = Java
+if HTML > highest:
+    highest = HTML
+if CSS > highest:
+    highest = CSS
+
+    print("Highest marks:", highest)
+
+lowest = python
+
+if SQL < lowest:
+    lowest = SQL
+if Java < lowest:
+    lowest = Java
+if HTML < lowest:
+    lowest = HTML
+if CSS < lowest:
+    lowest = CSS
+
+    print("Lowest marks:", lowest)            
+

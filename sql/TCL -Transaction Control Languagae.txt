@@ -1,0 +1,8 @@
+TCL -Transaction Control Languagae
+
+TCL commands are used to control a transaction in a database and decide whether the changes made during the transaction should be saved or Unicode .
+
+START TRANSSACTION : begins a transaction
+SAVEPOINT : Creates a checkpoint inside a transaction
+ROLLBACK : undoes the current transaction
+COMMIT : permanently saves the current transaction 
