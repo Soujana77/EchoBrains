@@ -1,0 +1,60 @@
+INDEXES:
+An index helps find MySQL find rows faster when a column is searched often.
+an index is a separate search structure maintained by MySQL to help find rows faster .It is useful
+mainly when a table has many rows and we frequently search or filter using a column 
+
+example: SELECT * 
+FROM emp WHERE employee_name = "Rahul";
+
+Why do we use indexes?
+*To make searching rows faster 
+*To improve a 
+
+Syntax:
+CREATE INDEX INDEX_NAME ;
+ON emp(employee_name);
+
+1.Create index on department name
+Q: 
+mysql> create index dept_name_index ON dept(department_name);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> show index from dept;
++-------+------------+-----------------+--------------+-----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name        | Seq_in_index | Column_name     | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++-------+------------+-----------------+--------------+-----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| dept  |          0 | PRIMARY         |            1 | department_id   | A         |           5 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| dept  |          1 | dept_name_index |            1 | department_name | A         |           5 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
++-------+------------+-----------------+--------------+-----------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+ 
+
+2.Create index on employee_name and salary
+Q: create index emp_name_sal_index ON emp(employee_name , salary);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> show index from emp;
++-------+------------+--------------------+--------------+---------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name           | Seq_in_index | Column_name   | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++-------+------------+--------------------+--------------+---------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| emp   |          0 | PRIMARY            |            1 | employee_id   | A         |           6 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| emp   |          1 | emp_name_index     |            1 | employee_name | A         |           7 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
+| emp   |          1 | emp_name_sal_index |            1 | employee_name | A         |           7 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
+| emp   |          1 | emp_name_sal_index |            2 | salary        | A         |           7 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
++-------+------------+--------------------+--------------+---------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------
+
+3.Create index on employee table
+Q:
+mysql> create index emp_name_index ON emp(employee_name);
+Query OK, 0 rows affected (0.14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> show index from emp ;
++-------+------------+----------------+--------------+---------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name       | Seq_in_index | Column_name   | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++-------+------------+----------------+--------------+---------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| emp   |          0 | PRIMARY        |            1 | employee_id   | A         |           6 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| emp   |          1 | emp_name_index |            1 | employee_name | A         |           7 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
++-------+------------+----------------+--------------+---------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+
+ 
