@@ -1,0 +1,145 @@
+STORED PROCEDURES IN MY SQL:
+A Stored procedure is a group of SQL statements stored in the database and executed whenever 
+we call the procedure.It allows us to write a set of SQL operations once and reuse many times.
+
+Features
+Reusable
+parameters
+multiple statements
+stored in database 
+
+syntax:
+DELIMITER //
+CREATE PROCEDUERE procedure_name()
+BEGIN
+	SQL statement-1;
+	SQL statement-2;
+END//
+DELIMITER;
+
+*We use delimiter to change the termination , by default sql understands ; as the end of the query but in procedures we have multiple queries so we have to change the delimiter to tell sql that the procedure is not yet completed.
+
+
+mysql> delimiter #
+mysql>  create procedure show_emps()
+    -> begin
+    -> select * from emp;
+    -> end
+    -> #
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> delimiter ;
+mysql> call show_emps();
++-------------+---------------+-----------+---------------+------------+
+| employee_id | employee_name | salary    | department_id | manager_id |
++-------------+---------------+-----------+---------------+------------+
+|           1 | Rahul         |  91000.00 |           101 |       NULL |
+|           2 | Anjali        |  71000.00 |           101 |          1 |
+|           3 | Kiran         |  66000.00 |           102 |          1 |
+|           4 | Sneha         |  61000.00 |           102 |          3 |
+|           5 | Arun          |  56000.00 |           103 |          2 |
+|           6 | Priya         |  76000.00 |           104 |          1 |
+|          10 | sagar         | 101000.00 |          NULL |          2 |
++-------------+---------------+-----------+---------------+------------+
+
+mysql> delimiter #
+mysql> create procedure display()
+    -> begin
+    -> select employee_name , salary from emp;
+    -> end
+    -> #
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call display();
++---------------+-----------+
+| employee_name | salary    |
++---------------+-----------+
+| Anjali        |  71000.00 |
+| Arun          |  56000.00 |
+| Kiran         |  66000.00 |
+| Priya         |  76000.00 |
+| Rahul         |  91000.00 |
+| sagar         | 101000.00 |
+| Sneha         |  61000.00 |
++---------------+-----------+
+
+INput and OUTput parameters in procedures
+
+delimiter %%
+create procedure procedure_name(IN parameter_name datatype , OUT para_name datatype)
+begin
+	sql queries..;
+end
+delimiter ;
+
+takes input and wont return anything 
+
+Q: find emp names based on given starting name 
+delimiter $$
+create procedure emp_name_start_with(IN start varchar(50))
+begin
+	select * from emp where employee_name like 'start%';
+end $$
+
+
+mysql> delimiter ;
+mysql> call emp_name_start_with('a');
+Empty set (0.01 sec)
+
+delimiter $$
+
+create procedure emps_name_start_with(IN start varchar(50))
+begin
+select * from emp where employee_name like concat(start,'%');
+end $$
+
+delimiter ;
+call emps_name_start_with('a')
+
+---------------------------------------------------------------------
+
+no input - output
+
+Q : highest salary of the employee in the emp table 
+
+
+Q: find average salary for given dept_id 
+-> 1500
+
+
+Q:find average salary for given dept_name
+mysql> DElimiter $
+mysql> create procedure avg_sal_by_d_name(IN d_name varchar(50) , OUT avg_sal double)
+    -> begin
+    -> select avg(salary) into avg_sal from emp where department_id =
+    -> (select department_id from dept where department_name = d_name);
+    -> end $
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> call avg_sal_by_d_name("HR",@avg_sal_In_HR);
+    -> $
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select @avg_sal_In_HR $
++----------------+
+| @avg_sal_In_HR |
++----------------+
+|          56000 |
++----------------+
+1 row in set (0.00 sec)
+
+Q: create a procedure that returns empname and manager name and emp salary and manager salary from emp table 
+create procedure details(OUT emp_name varchar(50) ,OUT  mag_name varchar(50) ,OUT emp_sal double ,OUT mng_sal double)
+begin
+select employee_name, managaer_name , salary 
+
+when query is returning multiple rows we dont use into we will directly print in the procedures .
+
+
+
+
+
+
+
+
