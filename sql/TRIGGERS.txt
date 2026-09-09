@@ -1,0 +1,95 @@
+TRIGGERS:
+A Trigger is a special type of stored program that automatically executes when a specific event occurs on a table.
+Trigger = Automatically executes a SQL statement when an INSERT, UPDATE, or DELETE happens.
+
+1. Why do we use Triggers?
+
+*Triggers are commonly used for:
+
+->Automatically recording changes
+->Maintaining audit/history tables
+->Validating data
+->Automatically updating related information
+->Keeping logs of INSERT, UPDATE, or DELETE
+->Enforcing business rules
+
+ CREATE TRIGGER insert_before_trigger
+    -> BEFORE INSERT ON emp
+    -> FOR EACH ROW
+    -> BEGIN
+    -> IF NEW.salary < 0 THEN SET NEW.salary = 10 ;
+    -> END IF;
+    -> END $
+insert into emp values(12,"likitha",50000,101,1);
+insert into emp values(13,"Anna",-50000,102,2);
+ select * from emp;
++-------------+---------------+-----------+---------------+------------+
+| employee_id | employee_name | salary    | department_id | manager_id |
++-------------+---------------+-----------+---------------+------------+
+|           1 | Rahul         |  91000.00 |           101 |       NULL |
+|           2 | Anjali        |  71000.00 |           101 |          1 |
+|           3 | Kiran         |  66000.00 |           102 |          1 |
+|           4 | Sneha         |  61000.00 |           102 |          3 |
+|           5 | Arun          |  56000.00 |           103 |          2 |
+|           6 | Priya         |  76000.00 |           104 |          1 |
+|          10 | sagar         | 101000.00 |          NULL |          2 |
+|          12 | likitha       |  50000.00 |           101 |          1 |
+|          13 | Anna          |     10.00 |           102 |          2 |
++-------------+---------------+-----------+---------------+------------+
+
+AFTER INSERT TRIGGER
+CREATE TRIGGER ater_insert
+    -> AFTER INSERT
+    -> ON emp
+    -> FOR EACH ROW
+    -> BEGIN
+    -> insert into emp_history values(1,NEW.employee_name,"insert",new.employee_id);
+    -> END *
+
+
+mysql> insert into emp values(14,"Soujj",50000,103,3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp_history;
++----+-------+-----------+--------+
+| id | name  | operation | emp_id |
++----+-------+-----------+--------+
+|  1 | Soujj | insert    |     14 |
++----+-------+-----------+--------+
+
+1.Create a trigger on emp table on delete history keep the deleted data in emp_history table
+delimiter *
+mysql> CREATE TRIGGER before_delete
+    -> BEFORE DELETE
+    -> on emp
+    -> for each row
+    -> BEGIN
+    -> insert into emp_history values(2,OLD.employee_name,'insert',old.employee_id);
+    -> END *
+ delete from emp where employee_id = 1;
+
+delimiter ;
+mysql> select * from emp;
++-------------+---------------+-----------+---------------+------------+
+| employee_id | employee_name | salary    | department_id | manager_id |
++-------------+---------------+-----------+---------------+------------+
+|           2 | Anjali        |  71000.00 |           101 |          1 |
+|           3 | Kiran         |  66000.00 |           102 |          1 |
+|           4 | Sneha         |  61000.00 |           102 |          3 |
+|           5 | Arun          |  56000.00 |           103 |          2 |
+|           6 | Priya         |  76000.00 |           104 |          1 |
+|          10 | sagar         | 101000.00 |          NULL |          2 |
+|          12 | likitha       |  50000.00 |           101 |          1 |
+|          13 | Anna          |     10.00 |           102 |          2 |
+|          14 | Soujj         |  50000.00 |           103 |          3 |
++-------------+---------------+-----------+---------------+------------+
+9 rows in set (0.00 sec)
+
+mysql> select * from emp_history
+    -> ;
++----+-------+-----------+--------+
+| id | name  | operation | emp_id |
++----+-------+-----------+--------+
+|  1 | Soujj | insert    |     14 |
+|  2 | Rahul | insert    |      1 |
++----+-------+-----------+--------+
