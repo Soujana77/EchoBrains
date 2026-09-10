@@ -1,0 +1,18 @@
+WINDOW FUNCTIONS:
+
+A window function performs a calculation using a set of related rows while keeping every individual row in the result.
+
+Note: the calculation is done using ,ultiple 
+
+syntax:
+function_name() over()
+basic keyword is over () it tells MySQL that the function should 
+
+Q: select avg(salary) from emp;
+    -> #
++--------------+
+| avg(salary)  |
++--------------+
+| 59001.111111 |
++--------------+ 
+Note: Above query returns only single row value if we want same avg salary for in each and every row in emp table then we use the windows function 
