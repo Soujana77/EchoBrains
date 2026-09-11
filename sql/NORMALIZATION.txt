@@ -1,0 +1,484 @@
+NORMALIZATION IN SQL
+1. What is Normalization?
+
+Normalization is the process of organizing data in a database to:
+
+Reduce data redundancy (duplicate data)
+Avoid data inconsistency
+Avoid unnecessary repetition
+Improve data integrity
+Make the database easier to maintain
+Simple definition
+
+Normalization is the process of dividing a large table into smaller related tables to reduce redundancy and improve data integrity.
+
+2. Why is Normalization Needed?
+
+Consider this table:
+
+student
+student_id	student_name	course	instructor
+101	Rahul	Python	Kumar
+102	Anjali	Python	Kumar
+103	Priya	SQL	Ravi
+104	Kiran	SQL	Ravi
+
+Here, Python → Kumar is repeated and SQL → Ravi is repeated.
+
+This is data redundancy.
+
+If Kumar's name needs to be changed, we may have to update multiple rows.
+
+This can cause problems.
+
+3. Problems Without Normalization
+
+There are three major types of anomalies.
+
+A. Insert Anomaly
+
+An insert anomaly occurs when we cannot insert some information without inserting unrelated information.
+
+Example:
+
+Suppose a new course Java is introduced, but no student has enrolled yet.
+
+In the above table, we may not be able to store the course and instructor properly without having a student.
+
+B. Update Anomaly
+
+An update anomaly occurs when the same information is stored in multiple places and we need to update it everywhere.
+
+Example:
+
+Python → Kumar
+
+appears multiple times.
+
+If Kumar changes to Kumar Sharma, every matching row must be updated.
+
+If one row is missed, the database becomes inconsistent.
+
+C. Delete Anomaly
+
+A delete anomaly occurs when deleting one piece of information unintentionally removes another important piece of information.
+
+Example:
+
+If the only student enrolled in Java is deleted, we may also lose information about the Java course and its instructor.
+
+4. Normal Forms
+
+Normalization is performed in stages called Normal Forms.
+
+The major normal forms are:
+
+1NF
+ ↓
+2NF
+ ↓
+3NF
+ ↓
+BCNF
+
+There are also higher normal forms such as 4NF and 5NF, but 1NF, 2NF, 3NF and BCNF are the most commonly discussed.
+
+5. First Normal Form (1NF)
+
+A table is in 1NF when:
+
+Each column contains atomic values
+There are no multiple values in a single cell
+There are no repeating groups
+❌ Not in 1NF
+student_id	student_name	phone
+101	Rahul	9876, 8765
+102	Anjali	7654
+
+The phone column contains multiple values.
+
+✅ Convert to 1NF
+student_id	student_name	phone
+101	Rahul	9876
+101	Rahul	8765
+102	Anjali	7654
+
+Now each cell contains a single value.
+
+Easy memory
+
+1NF = One value per cell
+
+6. Second Normal Form (2NF)
+
+A table is in 2NF when:
+
+It is already in 1NF
+There is no partial dependency
+What is Partial Dependency?
+
+Partial dependency occurs when a non-key column depends on only part of a composite primary key, instead of the entire key.
+
+This mainly matters when a table has a composite primary key.
+
+Example
+
+Consider:
+
+student_course
+student_id	course_id	student_name	course_name
+101	C01	Rahul	Python
+101	C02	Rahul	SQL
+102	C01	Anjali	Python
+
+Suppose the primary key is:
+
+(student_id, course_id)
+
+Now:
+
+student_id → student_name
+course_id → course_name
+
+But the complete key is:
+
+student_id + course_id
+
+student_name depends only on student_id.
+
+course_name depends only on course_id.
+
+Therefore, we have partial dependency.
+
+So the table is not in 2NF.
+
+7. Converting to 2NF
+
+Separate the tables.
+
+student
+student_id	student_name
+101	Rahul
+102	Anjali
+course
+course_id	course_name
+C01	Python
+C02	SQL
+student_course
+student_id	course_id
+101	C01
+101	C02
+102	C01
+
+Now the non-key attributes depend on the appropriate complete key.
+
+Easy memory
+
+2NF = 1NF + No Partial Dependency
+
+8. Third Normal Form (3NF)
+
+A table is in 3NF when:
+
+It is already in 2NF
+There is no transitive dependency
+What is Transitive Dependency?
+
+A transitive dependency occurs when:
+
+Primary Key → A → B
+
+So B indirectly depends on the primary key through A.
+
+Example
+
+Consider:
+
+employee_id	employee_name	dept_id	dept_name
+101	Rahul	10	IT
+102	Anjali	20	HR
+103	Priya	10	IT
+
+Primary key:
+
+employee_id
+
+Dependencies:
+
+employee_id → dept_id
+dept_id → dept_name
+
+Therefore:
+
+employee_id → dept_id → dept_name
+
+dept_name indirectly depends on employee_id.
+
+This is a transitive dependency.
+
+9. Converting to 3NF
+
+Separate the department information.
+
+employee
+employee_id	employee_name	dept_id
+101	Rahul	10
+102	Anjali	20
+103	Priya	10
+department
+dept_id	dept_name
+10	IT
+20	HR
+
+Now:
+
+employee_id → employee_name
+employee_id → dept_id
+dept_id → dept_name
+
+The department information is stored separately.
+
+Easy memory
+
+3NF = 2NF + No Transitive Dependency
+
+10. BCNF
+
+BCNF stands for:
+
+Boyce-Codd Normal Form
+
+BCNF is a stronger version of 3NF.
+
+A table is in BCNF if:
+
+Every determinant is a candidate key.
+
+Simple meaning
+
+If:
+
+A → B
+
+then A should be a candidate key.
+
+BCNF deals with certain dependency situations that can still exist even after achieving 3NF.
+
+For most beginner/interview-level SQL questions, remember:
+
+BCNF = Stronger version of 3NF
+11. 1NF vs 2NF vs 3NF
+
+This is VERY important for exams/interviews.
+
+Normal Form	Main Rule
+1NF	Atomic values; no repeating groups
+2NF	1NF + no partial dependency
+3NF	2NF + no transitive dependency
+BCNF	Every determinant must be a candidate key
+Memory trick
+1NF → Atomic
+2NF → No Partial Dependency
+3NF → No Transitive Dependency
+BCNF → Determinant must be Candidate Key
+12. Functional Dependency
+
+Functional dependency is an important concept behind normalization.
+
+It is written as:
+
+A → B
+
+It means:
+
+The value of A determines the value of B.
+
+Example
+employee_id → employee_name
+
+If we know the employee_id, we can determine the employee's name.
+
+For example:
+
+101 → Rahul
+102 → Anjali
+
+So employee_id determines employee_name.
+
+13. Candidate Key
+
+A candidate key is a column or combination of columns that can uniquely identify a row.
+
+Example:
+
+employee_id
+
+could be a candidate key because every employee has a unique ID.
+
+There can be multiple candidate keys.
+
+For example:
+
+employee_id
+email
+
+Both might uniquely identify an employee.
+
+One candidate key is selected as the PRIMARY KEY.
+
+14. Primary Key vs Candidate Key
+Candidate Keys
+      ↓
+Possible unique identifiers
+      ↓
+One is selected
+      ↓
+Primary Key
+
+Example:
+
+employee_id → Candidate Key
+email       → Candidate Key
+
+We choose:
+
+employee_id → PRIMARY KEY
+15. Normalization Example
+
+Suppose we start with:
+
+❌ Unnormalized table
+student_id	student_name	course_id	course_name	instructor
+101	Rahul	C01	Python	Kumar
+102	Anjali	C01	Python	Kumar
+103	Priya	C02	SQL	Ravi
+
+Problems:
+
+Python repeated
+Kumar repeated
+SQL/Ravi repeated
+
+We can normalize it into:
+
+student
+student_id	student_name
+101	Rahul
+102	Anjali
+103	Priya
+course
+course_id	course_name	instructor
+C01	Python	Kumar
+C02	SQL	Ravi
+student_course
+student_id	course_id
+101	C01
+102	C01
+103	C02
+
+Now we have separate entities and much less redundancy.
+
+16. Advantages of Normalization
+1. Reduces data redundancy
+
+Duplicate data is minimized.
+
+2. Improves data consistency
+
+Changes can be made in one appropriate location.
+
+3. Prevents anomalies
+
+Helps prevent:
+
+Insert anomaly
+Update anomaly
+Delete anomaly
+4. Improves data integrity
+
+Data is stored in a structured and consistent way.
+
+5. Easier maintenance
+
+The database becomes easier to update and manage.
+
+17. Disadvantages of Normalization
+
+Normalization isn't always perfect.
+
+Too much normalization can result in:
+
+More tables
+More JOIN operations
+More complex queries
+Potentially slower reads in some workloads
+
+That's why real-world databases sometimes use denormalization when read performance or simplicity is more important.
+
+18. Normalization vs Denormalization
+Normalization
+Large Table
+    ↓
+Multiple Related Tables
+    ↓
+Less Redundancy
+Denormalization
+Multiple Tables
+    ↓
+Combine some data
+    ↓
+Fewer JOINs
+    ↓
+Faster/easier reads in some cases
+⭐ Final Exam Notes
+NORMALIZATION
+-------------
+Normalization is the process of organizing data into
+multiple related tables to reduce redundancy and improve
+data integrity.
+
+1NF
+---
+- Atomic values
+- No repeating groups
+- One value per cell
+
+2NF
+---
+- Must be in 1NF
+- No partial dependency
+- Mainly relevant when there is a composite key
+
+3NF
+---
+- Must be in 2NF
+- No transitive dependency
+- Non-key attributes should depend directly on the key
+
+BCNF
+----
+- Stronger version of 3NF
+- Every determinant must be a candidate key
+
+ANOMALIES
+---------
+1. Insert Anomaly
+2. Update Anomaly
+3. Delete Anomaly
+
+FUNCTIONAL DEPENDENCY
+---------------------
+A → B
+A determines B.
+
+CANDIDATE KEY
+-------------
+A column or combination of columns that can uniquely
+identify a row.
+
+PRIMARY KEY
+-----------
+One candidate key selected to uniquely identify each row.
+🧠 One-line trick to memorize everything
+
+1NF → Atomic → 2NF → No Partial → 3NF → No Transitive → BCNF → Every Determinant is a Candidate Key.
