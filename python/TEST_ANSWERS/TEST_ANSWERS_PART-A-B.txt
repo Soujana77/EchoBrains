@@ -79,3 +79,284 @@ except ZeroDivisionError:
 Output:
 
 Cannot divide by zero
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+PART B – Coding Questions
+6. Second Largest Element
+Question:
+
+Find the second largest element without using sort() or sorted().
+
+Answer:
+numbers = [10, 25, 5, 40, 30]
+
+largest = numbers[0]
+second = numbers[0]
+
+for n in numbers:
+    if n > largest:
+        second = largest
+        largest = n
+    elif n > second and n != largest:
+        second = n
+
+print("Second Largest =", second)
+
+Output:
+
+Second Largest = 30
+Important idea:
+largest stores the largest number.
+second stores the second largest number.
+We update them while traversing the list.
+OR – Remove Duplicate Elements Without set()
+numbers = [10, 20, 10, 30, 20, 40]
+
+result = []
+
+for n in numbers:
+    if n not in result:
+        result.append(n)
+
+print(result)
+
+Output:
+
+[10, 20, 30, 40]
+7. Check Palindrome Without Slicing
+Question:
+
+Check whether a string is a palindrome without using slicing.
+
+text = input("Enter a string: ")
+
+reverse = ""
+
+for i in range(len(text) - 1, -1, -1):
+    reverse = reverse + text[i]
+
+if text == reverse:
+    print("Palindrome")
+else:
+    print("Not Palindrome")
+Example:
+
+Input:
+
+madam
+
+Output:
+
+Palindrome
+OR – First Non-Repeated Character
+
+Example: "swiss" → w
+
+text = input("Enter a string: ")
+
+for ch in text:
+    count = 0
+
+    for c in text:
+        if ch == c:
+            count += 1
+
+    if count == 1:
+        print("First non-repeated character:", ch)
+        break
+
+Output:
+
+First non-repeated character: w
+8. Frequency of Each Word in a Sentence
+Answer:
+sentence = input("Enter a sentence: ")
+
+words = sentence.split()
+frequency = {}
+
+for word in words:
+    if word in frequency:
+        frequency[word] += 1
+    else:
+        frequency[word] = 1
+
+for word in frequency:
+    print(word, ":", frequency[word])
+Example:
+
+Input:
+
+python is easy and python is powerful
+
+Output:
+
+python : 2
+is : 2
+easy : 1
+and : 1
+powerful : 1
+Key concept:
+
+A dictionary stores each word as a key and its count as the value.
+
+OR – Most Frequently Occurring Element
+numbers = [2, 3, 2, 4, 2, 3, 5]
+
+max_count = 0
+most_frequent = numbers[0]
+
+for n in numbers:
+    count = 0
+
+    for x in numbers:
+        if n == x:
+            count += 1
+
+    if count > max_count:
+        max_count = count
+        most_frequent = n
+
+print("Most Frequent =", most_frequent)
+
+Output:
+
+Most Frequent = 2
+9. Prime Number Using Function
+Answer:
+def is_prime(n):
+    if n < 2:
+        return False
+
+    i = 2
+
+    while i * i <= n:
+        if n % i == 0:
+            return False
+        i += 1
+
+    return True
+
+
+num = int(input("Enter a number: "))
+
+if is_prime(num):
+    print("Prime")
+else:
+    print("Not Prime")
+Example:
+
+Input:
+
+17
+
+Output:
+
+Prime
+Why don't we check all numbers up to n-1?
+
+We only need to check divisors up to √n.
+
+If a number has a factor greater than √n, it must have another factor smaller than √n.
+
+Therefore, checking:
+
+i * i <= n
+
+is sufficient and makes the program more efficient.
+
+OR – Sum of Even and Odd Numbers
+def calculate_sum(numbers):
+    even_sum = 0
+    odd_sum = 0
+
+    for n in numbers:
+        if n % 2 == 0:
+            even_sum += n
+        else:
+            odd_sum += n
+
+    return even_sum, odd_sum
+
+
+numbers = [10, 15, 20, 25, 30]
+
+even, odd = calculate_sum(numbers)
+
+print("Even Sum =", even)
+print("Odd Sum =", odd)
+
+Output:
+
+Even Sum = 60
+Odd Sum = 40
+10. OOP – Employee Class
+Answer:
+class Employee:
+    def __init__(self, name, salary):
+        self.name = name
+        self.salary = salary
+
+    def display(self):
+        print("Name:", self.name)
+        print("Salary:", self.salary)
+
+
+e1 = Employee("Rahul", 50000)
+e2 = Employee("Anjali", 60000)
+
+e1.display()
+e2.display()
+
+Output:
+
+Name: Rahul
+Salary: 50000
+Name: Anjali
+Salary: 60000
+Concepts used:
+Class
+Object
+Constructor
+Instance variables
+Method
+OR – BankAccount Class
+class BankAccount:
+    def __init__(self, account_holder, balance):
+        self.account_holder = account_holder
+        self.balance = balance
+
+    def deposit(self, amount):
+        self.balance += amount
+        print("Amount deposited:", amount)
+        print("Balance:", self.balance)
+
+    def withdraw(self, amount):
+        if amount <= self.balance:
+            self.balance -= amount
+            print("Amount withdrawn:", amount)
+            print("Balance:", self.balance)
+        else:
+            print("Insufficient Balance")
+
+
+account = BankAccount("Rahul", 10000)
+
+account.withdraw(12000)
+
+Output:
+
+Insufficient Balance
+
+If:
+
+account.withdraw(2000)
+
+Output:
+
+Amount withdrawn: 2000
+Balance: 8000
+
