@@ -360,3 +360,192 @@ Output:
 Amount withdrawn: 2000
 Balance: 8000
 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+11. Inheritance
+Question:
+
+Create a parent class Vehicle with start() and child class Car with drive().
+
+Answer:
+class Vehicle:
+    def start(self):
+        print("Vehicle started")
+
+
+class Car(Vehicle):
+    def drive(self):
+        print("Car is driving")
+
+
+car = Car()
+
+car.start()
+car.drive()
+
+Output:
+
+Vehicle started
+Car is driving
+Explanation:
+
+Car inherits the start() method from Vehicle.
+
+So the child class can use:
+
+Its own method → drive()
+Parent's method → start()
+OR – Method Overriding
+class Animal:
+    def sound(self):
+        print("Animal makes a sound")
+
+
+class Dog(Animal):
+    def sound(self):
+        print("Dog barks")
+
+
+dog = Dog()
+dog.sound()
+
+Output:
+
+Dog barks
+Explanation:
+
+The Dog class provides its own version of the sound() method. This is called method overriding.
+
+12. Exception Handling for Division
+Answer:
+try:
+    num1 = float(input("Enter first number: "))
+    num2 = float(input("Enter second number: "))
+
+    result = num1 / num2
+
+    print("Result:", result)
+
+except ZeroDivisionError:
+    print("Cannot divide by zero")
+
+except ValueError:
+    print("Invalid input")
+Example 1:
+
+Input:
+
+10
+2
+
+Output:
+
+Result: 5.0
+Example 2:
+
+Input:
+
+10
+0
+
+Output:
+
+Cannot divide by zero
+Example 3:
+
+Input:
+
+abc
+2
+
+Output:
+
+Invalid input
+OR – Read File and Count Lines, Words and Characters
+try:
+    file = open("sample.txt", "r")
+
+    lines = 0
+    words = 0
+    characters = 0
+
+    for line in file:
+        lines += 1
+        words += len(line.split())
+        characters += len(line)
+
+    file.close()
+
+    print("Number of lines:", lines)
+    print("Number of words:", words)
+    print("Number of characters:", characters)
+
+except FileNotFoundError:
+    print("File does not exist")
+Important:
+
+FileNotFoundError handles the situation where the specified file is not available.
+
+13. Generator – Even Numbers from 1 to N
+Answer:
+def even_numbers(n):
+    for i in range(1, n + 1):
+        if i % 2 == 0:
+            yield i
+
+
+n = int(input("Enter N: "))
+
+for num in even_numbers(n):
+    print(num)
+Input:
+10
+Output:
+2
+4
+6
+8
+10
+Why is a generator preferred?
+
+A generator produces values one at a time using yield instead of storing the complete list in memory.
+
+Therefore, generators are memory efficient, especially when dealing with large amounts of data.
+
+OR – Decorator
+Question:
+
+Write a decorator that prints:
+
+Function Started
+Function Finished
+
+before and after executing another function.
+
+Answer:
+def my_decorator(func):
+    def wrapper():
+        print("Function Started")
+        func()
+        print("Function Finished")
+
+    return wrapper
+
+
+@my_decorator
+def hello():
+    print("Hello Python")
+
+
+hello()
+Output:
+Function Started
+Hello Python
+Function Finished
+How it works:
+@my_decorator
+
+means the hello() function is passed to my_decorator.
+
+The decorator adds extra behavior before and after the original function executes.
