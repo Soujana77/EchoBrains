@@ -1,0 +1,81 @@
+PART A – 2 Marks × 5
+1. Difference between List and Tuple
+List	Tuple
+List is mutable.	Tuple is immutable.
+Elements can be changed after creation.	Elements cannot be changed after creation.
+Uses [ ].	Uses ( ).
+
+Example:
+
+my_list = [10, 20, 30]
+my_tuple = (10, 20, 30)
+2. Difference between == and is
+==
+
+Checks whether two values are equal.
+
+is
+
+Checks whether two variables refer to the same object in memory.
+
+a = [10, 20]
+b = [10, 20]
+
+print(a == b)
+print(a is b)
+
+Output:
+
+True
+False
+
+Because the values are the same, but they are different list objects.
+
+3. Purpose of self in a Python class
+
+self refers to the current object of the class.
+
+It is used to access instance variables and methods.
+
+class Student:
+    def __init__(self, name):
+        self.name = name
+
+s1 = Student("Rahul")
+print(s1.name)
+
+Here, self.name belongs to the current object.
+
+4. Difference between return and yield
+return
+Returns a value from a function.
+Terminates the function.
+yield
+Produces a value one at a time.
+Makes the function a generator.
+Preserves the function's state between calls.
+def test():
+    return 10
+def numbers():
+    yield 10
+    yield 20
+5. Exception Handling
+
+Exception handling is used to handle errors that occur during program execution without terminating the program unexpectedly.
+
+Basic syntax:
+try:
+    # risky code
+except:
+    # error handling
+
+Example:
+
+try:
+    a = 10 / 0
+except ZeroDivisionError:
+    print("Cannot divide by zero")
+
+Output:
+
+Cannot divide by zero
