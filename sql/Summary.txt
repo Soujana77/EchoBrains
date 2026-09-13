@@ -1,0 +1,1960 @@
+# SQL COMPLETE SUMMARY NOTES
+
+These are **complete SQL revision notes from basics to normalization**, arranged in the order you should study them. Everything is directly copyable.
+
+---
+
+# 1. SQL
+
+**SQL = Structured Query Language**
+
+SQL is used to communicate with and manage data in a **relational database**.
+
+SQL can be used to:
+
+* Create databases and tables
+* Insert data
+* Retrieve data
+* Update data
+* Delete data
+* Filter and sort data
+* Combine tables
+* Apply constraints
+* Create views and triggers
+* Manage transactions
+
+---
+
+# 2. DATABASE
+
+A **database** is an organized collection of data.
+
+### Create database
+
+```sql
+CREATE DATABASE company;
+```
+
+### Select database
+
+```sql
+USE company;
+```
+
+### Show databases
+
+```sql
+SHOW DATABASES;
+```
+
+### Delete database
+
+```sql
+DROP DATABASE company;
+```
+
+---
+
+# 3. TABLE
+
+A **table** stores data in rows and columns.
+
+### Create table
+
+```sql
+CREATE TABLE employees (
+    id INT,
+    name VARCHAR(50),
+    age INT,
+    salary DECIMAL(10,2)
+);
+```
+
+### View table structure
+
+```sql
+DESC employees;
+```
+
+### Display all data
+
+```sql
+SELECT * FROM employees;
+```
+
+---
+
+# 4. SQL COMMAND TYPES
+
+SQL commands are commonly divided into:
+
+```text
+DDL
+DML
+DQL
+DCL
+TCL
+```
+
+---
+
+# 5. DDL
+
+**DDL = Data Definition Language**
+
+DDL is used to define and modify the **structure** of database objects.
+
+Main commands:
+
+```text
+CREATE
+ALTER
+DROP
+TRUNCATE
+RENAME
+```
+
+---
+
+## CREATE
+
+Creates a database/table/object.
+
+```sql
+CREATE TABLE employees (
+    id INT,
+    name VARCHAR(50)
+);
+```
+
+---
+
+## ALTER
+
+Changes the structure of an existing table.
+
+### Add column
+
+```sql
+ALTER TABLE employees
+ADD COLUMN age INT;
+```
+
+### Add multiple columns
+
+```sql
+ALTER TABLE employees
+ADD COLUMN city VARCHAR(50),
+ADD COLUMN salary DECIMAL(10,2);
+```
+
+### Modify column
+
+```sql
+ALTER TABLE employees
+MODIFY COLUMN name VARCHAR(100);
+```
+
+### Rename column
+
+```sql
+ALTER TABLE employees
+RENAME COLUMN name TO employee_name;
+```
+
+### Drop column
+
+```sql
+ALTER TABLE employees
+DROP COLUMN age;
+```
+
+---
+
+## DROP
+
+Deletes the table completely.
+
+```sql
+DROP TABLE employees;
+```
+
+The table structure and data are removed.
+
+---
+
+## TRUNCATE
+
+Removes all rows but keeps the table structure.
+
+```sql
+TRUNCATE TABLE employees;
+```
+
+---
+
+## RENAME
+
+Renames a table.
+
+```sql
+RENAME TABLE employees TO emp;
+```
+
+---
+
+# 6. DML
+
+**DML = Data Manipulation Language**
+
+Used to manipulate the data inside tables.
+
+Main commands:
+
+```text
+INSERT
+UPDATE
+DELETE
+```
+
+---
+
+## INSERT
+
+### Insert one row
+
+```sql
+INSERT INTO employees
+VALUES (1, 'Rahul', 25, 50000);
+```
+
+### Insert specific columns
+
+```sql
+INSERT INTO employees
+(id, name, salary)
+VALUES
+(2, 'Anjali', 60000);
+```
+
+### Insert multiple rows
+
+```sql
+INSERT INTO employees
+VALUES
+(3, 'Priya', 70000),
+(4, 'Kiran', 55000);
+```
+
+---
+
+## UPDATE
+
+Used to modify existing data.
+
+```sql
+UPDATE employees
+SET salary = 65000
+WHERE id = 2;
+```
+
+⚠️ Always be careful with `UPDATE` without `WHERE`.
+
+```sql
+UPDATE employees
+SET salary = 65000;
+```
+
+This updates **every row**.
+
+---
+
+## DELETE
+
+Deletes rows.
+
+```sql
+DELETE FROM employees
+WHERE id = 2;
+```
+
+Without `WHERE`:
+
+```sql
+DELETE FROM employees;
+```
+
+all rows are deleted.
+
+---
+
+# 7. DQL
+
+**DQL = Data Query Language**
+
+Main command:
+
+```text
+SELECT
+```
+
+### Select everything
+
+```sql
+SELECT * FROM employees;
+```
+
+### Select specific columns
+
+```sql
+SELECT name, salary
+FROM employees;
+```
+
+---
+
+# 8. WHERE
+
+`WHERE` is used to filter rows.
+
+```sql
+SELECT *
+FROM employees
+WHERE salary > 50000;
+```
+
+### Operators
+
+```text
+=       Equal
+<>      Not equal
+!=      Not equal
+>       Greater than
+<       Less than
+>=      Greater than or equal
+<=      Less than or equal
+```
+
+Example:
+
+```sql
+SELECT *
+FROM employees
+WHERE age >= 25;
+```
+
+---
+
+# 9. LOGICAL OPERATORS
+
+## AND
+
+Both conditions must be true.
+
+```sql
+SELECT *
+FROM employees
+WHERE salary > 50000
+AND age > 25;
+```
+
+## OR
+
+At least one condition must be true.
+
+```sql
+SELECT *
+FROM employees
+WHERE dept = 'IT'
+OR city = 'Chennai';
+```
+
+## NOT
+
+Negates a condition.
+
+```sql
+SELECT *
+FROM employees
+WHERE NOT dept = 'IT';
+```
+
+### Important
+
+When combining `AND` and `OR`, use parentheses.
+
+```sql
+SELECT *
+FROM employees
+WHERE salary > 50000
+AND (dept = 'IT' OR city = 'Chennai');
+```
+
+---
+
+# 10. BETWEEN
+
+Checks whether a value is within a range.
+
+```sql
+SELECT *
+FROM employees
+WHERE salary BETWEEN 50000 AND 80000;
+```
+
+### NOT BETWEEN
+
+```sql
+SELECT *
+FROM employees
+WHERE salary NOT BETWEEN 50000 AND 80000;
+```
+
+---
+
+# 11. IN
+
+Checks whether a value matches any value in a list.
+
+```sql
+SELECT *
+FROM employees
+WHERE city IN ('Bangalore', 'Mumbai', 'Chennai');
+```
+
+### NOT IN
+
+```sql
+SELECT *
+FROM employees
+WHERE city NOT IN ('Bangalore', 'Mumbai');
+```
+
+---
+
+# 12. LIKE
+
+Used for pattern matching.
+
+### Starts with A
+
+```sql
+SELECT *
+FROM employees
+WHERE name LIKE 'A%';
+```
+
+### Ends with A
+
+```sql
+SELECT *
+FROM employees
+WHERE name LIKE '%a';
+```
+
+### Contains A
+
+```sql
+SELECT *
+FROM employees
+WHERE name LIKE '%a%';
+```
+
+### One character
+
+`_` represents one character.
+
+```sql
+SELECT *
+FROM employees
+WHERE name LIKE '_a%';
+```
+
+### Wildcards
+
+```text
+% → Zero or more characters
+_ → Exactly one character
+```
+
+---
+
+# 13. NULL
+
+`NULL` means **missing/unknown value**.
+
+Don't use:
+
+```sql
+WHERE manager_id = NULL;
+```
+
+Use:
+
+```sql
+WHERE manager_id IS NULL;
+```
+
+### Not NULL
+
+```sql
+WHERE manager_id IS NOT NULL;
+```
+
+---
+
+# 14. DISTINCT
+
+Removes duplicate values from the result.
+
+```sql
+SELECT DISTINCT city
+FROM employees;
+```
+
+Multiple columns:
+
+```sql
+SELECT DISTINCT dept, city
+FROM employees;
+```
+
+Here duplicate **combinations** are removed.
+
+---
+
+# 15. ORDER BY
+
+Used to sort results.
+
+### Ascending
+
+```sql
+SELECT *
+FROM employees
+ORDER BY salary ASC;
+```
+
+### Descending
+
+```sql
+SELECT *
+FROM employees
+ORDER BY salary DESC;
+```
+
+`ASC` is the default.
+
+---
+
+# 16. LIMIT
+
+Restricts the number of rows returned.
+
+```sql
+SELECT *
+FROM employees
+LIMIT 5;
+```
+
+Returns first 5 rows after applying the query's filtering/sorting.
+
+---
+
+# 17. OFFSET
+
+Skips rows.
+
+```sql
+SELECT *
+FROM employees
+LIMIT 5 OFFSET 10;
+```
+
+Meaning:
+
+```text
+Skip 10 rows
+↓
+Return next 5 rows
+```
+
+Useful for pagination.
+
+---
+
+# 18. AGGREGATE FUNCTIONS
+
+Aggregate functions perform calculations on multiple rows.
+
+Main functions:
+
+```text
+COUNT()
+SUM()
+AVG()
+MIN()
+MAX()
+```
+
+---
+
+## COUNT
+
+Counts rows.
+
+```sql
+SELECT COUNT(*)
+FROM employees;
+```
+
+Count employees in each department:
+
+```sql
+SELECT dept, COUNT(*)
+FROM employees
+GROUP BY dept;
+```
+
+---
+
+## SUM
+
+```sql
+SELECT SUM(salary)
+FROM employees;
+```
+
+---
+
+## AVG
+
+```sql
+SELECT AVG(salary)
+FROM employees;
+```
+
+---
+
+## MIN
+
+```sql
+SELECT MIN(salary)
+FROM employees;
+```
+
+---
+
+## MAX
+
+```sql
+SELECT MAX(salary)
+FROM employees;
+```
+
+---
+
+# 19. GROUP BY
+
+`GROUP BY` groups rows having the same value.
+
+Example:
+
+```sql
+SELECT dept, AVG(salary)
+FROM employees
+GROUP BY dept;
+```
+
+Result conceptually:
+
+```text
+IT       → average salary
+HR       → average salary
+Finance  → average salary
+```
+
+---
+
+# 20. HAVING
+
+`HAVING` filters **groups**.
+
+Example:
+
+```sql
+SELECT dept, AVG(salary) AS average_salary
+FROM employees
+GROUP BY dept
+HAVING AVG(salary) > 70000;
+```
+
+### WHERE vs HAVING
+
+```text
+WHERE  → Filters rows
+HAVING → Filters groups
+```
+
+Example:
+
+```sql
+SELECT dept, AVG(salary)
+FROM employees
+WHERE salary > 40000
+GROUP BY dept
+HAVING AVG(salary) > 70000;
+```
+
+---
+
+# 21. ALIAS
+
+Alias gives a temporary name to a column or table.
+
+```sql
+SELECT salary AS monthly_salary
+FROM employees;
+```
+
+Table alias:
+
+```sql
+SELECT e.name
+FROM employees e;
+```
+
+---
+
+# 22. SQL CLAUSE ORDER
+
+A very important order to remember:
+
+```text
+SELECT
+FROM
+WHERE
+GROUP BY
+HAVING
+ORDER BY
+LIMIT
+OFFSET
+```
+
+Example:
+
+```sql
+SELECT dept, AVG(salary) AS average_salary
+FROM employees
+WHERE salary > 40000
+GROUP BY dept
+HAVING AVG(salary) > 70000
+ORDER BY average_salary DESC
+LIMIT 5;
+```
+
+---
+
+# 23. CONSTRAINTS
+
+Constraints are rules applied to columns.
+
+Important constraints:
+
+```text
+PRIMARY KEY
+UNIQUE
+NOT NULL
+DEFAULT
+CHECK
+FOREIGN KEY
+```
+
+---
+
+# 24. PRIMARY KEY
+
+Uniquely identifies each row.
+
+Rules:
+
+* No duplicate values
+* Cannot be `NULL`
+* One primary key constraint per table
+
+```sql
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    name VARCHAR(50)
+);
+```
+
+---
+
+# 25. UNIQUE
+
+Prevents duplicate values.
+
+```sql
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    email VARCHAR(100) UNIQUE
+);
+```
+
+In MySQL, a `UNIQUE` column can generally contain multiple `NULL` values.
+
+---
+
+# 26. NOT NULL
+
+Prevents `NULL`.
+
+```sql
+CREATE TABLE employees (
+    name VARCHAR(50) NOT NULL
+);
+```
+
+---
+
+# 27. DEFAULT
+
+Automatically provides a value when one isn't supplied.
+
+```sql
+CREATE TABLE employees (
+    city VARCHAR(50) DEFAULT 'Bangalore'
+);
+```
+
+Example:
+
+```sql
+INSERT INTO employees (name)
+VALUES ('Rahul');
+```
+
+`city` automatically becomes:
+
+```text
+Bangalore
+```
+
+---
+
+# 28. CHECK
+
+Ensures that a condition is satisfied.
+
+```sql
+CREATE TABLE employees (
+    age INT CHECK (age >= 18)
+);
+```
+
+Another example:
+
+```sql
+salary DECIMAL(10,2) CHECK (salary > 0)
+```
+
+---
+
+# 29. FOREIGN KEY
+
+A **FOREIGN KEY** creates a relationship between tables.
+
+Example:
+
+```sql
+CREATE TABLE dept (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(50)
+);
+```
+
+Then:
+
+```sql
+CREATE TABLE emp (
+    employee_id INT PRIMARY KEY,
+    employee_name VARCHAR(50),
+    department_id INT,
+    FOREIGN KEY (department_id)
+    REFERENCES dept(department_id)
+);
+```
+
+Here:
+
+```text
+dept.department_id
+        ↑
+        |
+emp.department_id
+```
+
+The foreign key generally refers to a primary/unique key in another table.
+
+---
+
+# 30. JOINS
+
+JOINs combine data from multiple tables.
+
+Main joins:
+
+```text
+INNER JOIN
+LEFT JOIN
+RIGHT JOIN
+CROSS JOIN
+```
+
+---
+
+# 31. INNER JOIN
+
+Returns only matching rows from both tables.
+
+```sql
+SELECT e.employee_name, d.department_name
+FROM emp e
+INNER JOIN dept d
+ON e.department_id = d.department_id;
+```
+
+### Memory
+
+```text
+INNER → Matching rows only
+```
+
+---
+
+# 32. LEFT JOIN
+
+Returns all rows from the left table and matching rows from the right table.
+
+```sql
+SELECT e.employee_name, d.department_name
+FROM emp e
+LEFT JOIN dept d
+ON e.department_id = d.department_id;
+```
+
+If there is no match:
+
+```text
+right-side columns → NULL
+```
+
+### Memory
+
+```text
+LEFT → Keep everything from LEFT
+```
+
+---
+
+# 33. RIGHT JOIN
+
+Returns all rows from the right table and matching rows from the left table.
+
+```sql
+SELECT e.employee_name, d.department_name
+FROM emp e
+RIGHT JOIN dept d
+ON e.department_id = d.department_id;
+```
+
+### Memory
+
+```text
+RIGHT → Keep everything from RIGHT
+```
+
+---
+
+# 34. CROSS JOIN
+
+Combines every row of one table with every row of another.
+
+```sql
+SELECT *
+FROM emp
+CROSS JOIN dept;
+```
+
+If:
+
+```text
+emp = 6 rows
+dept = 5 rows
+```
+
+Then:
+
+```text
+6 × 5 = 30 rows
+```
+
+### Memory
+
+```text
+CROSS → Everything × Everything
+```
+
+---
+
+# 35. SELF JOIN
+
+A table is joined with itself.
+
+Very useful for employee-manager relationships.
+
+```sql
+SELECT
+    e.employee_name AS employee,
+    m.employee_name AS manager
+FROM emp e
+LEFT JOIN emp m
+ON e.manager_id = m.employee_id;
+```
+
+Here:
+
+```text
+e → employee
+m → manager
+```
+
+Both are the same `emp` table.
+
+---
+
+# 36. SUBQUERY
+
+A **subquery** is a query inside another query.
+
+Example:
+
+Find employees earning more than the average salary:
+
+```sql
+SELECT *
+FROM emp
+WHERE salary > (
+    SELECT AVG(salary)
+    FROM emp
+);
+```
+
+Inner query:
+
+```sql
+SELECT AVG(salary)
+FROM emp;
+```
+
+runs conceptually to provide a value for the outer query.
+
+---
+
+# 37. VIEW
+
+A **view** is a virtual table based on a SQL query.
+
+### Create view
+
+```sql
+CREATE VIEW employee_details AS
+SELECT employee_id, employee_name, salary
+FROM emp;
+```
+
+Use it:
+
+```sql
+SELECT *
+FROM employee_details;
+```
+
+### View with JOIN
+
+```sql
+CREATE VIEW employee_department AS
+SELECT e.employee_name, e.salary, d.department_name
+FROM emp e
+INNER JOIN dept d
+ON e.department_id = d.department_id;
+```
+
+### Show views
+
+```sql
+SHOW FULL TABLES
+WHERE TABLE_TYPE = 'VIEW';
+```
+
+### Delete view
+
+```sql
+DROP VIEW employee_details;
+```
+
+### Modify view
+
+```sql
+CREATE OR REPLACE VIEW employee_details AS
+SELECT employee_id, employee_name, salary, department_id
+FROM emp;
+```
+
+### Easy definition
+
+```text
+VIEW = Saved SQL query that behaves like a virtual table
+```
+
+---
+
+# 38. TRIGGERS
+
+A **trigger** is a database object that automatically executes when a specified event occurs.
+
+Events:
+
+```text
+INSERT
+UPDATE
+DELETE
+```
+
+Timing:
+
+```text
+BEFORE
+AFTER
+```
+
+Examples:
+
+```text
+BEFORE INSERT
+AFTER INSERT
+BEFORE UPDATE
+AFTER UPDATE
+BEFORE DELETE
+AFTER DELETE
+```
+
+---
+
+# 39. NEW AND OLD
+
+Very important in triggers.
+
+```text
+NEW → New value
+OLD → Previous value
+```
+
+| Operation | NEW | OLD |
+| --------- | --- | --- |
+| INSERT    | Yes | No  |
+| UPDATE    | Yes | Yes |
+| DELETE    | No  | Yes |
+
+---
+
+# 40. Trigger Syntax
+
+```sql
+DELIMITER //
+
+CREATE TRIGGER check_salary
+BEFORE INSERT
+ON emp
+FOR EACH ROW
+BEGIN
+    IF NEW.salary <= 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Salary must be greater than 0';
+    END IF;
+END //
+
+DELIMITER ;
+```
+
+### Show triggers
+
+```sql
+SHOW TRIGGERS;
+```
+
+### Delete trigger
+
+```sql
+DROP TRIGGER check_salary;
+```
+
+---
+
+# 41. STORED PROCEDURE
+
+A **stored procedure** is a group of SQL statements stored in the database and executed when called.
+
+### Create procedure
+
+```sql
+DELIMITER //
+
+CREATE PROCEDURE show_employees()
+BEGIN
+    SELECT * FROM emp;
+END //
+
+DELIMITER ;
+```
+
+### Execute
+
+```sql
+CALL show_employees();
+```
+
+### Delete
+
+```sql
+DROP PROCEDURE show_employees;
+```
+
+### Procedure vs Trigger
+
+```text
+Procedure → Called manually
+Trigger   → Executes automatically
+```
+
+---
+
+# 42. FUNCTIONS
+
+A SQL function performs an operation and returns a value.
+
+Common built-in functions include:
+
+```text
+COUNT()
+SUM()
+AVG()
+MAX()
+MIN()
+UPPER()
+LOWER()
+LENGTH()
+ROUND()
+NOW()
+```
+
+Example:
+
+```sql
+SELECT UPPER(employee_name)
+FROM emp;
+```
+
+---
+
+# 43. STRING FUNCTIONS
+
+### UPPER
+
+```sql
+SELECT UPPER(employee_name)
+FROM emp;
+```
+
+### LOWER
+
+```sql
+SELECT LOWER(employee_name)
+FROM emp;
+```
+
+### LENGTH
+
+```sql
+SELECT LENGTH(employee_name)
+FROM emp;
+```
+
+### CONCAT
+
+```sql
+SELECT CONCAT(employee_name, ' - ', salary)
+FROM emp;
+```
+
+---
+
+# 44. NUMERIC FUNCTIONS
+
+### ROUND
+
+```sql
+SELECT ROUND(AVG(salary), 2)
+FROM emp;
+```
+
+### CEIL
+
+```sql
+SELECT CEIL(10.2);
+```
+
+### FLOOR
+
+```sql
+SELECT FLOOR(10.8);
+```
+
+---
+
+# 45. DATE FUNCTIONS
+
+### Current date
+
+```sql
+SELECT CURDATE();
+```
+
+### Current date and time
+
+```sql
+SELECT NOW();
+```
+
+### Extract year
+
+```sql
+SELECT YEAR(order_date)
+FROM product;
+```
+
+### Extract month
+
+```sql
+SELECT MONTH(order_date)
+FROM product;
+```
+
+### Extract day
+
+```sql
+SELECT DAY(order_date)
+FROM product;
+```
+
+---
+
+# 46. TRANSACTIONS
+
+A **transaction** is a group of SQL operations treated as one unit.
+
+Main commands:
+
+```text
+COMMIT
+ROLLBACK
+SAVEPOINT
+```
+
+---
+
+## COMMIT
+
+Permanently saves changes.
+
+```sql
+COMMIT;
+```
+
+---
+
+## ROLLBACK
+
+Undo changes that haven't been committed.
+
+```sql
+ROLLBACK;
+```
+
+---
+
+## SAVEPOINT
+
+Creates a point to which you can roll back.
+
+```sql
+SAVEPOINT sp1;
+```
+
+Then:
+
+```sql
+ROLLBACK TO sp1;
+```
+
+---
+
+# 47. DCL
+
+**DCL = Data Control Language**
+
+Used to control database permissions.
+
+Main commands:
+
+```text
+GRANT
+REVOKE
+```
+
+### GRANT
+
+```sql
+GRANT SELECT
+ON company.*
+TO 'user'@'localhost';
+```
+
+### REVOKE
+
+```sql
+REVOKE SELECT
+ON company.*
+FROM 'user'@'localhost';
+```
+
+---
+
+# 48. NORMALIZATION
+
+**Normalization** is the process of organizing data into related tables to reduce redundancy and improve data integrity.
+
+Main goals:
+
+```text
+Reduce redundancy
+Avoid anomalies
+Improve consistency
+Improve data integrity
+```
+
+---
+
+# 49. ANOMALIES
+
+Three important problems caused by poor database design:
+
+### Insert Anomaly
+
+Difficulty inserting data without unrelated data.
+
+### Update Anomaly
+
+Same data exists in multiple places and must be updated everywhere.
+
+### Delete Anomaly
+
+Deleting one piece of information accidentally removes another important piece of information.
+
+---
+
+# 50. 1NF
+
+**First Normal Form**
+
+Rules:
+
+* Values must be atomic
+* No multiple values in one cell
+* No repeating groups
+
+### Memory
+
+```text
+1NF = One value per cell
+```
+
+---
+
+# 51. 2NF
+
+**Second Normal Form**
+
+Rules:
+
+```text
+2NF = 1NF + No Partial Dependency
+```
+
+Partial dependency occurs when a non-key attribute depends on only part of a composite primary key.
+
+---
+
+# 52. 3NF
+
+**Third Normal Form**
+
+Rules:
+
+```text
+3NF = 2NF + No Transitive Dependency
+```
+
+Transitive dependency:
+
+```text
+A → B
+B → C
+
+Therefore:
+A → B → C
+```
+
+A non-key attribute should not depend indirectly on the primary key through another non-key attribute.
+
+---
+
+# 53. BCNF
+
+**BCNF = Boyce-Codd Normal Form**
+
+BCNF is a stronger version of 3NF.
+
+Main rule:
+
+> Every determinant must be a candidate key.
+
+---
+
+# 54. NORMALIZATION MEMORY TRICK
+
+```text
+1NF  → Atomic values
+2NF  → No Partial Dependency
+3NF  → No Transitive Dependency
+BCNF → Every determinant is a Candidate Key
+```
+
+---
+
+# 55. KEYS
+
+Important keys in SQL:
+
+```text
+PRIMARY KEY
+FOREIGN KEY
+CANDIDATE KEY
+COMPOSITE KEY
+```
+
+### Primary Key
+
+Uniquely identifies each row.
+
+### Foreign Key
+
+Connects one table to another.
+
+### Candidate Key
+
+A column or combination of columns capable of uniquely identifying a row.
+
+### Composite Key
+
+A key made using multiple columns.
+
+Example:
+
+```sql
+PRIMARY KEY (student_id, course_id)
+```
+
+---
+
+# 56. MOST IMPORTANT SQL PATTERNS
+
+## Simple filtering
+
+```sql
+SELECT *
+FROM table_name
+WHERE condition;
+```
+
+## Sorting
+
+```sql
+SELECT *
+FROM table_name
+ORDER BY column_name DESC;
+```
+
+## Grouping
+
+```sql
+SELECT column_name, COUNT(*)
+FROM table_name
+GROUP BY column_name;
+```
+
+## Grouping + condition
+
+```sql
+SELECT column_name, COUNT(*)
+FROM table_name
+GROUP BY column_name
+HAVING COUNT(*) > 1;
+```
+
+## Grouping + sorting
+
+```sql
+SELECT column_name, AVG(price)
+FROM table_name
+GROUP BY column_name
+ORDER BY AVG(price) DESC;
+```
+
+## Top N
+
+```sql
+SELECT *
+FROM table_name
+ORDER BY price DESC
+LIMIT 3;
+```
+
+## Skip + take
+
+```sql
+SELECT *
+FROM table_name
+ORDER BY price DESC
+LIMIT 3 OFFSET 2;
+```
+
+## JOIN
+
+```sql
+SELECT a.column, b.column
+FROM table1 a
+INNER JOIN table2 b
+ON a.id = b.id;
+```
+
+---
+
+# 57. PRODUCT TABLE PATTERNS
+
+For your `product` table, these calculations are particularly important.
+
+### Total stock value
+
+```sql
+price * quantity
+```
+
+### Stock value after discount
+
+```sql
+(price * quantity) - discount
+```
+
+### Category-wise stock value
+
+```sql
+SELECT category,
+       SUM(price * quantity) AS total_stock_value
+FROM product
+GROUP BY category;
+```
+
+### Top 3 stock values
+
+```sql
+SELECT product_name,
+       price * quantity AS stock_value
+FROM product
+ORDER BY stock_value DESC
+LIMIT 3;
+```
+
+---
+
+# 58. WHERE vs HAVING
+
+This is one of the most important concepts.
+
+```text
+WHERE
+↓
+Filters individual rows
+↓
+Before GROUP BY
+
+HAVING
+↓
+Filters groups
+↓
+After GROUP BY
+```
+
+Example:
+
+```sql
+SELECT category, AVG(price) AS average_price
+FROM product
+WHERE quantity > 10
+GROUP BY category
+HAVING AVG(price) > 8000;
+```
+
+Here:
+
+```text
+WHERE quantity > 10
+→ filters individual products
+
+HAVING AVG(price) > 8000
+→ filters categories
+```
+
+---
+
+# 59. COUNT(*) vs COUNT(column)
+
+```sql
+COUNT(*)
+```
+
+Counts rows.
+
+```sql
+COUNT(column_name)
+```
+
+Counts non-NULL values in that column.
+
+Example:
+
+```sql
+SELECT COUNT(*)
+FROM emp;
+```
+
+versus:
+
+```sql
+SELECT COUNT(manager_id)
+FROM emp;
+```
+
+The second doesn't count rows where `manager_id` is `NULL`.
+
+This is particularly important with `LEFT JOIN`.
+
+---
+
+# 60. JOIN MEMORY TRICK
+
+```text
+INNER → Matching only
+
+LEFT  → Everything from LEFT
+
+RIGHT → Everything from RIGHT
+
+CROSS → Everything × Everything
+
+SELF  → Table joined with itself
+```
+
+---
+
+# 61. CONSTRAINT MEMORY TRICK
+
+```text
+PRIMARY KEY → Unique identity
+UNIQUE      → No duplicates
+NOT NULL    → No NULL
+DEFAULT     → Automatic value
+CHECK       → Condition
+FOREIGN KEY → Relationship
+```
+
+---
+
+# 62. COMMAND MEMORY TRICK
+
+```text
+DDL → Structure
+DML → Data
+DQL → Query
+DCL → Permissions
+TCL → Transactions
+```
+
+### DDL
+
+```text
+CREATE
+ALTER
+DROP
+TRUNCATE
+RENAME
+```
+
+### DML
+
+```text
+INSERT
+UPDATE
+DELETE
+```
+
+### DQL
+
+```text
+SELECT
+```
+
+### DCL
+
+```text
+GRANT
+REVOKE
+```
+
+### TCL
+
+```text
+COMMIT
+ROLLBACK
+SAVEPOINT
+```
+
+---
+
+# 63. COMPLETE SQL ROADMAP
+
+For revision, remember SQL in this order:
+
+```text
+SQL
+│
+├── Database
+│   ├── CREATE
+│   ├── USE
+│   └── DROP
+│
+├── Tables
+│   ├── CREATE TABLE
+│   ├── ALTER
+│   ├── TRUNCATE
+│   ├── DROP
+│   └── RENAME
+│
+├── Data
+│   ├── INSERT
+│   ├── UPDATE
+│   └── DELETE
+│
+├── SELECT
+│   ├── WHERE
+│   ├── DISTINCT
+│   ├── LIKE
+│   ├── IN
+│   ├── BETWEEN
+│   ├── IS NULL
+│   ├── AND / OR / NOT
+│   ├── ORDER BY
+│   ├── LIMIT
+│   └── OFFSET
+│
+├── Functions
+│   ├── COUNT
+│   ├── SUM
+│   ├── AVG
+│   ├── MIN
+│   ├── MAX
+│   ├── String Functions
+│   ├── Numeric Functions
+│   └── Date Functions
+│
+├── GROUP BY
+│   └── HAVING
+│
+├── Constraints
+│   ├── PRIMARY KEY
+│   ├── UNIQUE
+│   ├── NOT NULL
+│   ├── DEFAULT
+│   ├── CHECK
+│   └── FOREIGN KEY
+│
+├── JOINS
+│   ├── INNER
+│   ├── LEFT
+│   ├── RIGHT
+│   ├── CROSS
+│   └── SELF
+│
+├── Subqueries
+│
+├── Views
+│
+├── Stored Procedures
+│
+├── Functions
+│
+├── Triggers
+│
+├── Transactions
+│   ├── COMMIT
+│   ├── ROLLBACK
+│   └── SAVEPOINT
+│
+├── DCL
+│   ├── GRANT
+│   └── REVOKE
+│
+└── Normalization
+    ├── 1NF
+    ├── 2NF
+    ├── 3NF
+    └── BCNF
+```
+
+## 🔥 The 10 things I'd make sure you can do without looking at notes
+
+```text
+1. CREATE a table
+2. INSERT data
+3. UPDATE data
+4. DELETE data
+5. SELECT + WHERE
+6. GROUP BY + HAVING
+7. ORDER BY + LIMIT + OFFSET
+8. Write INNER/LEFT/RIGHT JOIN
+9. Use PRIMARY KEY + FOREIGN KEY + other constraints
+10. Explain 1NF → 2NF → 3NF
+```
+
+Once these are comfortable, you're in a **very solid SQL foundation zone**. The next big step is practicing **JOIN + GROUP BY + subquery combinations**, because that's where SQL questions start getting spicy.
