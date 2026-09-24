@@ -147,3 +147,169 @@ INNER JOIN delivery_hubs dh
 ON da.hub_id = dh.hub_id
 ORDER BY da.salary DESC
 LIMIT 1;
+26. Lowest-paid agent
+SELECT da.agent_name, da.salary, dh.hub_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+ORDER BY da.salary
+LIMIT 1;
+27. Top 3 highest-paid agents
+SELECT da.agent_name, da.salary, dh.hub_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+ORDER BY da.salary DESC
+LIMIT 3;
+28. Top 5 based on total earnings
+SELECT da.agent_name,
+       da.salary + da.incentive AS total_earnings,
+       dh.hub_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+ORDER BY total_earnings DESC
+LIMIT 5;
+29. Second and third highest-paid agents
+SELECT da.agent_name, da.salary, dh.hub_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+ORDER BY da.salary DESC
+LIMIT 2 OFFSET 1;
+30. Hub names having at least one agent
+SELECT DISTINCT dh.hub_name
+FROM delivery_hubs dh
+INNER JOIN delivery_agents da
+ON dh.hub_id = da.hub_id;
+31. All agents who have a matching hub
+SELECT da.*
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id;
+32. Hubs having no assigned agents
+SELECT dh.*
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+WHERE da.agent_id IS NULL;
+33. Hub name and city with no agents
+SELECT dh.hub_name, dh.city
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+WHERE da.agent_id IS NULL;
+34. All agents even without assigned hub
+SELECT da.*, dh.*
+FROM delivery_agents da
+LEFT JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id;
+35. Agent whose hub information is unavailable
+SELECT da.*
+FROM delivery_agents da
+LEFT JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+WHERE dh.hub_id IS NULL;
+36. All agents with hub name, NULL if unavailable
+SELECT da.agent_name, dh.hub_name
+FROM delivery_agents da
+LEFT JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id;
+37. All hubs with assigned agents, NULL if none
+SELECT dh.hub_name, da.agent_name
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id;
+38. Hubs with no matching agents
+SELECT dh.hub_name
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+WHERE da.agent_id IS NULL;
+39. Agent-hub matches based on hub ID
+SELECT da.agent_name, dh.hub_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id;
+40. Unique cities from agent and hub sides
+
+
+
+SELECT city
+FROM delivery_agents
+
+UNION
+
+SELECT city
+FROM delivery_hubs;
+41–65: GROUP BY and Aggregate Functions
+41. Number of agents in each hub
+SELECT dh.hub_name,
+       COUNT(da.agent_id) AS total_agents
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name;
+42. All hubs including those with no agents
+SELECT dh.hub_name,
+       COUNT(da.agent_id) AS total_agents
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name;
+43. Total salary of agents in each hub
+SELECT dh.hub_name,
+       COALESCE(SUM(da.salary), 0) AS total_salary
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name;
+44. Average salary of agents
+SELECT dh.hub_name,
+       AVG(da.salary) AS average_salary
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name;
+45. Highest salary in each hub
+SELECT dh.hub_name,
+       MAX(da.salary) AS highest_salary
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name;
+46. Lowest salary in each hub
+SELECT dh.hub_name,
+       MIN(da.salary) AS lowest_salary
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name;
+47. Total incentive per hub
+SELECT dh.hub_name,
+       COALESCE(SUM(da.incentive), 0) AS total_incentive
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name;
+48. Total earnings of agents in each hub
+SELECT dh.hub_name,
+       COALESCE(SUM(da.salary + da.incentive), 0) AS total_earnings
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name;
+49. Average total earnings
+SELECT dh.hub_name,
+       AVG(da.salary + da.incentive) AS average_total_earnings
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name;
+50. Number of active agents in each hub
+SELECT dh.hub_name,
+       COUNT(CASE WHEN da.status = 'Active' THEN 1 END) AS active_agents
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name;
