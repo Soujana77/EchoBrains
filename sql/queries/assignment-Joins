@@ -1,0 +1,149 @@
+SQL JOINS Assignment — Answers
+1–24: Basic JOINs, filtering and sorting
+1. Agent name with assigned hub name
+SELECT da.agent_name, dh.hub_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id;
+2. Agent name, city, hub name and hub city
+SELECT da.agent_name, da.city AS agent_city,
+       dh.hub_name, dh.city AS hub_city
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id;
+3. Agent ID, name, salary and hub name
+SELECT da.agent_id, da.agent_name, da.salary, dh.hub_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id;
+4. All agents along with hub details
+SELECT da.*, dh.*
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id;
+5. All hubs along with agents assigned to them
+SELECT dh.*, da.*
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id;
+6. Agent name with city of assigned hub
+SELECT da.agent_name, dh.city AS hub_city
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id;
+7. Agent name, joining date, hub name and opening date
+SELECT da.agent_name, da.joining_date,
+       dh.hub_name, dh.opening_date
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id;
+8. Agents working at Central Hub
+SELECT da.agent_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+WHERE dh.hub_name = 'Central Hub';
+9. All agents assigned to North Hub
+SELECT da.*
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+WHERE dh.hub_name = 'North Hub';
+10. Agents working at hubs located in Chennai
+SELECT da.agent_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+WHERE dh.city = 'Chennai';
+11. Agent names and salaries at Mumbai hubs
+SELECT da.agent_name, da.salary
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+WHERE dh.city = 'Mumbai';
+12. Active agents with hub names
+SELECT da.agent_name, dh.hub_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+WHERE da.status = 'Active';
+13. Inactive agents with hub names
+SELECT da.agent_name, dh.hub_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+WHERE da.status = 'Inactive';
+14. Agents with salary > 40000
+SELECT da.agent_name, da.salary, dh.hub_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+WHERE da.salary > 40000;
+15. Incentive > 4000 with hub cities
+SELECT da.agent_name, da.incentive, dh.city AS hub_city
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+WHERE da.incentive > 4000;
+16. Agents working in hubs with capacity > 400
+SELECT da.agent_name, dh.hub_name, dh.capacity
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+WHERE dh.capacity > 400;
+17. Agents who joined after 2022-01-01
+SELECT da.agent_name, dh.hub_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+WHERE da.joining_date > '2022-01-01';
+18. Agent city and hub city are same
+SELECT da.agent_name, da.city, dh.hub_name, dh.city
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+WHERE da.city = dh.city;
+19. Agent city different from hub city
+SELECT da.agent_name, da.city, dh.hub_name, dh.city
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+WHERE da.city <> dh.city;
+20. Salary + incentive with hub name
+SELECT da.agent_name, da.salary, da.incentive,
+       da.salary + da.incentive AS total_earnings,
+       dh.hub_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id;
+21. Total earnings highest to lowest
+SELECT da.agent_name,
+       da.salary + da.incentive AS total_earnings
+FROM delivery_agents da
+ORDER BY total_earnings DESC;
+22. All agents arranged by hub name
+SELECT da.agent_name, dh.hub_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+ORDER BY dh.hub_name;
+23. Salary highest to lowest
+SELECT da.agent_name, da.salary, dh.hub_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+ORDER BY da.salary DESC;
+24. First by hub city, then agent name
+SELECT da.agent_name, dh.hub_name, dh.city
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+ORDER BY dh.city, da.agent_name;
+25–40: MIN, MAX, INNER/LEFT JOIN
+25. Highest-paid agent
+SELECT da.agent_name, da.salary, dh.hub_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+ORDER BY da.salary DESC
+LIMIT 1;
