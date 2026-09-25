@@ -1,0 +1,555 @@
+51. Number of inactive agents
+SELECT dh.hub_name,
+       COUNT(CASE WHEN da.status = 'Inactive' THEN 1 END) AS inactive_agents
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name;
+52. Hubs with more than one agent
+SELECT dh.hub_name,
+       COUNT(da.agent_id) AS total_agents
+FROM delivery_hubs dh
+INNER JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name
+HAVING COUNT(da.agent_id) > 1;
+53. Total salary > 75000
+SELECT dh.hub_name,
+       SUM(da.salary) AS total_salary
+FROM delivery_hubs dh
+INNER JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name
+HAVING SUM(da.salary) > 75000;
+54. Average salary > 38000
+SELECT dh.hub_name,
+       AVG(da.salary) AS average_salary
+FROM delivery_hubs dh
+INNER JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name
+HAVING AVG(da.salary) > 38000;
+55. Total incentive > 8000
+SELECT dh.hub_name,
+       SUM(da.incentive) AS total_incentive
+FROM delivery_hubs dh
+INNER JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name
+HAVING SUM(da.incentive) > 8000;
+56. Total earnings > 90000
+SELECT dh.hub_name,
+       SUM(da.salary + da.incentive) AS total_earnings
+FROM delivery_hubs dh
+INNER JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name
+HAVING SUM(da.salary + da.incentive) > 90000;
+57. Highest salary > 45000
+SELECT dh.hub_name,
+       MAX(da.salary) AS highest_salary
+FROM delivery_hubs dh
+INNER JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name
+HAVING MAX(da.salary) > 45000;
+58. Lowest salary > 35000
+SELECT dh.hub_name,
+       MIN(da.salary) AS lowest_salary
+FROM delivery_hubs dh
+INNER JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name
+HAVING MIN(da.salary) > 35000;
+59. Hubs by agent count, highest first
+SELECT dh.hub_name,
+       COUNT(da.agent_id) AS total_agents
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name
+ORDER BY total_agents DESC;
+60. Hubs by total salary
+SELECT dh.hub_name,
+       SUM(da.salary) AS total_salary
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name
+ORDER BY total_salary DESC;
+61. Average salary rounded to 2 decimals
+SELECT dh.hub_name,
+       ROUND(AVG(da.salary), 2) AS average_salary
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name;
+62. Hub with highest number of agents
+SELECT dh.hub_name,
+       COUNT(da.agent_id) AS total_agents
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name
+ORDER BY total_agents DESC
+LIMIT 1;
+63. Hub with highest total salary
+SELECT dh.hub_name,
+       SUM(da.salary) AS total_salary
+FROM delivery_hubs dh
+INNER JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name
+ORDER BY total_salary DESC
+LIMIT 1;
+64. Hub with highest average salary
+SELECT dh.hub_name,
+       AVG(da.salary) AS average_salary
+FROM delivery_hubs dh
+INNER JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name
+ORDER BY average_salary DESC
+LIMIT 1;
+65. Top 3 hubs based on total salary
+SELECT dh.hub_name,
+       SUM(da.salary) AS total_salary
+FROM delivery_hubs dh
+INNER JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name
+ORDER BY total_salary DESC
+LIMIT 3;
+66–80: SELF JOIN — Supervisor
+
+Here we join delivery_agents with itself.
+
+Use:
+
+delivery_agents da
+JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+
+da = employee/agent, sup = supervisor.
+
+66. Agent name and supervisor name
+SELECT da.agent_name AS agent_name,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+INNER JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id;
+67. All agents including those without supervisor
+SELECT da.agent_name,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id;
+68. Only agents who have a supervisor
+SELECT da.agent_name,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+INNER JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id;
+69. Agents without supervisor
+SELECT da.agent_name
+FROM delivery_agents da
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+WHERE da.supervisor_id IS NULL;
+70. Agents reporting directly to Rahul Sharma
+SELECT da.agent_name
+FROM delivery_agents da
+INNER JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+WHERE sup.agent_name = 'Rahul Sharma';
+71. Agent name, salary and supervisor
+SELECT da.agent_name, da.salary,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id;
+72. Agent city and supervisor name
+SELECT da.agent_name, da.city,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id;
+73. Agent joining date and supervisor
+SELECT da.agent_name, da.joining_date,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id;
+74. Alphabetically by supervisor name
+SELECT da.agent_name,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+ORDER BY sup.agent_name;
+75. Active agents and supervisors
+SELECT da.agent_name,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+WHERE da.status = 'Active';
+
+76. Agent salary greater than supervisor salary
+SELECT da.agent_name,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+INNER JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+WHERE da.salary > sup.salary;
+77. Agent and supervisor from same city
+SELECT da.agent_name,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+INNER JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+WHERE da.city = sup.city;
+78. Agent and supervisor salaries
+SELECT da.agent_name,
+       da.salary AS agent_salary,
+       sup.agent_name AS supervisor_name,
+       sup.salary AS supervisor_salary
+FROM delivery_agents da
+INNER JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id;
+79. Salary difference
+SELECT da.agent_name,
+       sup.agent_name AS supervisor_name,
+       da.salary - sup.salary AS salary_difference
+FROM delivery_agents da
+INNER JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id;
+80. Agent total earnings greater than supervisor
+SELECT da.agent_name,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+INNER JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+WHERE da.salary + da.incentive >
+      sup.salary + sup.incentive;
+81–90: CROSS JOIN
+
+A CROSS JOIN produces every possible combination between the two tables.
+
+81. Every agent and every hub
+SELECT da.agent_name, dh.hub_name
+FROM delivery_agents da
+CROSS JOIN delivery_hubs dh;
+82. Active agents and all hubs
+SELECT da.agent_name, dh.hub_name
+FROM delivery_agents da
+CROSS JOIN delivery_hubs dh
+WHERE da.status = 'Active';
+83. Agent names and hub cities
+SELECT da.agent_name, dh.city AS hub_city
+FROM delivery_agents da
+CROSS JOIN delivery_hubs dh;
+84. Agent names and hub capacities
+SELECT da.agent_name, dh.capacity
+FROM delivery_agents da
+CROSS JOIN delivery_hubs dh;
+85. Every agent and Mumbai hubs
+SELECT da.agent_name, dh.hub_name
+FROM delivery_agents da
+CROSS JOIN delivery_hubs dh
+WHERE dh.city = 'Mumbai';
+86. Number of all possible combinations
+SELECT COUNT(*) AS total_combinations
+FROM delivery_agents da
+CROSS JOIN delivery_hubs dh;
+87. Active agents × all hubs
+SELECT COUNT(*) AS total_combinations
+FROM delivery_agents da
+CROSS JOIN delivery_hubs dh
+WHERE da.status = 'Active';
+88. Combinations arranged by agent then hub
+SELECT da.agent_name, dh.hub_name
+FROM delivery_agents da
+CROSS JOIN delivery_hubs dh
+ORDER BY da.agent_name, dh.hub_name;
+89. First 3 agents × all hubs
+SELECT da.agent_name, dh.hub_name
+FROM (
+    SELECT *
+    FROM delivery_agents
+    ORDER BY agent_id
+    LIMIT 3
+) da
+CROSS JOIN delivery_hubs dh;
+90. All agents × first 3 hubs
+SELECT da.agent_name, dh.hub_name
+FROM delivery_agents da
+CROSS JOIN (
+    SELECT *
+    FROM delivery_hubs
+    ORDER BY hub_id
+    LIMIT 3
+) dh;
+91–99: Combining JOINs
+91. Agent, hub and supervisor
+SELECT da.agent_name,
+       dh.hub_name,
+       dh.city AS hub_city,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+LEFT JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id;
+92. Active agents + hub + supervisor
+SELECT da.agent_name,
+       dh.hub_name,
+       dh.city AS hub_city,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+LEFT JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+WHERE da.status = 'Active';
+93. Inactive agents + hub + supervisor
+SELECT da.agent_name,
+       dh.hub_name,
+       dh.city AS hub_city,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+LEFT JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+WHERE da.status = 'Inactive';
+94. Total earnings > 45000
+SELECT da.agent_name,
+       da.salary + da.incentive AS total_earnings,
+       dh.hub_name,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+LEFT JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+WHERE da.salary + da.incentive > 45000;
+95. Joined after 2022-01-01
+SELECT da.agent_name,
+       dh.hub_name,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+LEFT JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+WHERE da.joining_date > '2022-01-01';
+96. Working in hubs with capacity > 350
+SELECT da.agent_name,
+       dh.hub_name,
+       dh.capacity,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+WHERE dh.capacity > 350;
+97. Agent and hub in same city
+SELECT da.agent_name,
+       dh.hub_name,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+WHERE da.city = dh.city;
+98. Agent city, hub city and supervisor city
+SELECT da.agent_name,
+       da.city AS agent_city,
+       dh.city AS hub_city,
+       sup.city AS supervisor_city
+FROM delivery_agents da
+LEFT JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id;
+99. Agent city different from hub city + supervisor
+SELECT da.agent_name,
+       da.city AS agent_city,
+       dh.city AS hub_city,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+INNER JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+WHERE da.city <> dh.city;
+100–114: Advanced GROUP BY / Reports
+100. Number of agents in each hub city
+SELECT dh.city AS hub_city,
+       COUNT(da.agent_id) AS total_agents
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.city;
+101. Total salary in each hub city
+SELECT dh.city AS hub_city,
+       SUM(da.salary) AS total_salary
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.city;
+102. Average incentive in each hub
+SELECT dh.hub_name,
+       AVG(da.incentive) AS average_incentive
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name;
+103. Hubs having at least two active agents
+SELECT dh.hub_name,
+       COUNT(da.agent_id) AS active_agents
+FROM delivery_hubs dh
+INNER JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+WHERE da.status = 'Active'
+GROUP BY dh.hub_id, dh.hub_name
+HAVING COUNT(da.agent_id) >= 2;
+104. Total earnings of active agents > 80000
+SELECT dh.hub_name,
+       SUM(da.salary + da.incentive) AS total_earnings
+FROM delivery_hubs dh
+INNER JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+WHERE da.status = 'Active'
+GROUP BY dh.hub_id, dh.hub_name
+HAVING SUM(da.salary + da.incentive) > 80000;
+105. Active and inactive agents in each hub
+SELECT dh.hub_name,
+       COUNT(CASE WHEN da.status = 'Active' THEN 1 END) AS active_agents,
+       COUNT(CASE WHEN da.status = 'Inactive' THEN 1 END) AS inactive_agents
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name;
+106. Hub, total agents, total salary and average salary
+SELECT dh.hub_name,
+       COUNT(da.agent_id) AS total_agents,
+       SUM(da.salary) AS total_salary,
+       AVG(da.salary) AS average_salary
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name;
+107. All hubs including those without agents
+SELECT dh.hub_name,
+       COUNT(da.agent_id) AS total_agents
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name;
+108. All hubs with total salary
+SELECT dh.hub_name,
+       COALESCE(SUM(da.salary), 0) AS total_salary
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name;
+109. Hubs with more than one agent
+SELECT dh.hub_name,
+       COUNT(da.agent_id) AS total_agents
+FROM delivery_hubs dh
+INNER JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name
+HAVING COUNT(da.agent_id) > 1;
+110. Top 3 hubs based on active agents
+SELECT dh.hub_name,
+       COUNT(da.agent_id) AS active_agents
+FROM delivery_hubs dh
+LEFT JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+AND da.status = 'Active'
+GROUP BY dh.hub_id, dh.hub_name
+ORDER BY active_agents DESC
+LIMIT 3;
+111. Top 3 hubs based on total earnings
+SELECT dh.hub_name,
+       SUM(da.salary + da.incentive) AS total_earnings
+FROM delivery_hubs dh
+INNER JOIN delivery_agents da
+ON dh.hub_id = da.hub_id
+GROUP BY dh.hub_id, dh.hub_name
+ORDER BY total_earnings DESC
+LIMIT 3;
+112. Agent with highest total earnings
+SELECT da.agent_name,
+       da.salary + da.incentive AS total_earnings,
+       dh.hub_name,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+LEFT JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+ORDER BY total_earnings DESC
+LIMIT 1;
+113. Lowest-paid active agent
+SELECT da.agent_name,
+       da.salary,
+       dh.hub_name,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+LEFT JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+WHERE da.status = 'Active'
+ORDER BY da.salary
+LIMIT 1;
+114. All agents with hub and supervisor details
+SELECT da.agent_name,
+       dh.hub_name,
+       sup.agent_name AS supervisor_name
+FROM delivery_agents da
+LEFT JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+ORDER BY dh.hub_name, da.agent_name;
+115. FINAL REPORT
+
+The assignment asks for:
+
+Agent ID
+Agent Name
+Agent City
+Salary
+Incentive
+Total Earnings
+Hub Name
+Hub City
+Supervisor Name
+Agent Status
+
+and sorting by hub name, then total earnings descending.
+
+SELECT
+    da.agent_id AS Agent_ID,
+    da.agent_name AS Agent_Name,
+    da.city AS Agent_City,
+    da.salary AS Salary,
+    da.incentive AS Incentive,
+    da.salary + da.incentive AS Total_Earnings,
+    dh.hub_name AS Hub_Name,
+    dh.city AS Hub_City,
+    sup.agent_name AS Supervisor_Name,
+    da.status AS Agent_Status
+FROM delivery_agents da
+LEFT JOIN delivery_hubs dh
+ON da.hub_id = dh.hub_id
+LEFT JOIN delivery_agents sup
+ON da.supervisor_id = sup.agent_id
+ORDER BY dh.hub_name, Total_Earnings DESC;
