@@ -112,3 +112,75 @@ ORDER BY rating DESC
 LIMIT 3 OFFSET 1;
 
 OFFSET 1 skips the highest-rated book.
+
+21. Simple updatable view for city
+CREATE VIEW book_city_update AS
+SELECT book_id, title, city
+FROM books;
+
+Because this is a simple view based on one table, it can be used for updates.
+
+22. Change city of book_id 8
+UPDATE book_city_update
+SET city = 'Bengaluru'
+WHERE book_id = 8;
+
+Check:
+
+SELECT *
+FROM book_city_update
+WHERE book_id = 8;
+BOOKS — QUESTIONS 23–40
+
+These questions continue the Views section of your assignment.
+
+23. Simple book view
+CREATE VIEW simple_book_view AS
+SELECT book_id, title, category, price, stock, status
+FROM books;
+24. Insert a new available book
+INSERT INTO simple_book_view
+VALUES
+(11, 'Machine Learning Basics', 'AI', 850, 5, 'Available');
+
+⚠️ This will work only if the omitted columns in the underlying books table allow NULL.
+
+Your original table has author, rating, city, and publisher without NOT NULL, so MySQL can insert NULL values for them.
+
+25. Available books with CHECK OPTION
+CREATE VIEW available_books_only AS
+SELECT *
+FROM books
+WHERE status = 'Available'
+WITH CHECK OPTION;
+26. Insert Available book through the view
+INSERT INTO available_books_only
+VALUES
+(12, 'Advanced SQL', 'A. Sharma', 'Database',
+ 700, 6, 4.5, 'Bengaluru', 'DataBooks', 'Available');
+27. Attempt to insert Out of Stock book
+INSERT INTO available_books_only
+VALUES
+(13, 'Cloud Computing', 'R. Kumar', 'Cloud',
+ 800, 0, 4.2, 'Hyderabad', 'TechPress', 'Out of Stock');
+
+This should produce an error because of WITH CHECK OPTION.
+
+28. Attempt to change Available → Out of Stock
+UPDATE available_books_only
+SET status = 'Out of Stock'
+WHERE book_id = 1;
+
+This should also fail because the modified row would no longer satisfy:
+
+status = 'Available'
+29. OR REPLACE available-books view
+CREATE OR REPLACE VIEW available_books_only AS
+SELECT title, category, price, rating, stock
+FROM books
+WHERE status = 'Available';
+30. ALTER VIEW — Programming books
+ALTER VIEW available_books_only AS
+SELECT *
+FROM books
+WHERE category = 'Programming';
