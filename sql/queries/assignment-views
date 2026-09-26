@@ -1,0 +1,114 @@
+1. Basic book details
+CREATE VIEW book_basic_details AS
+SELECT book_id, title, author, category, city
+FROM books;
+2. Title, category, price and rating
+CREATE VIEW book_price_rating AS
+SELECT title, category, price, rating
+FROM books;
+3. Hide author, publisher and city
+CREATE VIEW book_public_details AS
+SELECT book_id, title, category, price
+FROM books;
+4. Only available books
+CREATE VIEW available_books AS
+SELECT *
+FROM books
+WHERE status = 'Available';
+5. Only Database books
+CREATE VIEW database_books AS
+SELECT *
+FROM books
+WHERE category = 'Database';
+6. Books priced above 700
+CREATE VIEW expensive_books AS
+SELECT *
+FROM books
+WHERE price > 700;
+7. Total stock value
+CREATE VIEW book_stock_value AS
+SELECT title, price, stock,
+       price * stock AS total_stock_value
+FROM books;
+8. Books ordered by rating
+
+Create the view:
+
+CREATE VIEW book_rating_details AS
+SELECT title, category, price, rating
+FROM books;
+
+Display from highest to lowest:
+
+SELECT *
+FROM book_rating_details
+ORDER BY rating DESC;
+9. Rating >= 4.5
+CREATE VIEW highly_rated_books AS
+SELECT *
+FROM books
+WHERE rating >= 4.5;
+10. Stock > 0 and Available
+CREATE VIEW in_stock_available_books AS
+SELECT *
+FROM books
+WHERE stock > 0
+AND status = 'Available';
+
+11. Store assistant view
+CREATE VIEW store_assistant_books AS
+SELECT book_id, title, category, stock
+FROM books;
+12. Low-stock books
+CREATE VIEW low_stock_books AS
+SELECT *
+FROM books
+WHERE stock <= 3;
+13. Books published by TechPress
+CREATE VIEW techpress_books AS
+SELECT title, author, publisher, price
+FROM books
+WHERE publisher = 'TechPress';
+14. Price after adding 10%
+CREATE VIEW book_price_increase AS
+SELECT title, category, price,
+       price * 1.10 AS price_after_10_percent
+FROM books;
+15. Category-wise count and average price
+CREATE VIEW category_book_summary AS
+SELECT category,
+       COUNT(*) AS book_count,
+       AVG(price) AS average_price
+FROM books
+GROUP BY category;
+16. Categories with average price > 700
+CREATE VIEW expensive_categories AS
+SELECT category,
+       AVG(price) AS average_price
+FROM books
+GROUP BY category
+HAVING AVG(price) > 700;
+17. Available book summary
+CREATE VIEW available_book_summary AS
+SELECT title, price, stock, status
+FROM books
+WHERE status = 'Available';
+18. Find available DevOps books
+
+Using the view:
+
+SELECT *
+FROM available_books
+WHERE category = 'DevOps';
+19. Top 3 highest-priced books
+SELECT *
+FROM book_price_rating
+ORDER BY price DESC
+LIMIT 3;
+20. 2nd, 3rd and 4th highest-rated books
+SELECT *
+FROM book_rating_details
+ORDER BY rating DESC
+LIMIT 3 OFFSET 1;
+
+OFFSET 1 skips the highest-rated book.
