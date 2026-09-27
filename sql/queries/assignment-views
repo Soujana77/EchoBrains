@@ -184,3 +184,59 @@ ALTER VIEW available_books_only AS
 SELECT *
 FROM books
 WHERE category = 'Programming';
+
+31. Public website information
+CREATE VIEW public_book_info AS
+SELECT title, author, category, rating
+FROM books;
+
+This avoids exposing internal stock information.
+
+32. Warehouse employee information
+CREATE VIEW warehouse_book_info AS
+SELECT book_id, title, stock, status, publisher
+FROM books;
+33. Bookstore manager information
+CREATE VIEW manager_book_info AS
+SELECT title, publisher, category, price
+FROM books;
+34. Premium / Regular label
+CREATE VIEW book_price_label AS
+SELECT title,
+       CASE
+           WHEN price >= 800 THEN 'Premium'
+           ELSE 'Regular'
+       END AS price_label
+FROM books;
+35. Number of books supplied by each publisher
+CREATE VIEW publisher_book_count AS
+SELECT publisher,
+       COUNT(*) AS book_count
+FROM books
+GROUP BY publisher;
+36. Maximum book price for each publisher
+CREATE VIEW publisher_max_price AS
+SELECT publisher,
+       MAX(price) AS max_price
+FROM books
+GROUP BY publisher;
+37. Titles containing Java or MySQL
+CREATE VIEW java_mysql_books AS
+SELECT *
+FROM books
+WHERE title LIKE '%Java%'
+   OR title LIKE '%MySQL%';
+38. Books from Bengaluru, Hyderabad or Delhi
+CREATE VIEW selected_city_books AS
+SELECT *
+FROM books
+WHERE city IN ('Bengaluru', 'Hyderabad', 'Delhi');
+39. Hide price
+CREATE VIEW book_without_price AS
+SELECT title, category, stock, rating, status
+FROM books;
+40. Drop a practice view
+
+For example:
+
+DROP VIEW book_public_details;
