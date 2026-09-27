@@ -240,3 +240,56 @@ FROM books;
 For example:
 
 DROP VIEW book_public_details;
+
+PART B — ELECTRONICS
+
+Your electronics table contains product_id, product_name, brand, category, price, stock, warranty_years, city, supplier, status.
+
+1. Basic product details
+CREATE VIEW product_basic_details AS
+SELECT product_id, product_name, brand, category, city
+FROM electronics;
+2. Hide supplier
+CREATE VIEW product_without_supplier AS
+SELECT product_name, brand, category, price, stock
+FROM electronics;
+3. Available products
+CREATE VIEW available_products AS
+SELECT *
+FROM electronics
+WHERE status = 'Available';
+4. Laptop products
+CREATE VIEW laptop_products AS
+SELECT *
+FROM electronics
+WHERE category = 'Laptop';
+5. Products priced above 20,000
+CREATE VIEW expensive_products AS
+SELECT *
+FROM electronics
+WHERE price > 20000;
+6. Stock value
+CREATE VIEW product_stock_value AS
+SELECT product_name, price, stock,
+       price * stock AS stock_value
+FROM electronics;
+7. Stock <= 3
+CREATE VIEW low_stock_products AS
+SELECT *
+FROM electronics
+WHERE stock <= 3;
+8. Warranty >= 2 years
+CREATE VIEW long_warranty_products AS
+SELECT *
+FROM electronics
+WHERE warranty_years >= 2;
+9. Bengaluru and Hyderabad
+CREATE VIEW bangalore_hyderabad_products AS
+SELECT *
+FROM electronics
+WHERE city IN ('Bengaluru', 'Hyderabad');
+10. Price between 5,000 and 30,000
+CREATE VIEW mid_range_products AS
+SELECT *
+FROM electronics
+WHERE price BETWEEN 5000 AND 30000;
