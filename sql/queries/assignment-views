@@ -293,3 +293,66 @@ CREATE VIEW mid_range_products AS
 SELECT *
 FROM electronics
 WHERE price BETWEEN 5000 AND 30000;
+
+11. 10% discount
+CREATE VIEW discounted_products AS
+SELECT product_name,
+       category,
+       price,
+       price * 0.90 AS price_after_discount
+FROM electronics;
+12. Safe customer information
+CREATE VIEW customer_product_info AS
+SELECT product_name, brand, category, price, warranty_years
+FROM electronics;
+13. Warehouse information
+CREATE VIEW warehouse_product_info AS
+SELECT product_id, product_name, stock, supplier, status
+FROM electronics;
+14. Top 5 highest-priced products
+CREATE VIEW top_products AS
+SELECT *
+FROM electronics
+ORDER BY price DESC
+LIMIT 5;
+
+Then:
+
+SELECT *
+FROM top_products;
+15. 2nd, 3rd and 4th highest-priced products
+CREATE VIEW second_to_fourth_products AS
+SELECT *
+FROM electronics
+ORDER BY price DESC
+LIMIT 3 OFFSET 1;
+16. Number of products in each category
+CREATE VIEW category_product_count AS
+SELECT category,
+       COUNT(*) AS product_count
+FROM electronics
+GROUP BY category;
+17. Average price of each category
+CREATE VIEW category_average_price AS
+SELECT category,
+       AVG(price) AS average_price
+FROM electronics
+GROUP BY category;
+18. Categories with average price above 30,000
+CREATE VIEW expensive_product_categories AS
+SELECT category,
+       AVG(price) AS average_price
+FROM electronics
+GROUP BY category
+HAVING AVG(price) > 30000;
+19. Maximum price for each brand
+CREATE VIEW brand_max_price AS
+SELECT brand,
+       MAX(price) AS max_price
+FROM electronics
+GROUP BY brand;
+20. Products containing "Laptop"
+CREATE VIEW laptop_named_products AS
+SELECT *
+FROM electronics
+WHERE product_name LIKE '%Laptop%';
