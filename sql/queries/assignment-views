@@ -428,3 +428,93 @@ ALTER VIEW product_basic_details AS
 SELECT *
 FROM electronics
 WHERE category = 'Audio';
+
+31. High-End / Standard label
+CREATE VIEW product_price_label AS
+SELECT product_name,
+       CASE
+           WHEN price >= 50000 THEN 'High-End'
+           ELSE 'Standard'
+       END AS price_label
+FROM electronics;
+32. Brand and number of products
+CREATE VIEW brand_product_count AS
+SELECT brand,
+       COUNT(*) AS product_count
+FROM electronics
+GROUP BY brand;
+33. Supplier and number of products
+CREATE VIEW supplier_product_count AS
+SELECT supplier,
+       COUNT(*) AS product_count
+FROM electronics
+GROUP BY supplier;
+34. Products with stock > 0 ordered by stock
+CREATE VIEW in_stock_products AS
+SELECT *
+FROM electronics
+WHERE stock > 0
+ORDER BY stock DESC;
+35. Hide price and supplier
+CREATE VIEW public_electronics_info AS
+SELECT product_name,
+       brand,
+       category,
+       warranty_years,
+       status
+FROM electronics;
+36. Price < 10,000 and stock > 5
+CREATE VIEW affordable_in_stock_products AS
+SELECT *
+FROM electronics
+WHERE price < 10000
+AND stock > 5;
+37. Highest-priced product in each category
+
+A simple and reliable approach is:
+
+CREATE VIEW highest_category_products AS
+SELECT e.*
+FROM electronics e
+WHERE e.price = (
+    SELECT MAX(e2.price)
+    FROM electronics e2
+    WHERE e2.category = e.category
+);
+
+This handles categories that have more than one product tied at the highest price.
+
+38. Warranty = 2, ordered by price
+CREATE VIEW two_year_warranty_products AS
+SELECT *
+FROM electronics
+WHERE warranty_years = 2
+ORDER BY price DESC;
+39. Drop one practice view
+
+For example:
+
+DROP VIEW low_stock_products;
+40. Final combined view
+
+This question asks for filtering + calculated column + alias + ORDER BY.
+
+CREATE VIEW final_customer_product_view AS
+SELECT product_name AS product,
+       category,
+       price,
+       stock,
+       price * stock AS total_stock_value,
+       CASE
+           WHEN price >= 50000 THEN 'High-End'
+           ELSE 'Standard'
+       END AS product_type
+FROM electronics
+WHERE status = 'Available'
+  AND stock > 0
+ORDER BY price DESC;
+
+Then display it:
+
+SELECT *
+FROM final_customer_product_view;
