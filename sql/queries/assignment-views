@@ -356,3 +356,75 @@ CREATE VIEW laptop_named_products AS
 SELECT *
 FROM electronics
 WHERE product_name LIKE '%Laptop%';
+
+21. Products from Bengaluru, Delhi or Hyderabad
+CREATE VIEW selected_city_products AS
+SELECT *
+FROM electronics
+WHERE city IN ('Bengaluru', 'Delhi', 'Hyderabad');
+22. Simple updatable product view
+CREATE VIEW product_update_view AS
+SELECT product_id, product_name, category, city, status
+FROM electronics;
+23. Change product 108 city
+UPDATE product_update_view
+SET city = 'Bengaluru'
+WHERE product_id = 108;
+
+Check:
+
+SELECT *
+FROM product_update_view
+WHERE product_id = 108;
+24. Insert a new Available product
+CREATE VIEW simple_product_view AS
+SELECT product_id, product_name, category, price, stock, status
+FROM electronics;
+
+Then:
+
+INSERT INTO simple_product_view
+VALUES
+(111, 'Smart Monitor', 'Monitor', 18000, 5, 'Available');
+
+
+25. Available products WITH CHECK OPTION
+CREATE VIEW available_products AS
+SELECT *
+FROM electronics
+WHERE status = 'Available'
+WITH CHECK OPTION;
+ELECTRONICS — QUESTIONS 26–40
+
+These correspond to the remaining electronics view questions in your file.
+
+26. Insert Available product through CHECK OPTION
+INSERT INTO available_products
+VALUES
+(112, 'Gaming Mouse', 'Sonic', 'Accessories',
+ 2500, 10, 1, 'Bengaluru', 'TechSource', 'Available');
+27. Attempt to insert Out of Stock product
+INSERT INTO available_products
+VALUES
+(113, 'Old Monitor', 'Vision', 'Monitor',
+ 9000, 0, 1, 'Delhi', 'VisionSupply', 'Out of Stock');
+
+This should fail because of:
+
+WITH CHECK OPTION
+28. Attempt Available → Out of Stock
+UPDATE available_products
+SET status = 'Out of Stock'
+WHERE product_id = 101;
+
+This should fail because the updated row would no longer satisfy the view condition.
+
+29. OR REPLACE basic product view
+CREATE OR REPLACE VIEW product_basic_details AS
+SELECT product_id, product_name, category, price, stock
+FROM electronics;
+30. ALTER VIEW — Audio products
+ALTER VIEW product_basic_details AS
+SELECT *
+FROM electronics
+WHERE category = 'Audio';
