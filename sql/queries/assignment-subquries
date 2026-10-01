@@ -1,0 +1,554 @@
+1. Price greater than average price
+
+Question: Find all orders whose price is greater than the average price of all products.
+
+SELECT *
+FROM sales_orders
+WHERE price > (
+    SELECT AVG(price)
+    FROM sales_orders
+);
+How it works
+
+Inner query:
+
+SELECT AVG(price)
+FROM sales_orders;
+
+finds the average price.
+
+Then the outer query finds orders where:
+
+price > average_price
+2. Order(s) with highest product price
+SELECT *
+FROM sales_orders
+WHERE price = (
+    SELECT MAX(price)
+    FROM sales_orders
+);
+
+We use = instead of > because we want the order whose price equals the maximum price.
+
+3. Quantity greater than average quantity
+SELECT *
+FROM sales_orders
+WHERE quantity > (
+    SELECT AVG(quantity)
+    FROM sales_orders
+);
+
+The subquery calculates the average quantity, and the outer query selects quantities above that average.
+
+4. Customers who placed an order with the highest quantity
+SELECT customer_name
+FROM sales_orders
+WHERE quantity = (
+    SELECT MAX(quantity)
+    FROM sales_orders
+);
+
+If you want the complete order details instead:
+
+SELECT *
+FROM sales_orders
+WHERE quantity = (
+    SELECT MAX(quantity)
+    FROM sales_orders
+);
+5. Price less than average Electronics price
+SELECT *
+FROM sales_orders
+WHERE price < (
+    SELECT AVG(price)
+    FROM sales_orders
+    WHERE category = 'Electronics'
+);
+
+Notice the condition is inside the subquery:
+
+WHERE category = 'Electronics'
+
+So we're calculating the average only for Electronics.
+
+6. Order having minimum price
+SELECT *
+FROM sales_orders
+WHERE price = (
+    SELECT MIN(price)
+    FROM sales_orders
+);
+
+The inner query finds the minimum price.
+
+The outer query finds the order having that price.
+
+7. Orders with price greater than Desk price
+SELECT *
+FROM sales_orders
+WHERE price > (
+    SELECT price
+    FROM sales_orders
+    WHERE product_name = 'Desk'
+);
+
+The subquery finds the price of the Desk.
+
+Then the outer query finds everything more expensive than the Desk.
+
+8. Orders whose quantity equals highest quantity
+SELECT *
+FROM sales_orders
+WHERE quantity = (
+    SELECT MAX(quantity)
+    FROM sales_orders
+);
+
+This is similar to Question 4, but here the question specifically asks for orders, so we use:
+
+SELECT *
+9. Orders by customers who placed more than one order
+
+This one is a little more interesting because the subquery returns multiple customer names.
+
+So we use IN:
+
+SELECT *
+FROM sales_orders
+WHERE customer_name IN (
+    SELECT customer_name
+    FROM sales_orders
+    GROUP BY customer_name
+    HAVING COUNT(*) > 1
+);
+Important
+
+Don't use:
+
+=
+
+because the subquery can return several customers.
+
+Use:
+
+IN
+10. Price greater than every Furniture price
+SELECT *
+FROM sales_orders
+WHERE price > ALL (
+    SELECT price
+    FROM sales_orders
+    WHERE category = 'Furniture'
+);
+ALL means:
+
+The price must be greater than every single value returned by the subquery.
+
+For example, if Furniture prices were:
+
+4500
+8500
+12000
+30000
+
+the order must be greater than 30,000.
+
+11. Price greater than at least one Furniture price
+SELECT *
+FROM sales_orders
+WHERE price > ANY (
+    SELECT price
+    FROM sales_orders
+    WHERE category = 'Furniture'
+);
+Difference between Q10 and Q11
+Operator	Meaning
+> ALL	Greater than every value
+> ANY	Greater than at least one value
+
+This distinction is very important for subqueries.
+
+12. Customers with order price greater than average order price
+SELECT DISTINCT customer_name
+FROM sales_orders
+WHERE price > (
+    SELECT AVG(price)
+    FROM sales_orders
+);
+Why DISTINCT?
+
+A customer could have multiple orders satisfying the condition.
+
+DISTINCT ensures that the customer appears only once.
+
+13. Most expensive order in each category
+SELECT *
+FROM sales_orders s
+WHERE price = (
+    SELECT MAX(price)
+    FROM sales_orders
+    WHERE category = s.category
+);
+
+This is a correlated subquery.
+
+The important part is:
+
+WHERE category = s.category
+
+The inner query calculates the maximum price for the same category as the current outer row.
+
+So it finds:
+
+Most expensive Electronics order
+Most expensive Furniture order
+14. Orders having the same category as Laptop
+SELECT *
+FROM sales_orders
+WHERE category = (
+    SELECT category
+    FROM sales_orders
+    WHERE product_name = 'Laptop'
+);
+
+The subquery finds Laptop's category:
+
+Electronics
+
+Then the outer query displays all Electronics orders.
+
+15. Orders with price higher than average Bengaluru price
+SELECT *
+FROM sales_orders
+WHERE price > (
+    SELECT AVG(price)
+    FROM sales_orders
+    WHERE city = 'Bengaluru'
+);
+
+The inner query calculates:
+
+Average price of Bengaluru orders
+
+Then the outer query finds orders whose price is greater than that value.
+
+The 6 Subquery Patterns You Should Remember
+
+These 15 questions basically teach you these patterns:
+
+1. Single-value subquery
+WHERE price > (
+    SELECT AVG(price)
+    FROM sales_orders
+);
+
+Used when the subquery returns one value.
+
+2. IN
+WHERE customer_name IN (
+    SELECT customer_name
+    FROM sales_orders
+    GROUP BY customer_name
+);
+
+Used when the subquery can return multiple values.
+
+3. ALL
+WHERE price > ALL (
+    SELECT price
+    FROM sales_orders
+    WHERE category = 'Furniture'
+);
+
+Means greater than every value.
+
+4. ANY
+WHERE price > ANY (
+    SELECT price
+    FROM sales_orders
+    WHERE category = 'Furniture'
+);
+
+Means greater than at least one value.
+
+5. Correlated subquery
+SELECT *
+FROM sales_orders s
+WHERE price = (
+    SELECT MAX(price)
+    FROM sales_orders
+    WHERE category = s.category
+);
+
+The inner query depends on the current row of the outer query.
+
+6. DISTINCT
+SELECT DISTINCT customer_name
+
+16. Create a view with basic order details
+
+Question: Display order_id, customer_name, product_name, price, status.
+
+CREATE VIEW order_basic_details AS
+SELECT order_id, customer_name, product_name, price, status
+FROM sales_orders;
+
+To see the view:
+
+SELECT *
+FROM order_basic_details;
+Idea
+
+A view is basically a saved SELECT query.
+
+17. Create a view for Electronics orders
+CREATE VIEW electronics_orders AS
+SELECT *
+FROM sales_orders
+WHERE category = 'Electronics';
+
+Check it:
+
+SELECT *
+FROM electronics_orders;
+18. Create a view for Delivered orders
+CREATE VIEW delivered_orders AS
+SELECT *
+FROM sales_orders
+WHERE status = 'Delivered';
+
+Check:
+
+SELECT *
+FROM delivered_orders;
+19. Customer, product, city and date
+CREATE VIEW customer_order_details AS
+SELECT customer_name, product_name, city, order_date
+FROM sales_orders;
+
+Check:
+
+SELECT *
+FROM customer_order_details;
+20. Order ID, product, quantity and price
+CREATE VIEW order_product_details AS
+SELECT order_id, product_name, quantity, price
+FROM sales_orders;
+
+Check:
+
+SELECT *
+FROM order_product_details;
+21. Calculate total amount
+
+The assignment specifies that the calculated order amount uses:
+
+quantity × price.
+
+CREATE VIEW order_total_amount AS
+SELECT order_id,
+       customer_name,
+       product_name,
+       quantity,
+       price,
+       quantity * price AS total_amount
+FROM sales_orders;
+
+Check:
+
+SELECT *
+FROM order_total_amount;
+Example
+
+For the Laptop:
+
+quantity = 1
+price = 65000
+
+total_amount = 1 × 65000
+             = 65000
+22. Calculate discounted amount
+
+The assignment says to apply the discount when calculating a discounted amount.
+
+Formula:
+
+quantity × price × (1 - discount / 100)
+
+Query:
+
+CREATE VIEW order_discounted_amount AS
+SELECT order_id,
+       customer_name,
+       product_name,
+       quantity,
+       price,
+       discount,
+       quantity * price * (1 - discount / 100) AS discounted_amount
+FROM sales_orders;
+
+Check:
+
+SELECT *
+FROM order_discounted_amount;
+Example
+
+Laptop:
+
+1 × 65000 × (1 - 10/100)
+= 65000 × 0.90
+= 58500
+23. Orders from Bengaluru
+CREATE VIEW bengaluru_orders AS
+SELECT *
+FROM sales_orders
+WHERE city = 'Bengaluru';
+
+Check:
+
+SELECT *
+FROM bengaluru_orders;
+24. Furniture orders with price > 5000
+
+Here we have two conditions, so use AND.
+
+CREATE VIEW expensive_furniture_orders AS
+SELECT *
+FROM sales_orders
+WHERE category = 'Furniture'
+AND price > 5000;
+
+Check:
+
+SELECT *
+FROM expensive_furniture_orders;
+25. Customer, category and status
+CREATE VIEW customer_category_status AS
+SELECT customer_name, category, status
+FROM sales_orders;
+
+Check:
+
+SELECT *
+FROM customer_category_status;
+26. Total quantity for each category
+
+This requires an aggregate function:
+
+SUM()
+CREATE VIEW category_total_quantity AS
+SELECT category,
+       SUM(quantity) AS total_quantity
+FROM sales_orders
+GROUP BY category;
+
+Check:
+
+SELECT *
+FROM category_total_quantity;
+Important
+
+Whenever you want a result for each category, you'll generally need:
+
+GROUP BY category
+27. Average product price for each category
+
+Use AVG():
+
+CREATE VIEW category_average_price AS
+SELECT category,
+       AVG(price) AS average_price
+FROM sales_orders
+GROUP BY category;
+
+Check:
+
+SELECT *
+FROM category_average_price;
+28. Number of orders for each city
+
+Use COUNT():
+
+CREATE VIEW city_order_count AS
+SELECT city,
+       COUNT(*) AS order_count
+FROM sales_orders
+GROUP BY city;
+
+Check:
+
+SELECT *
+FROM city_order_count;
+29. Replace an existing view
+
+The question says to replace an existing view so that it displays:
+
+order_id
+customer_name
+product_name
+status
+
+Let's replace the view we created in Question 16.
+
+CREATE OR REPLACE VIEW order_basic_details AS
+SELECT order_id,
+       customer_name,
+       product_name,
+       status
+FROM sales_orders;
+
+Now:
+
+SELECT *
+FROM order_basic_details;
+Important concept
+
+CREATE OR REPLACE VIEW means:
+
+If the view already exists, replace its definition with the new SELECT statement.
+
+You don't need to drop it first.
+
+30. Drop a view and verify
+
+Let's drop the view bengaluru_orders.
+
+DROP VIEW bengaluru_orders;
+
+Now try:
+
+SELECT *
+FROM bengaluru_orders;
+
+MySQL should give an error because the view no longer exists.
+
+You can also verify using:
+
+SHOW FULL TABLES
+WHERE TABLE_TYPE = 'VIEW';
+
+This shows the views currently present in the database.
+
+🧠 What you learned in this batch
+
+These 15 questions cover the important basics of MySQL Views:
+
+Creating a view
+CREATE VIEW view_name AS
+SELECT ...;
+Filtering inside a view
+WHERE category = 'Electronics'
+Calculated column
+quantity * price AS total_amount
+Discount calculation
+quantity * price * (1 - discount / 100)
+Grouping
+GROUP BY category
+Aggregate functions
+SUM(quantity)
+AVG(price)
+COUNT(*)
+Replacing a view
+CREATE OR REPLACE VIEW
+Removing a view
+DROP VIEW view_name;
