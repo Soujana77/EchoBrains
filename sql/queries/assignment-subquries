@@ -857,3 +857,457 @@ SET @delivered_count = 0;
 CALL status_order_count('Delivered', @delivered_count);
 
 SELECT @delivered_count AS delivered_orders;
+
+Part A — Stored Procedures
+46. Procedure with multiple SQL statements
+
+The question asks for a procedure that:
+
+Displays orders from a given city.
+Then displays the number of orders from that city.
+DELIMITER //
+
+CREATE PROCEDURE city_orders_and_count(
+    IN p_city VARCHAR(30)
+)
+BEGIN
+    SELECT *
+    FROM sales_orders
+    WHERE city = p_city;
+
+    SELECT COUNT(*) AS order_count
+    FROM sales_orders
+    WHERE city = p_city;
+END //
+
+DELIMITER ;
+Call
+CALL city_orders_and_count('Bengaluru');
+
+You'll get two result sets:
+
+Result 1: Bengaluru orders
+
+Result 2: Number of Bengaluru orders
+
+47. Display procedures in current database
+
+Use:
+
+SHOW PROCEDURE STATUS
+WHERE Db = 'sales_practice';
+
+This shows the procedures you've created in the sales_practice database.
+
+48. Show procedure definition and drop it
+
+First, display the definition of one procedure:
+
+SHOW CREATE PROCEDURE show_all_orders;
+
+This shows the actual SQL used to create the procedure.
+
+Then drop it:
+
+DROP PROCEDURE show_all_orders;
+
+Verify:
+
+SHOW PROCEDURE STATUS
+WHERE Db = 'sales_practice';
+
+The show_all_orders procedure should no longer appear.
+
+Part B — TCL
+
+TCL = Transaction Control Language.
+
+The main commands you'll use here are:
+
+START TRANSACTION
+COMMIT
+ROLLBACK
+SAVEPOINT
+ROLLBACK TO SAVEPOINT
+
+The assignment's TCL section contains 15 transaction exercises.
+
+49. Update Laptop price and check before COMMIT
+
+The question asks us to start a transaction, update the Laptop price, and check the changed value before completing the transaction.
+
+START TRANSACTION;
+
+UPDATE sales_orders
+SET price = 70000
+WHERE product_name = 'Laptop';
+
+SELECT *
+FROM sales_orders
+WHERE product_name = 'Laptop';
+
+At this point the change exists inside the current transaction.
+
+Since the question only says to check it before completing the transaction, you can finish with:
+
+ROLLBACK;
+
+This restores the original Laptop price.
+
+50. Change Pending → Delivered and COMMIT
+
+Choose a Pending order. For example, order 3.
+
+START TRANSACTION;
+
+UPDATE sales_orders
+SET status = 'Delivered'
+WHERE order_id = 3;
+
+SELECT *
+FROM sales_orders
+WHERE order_id = 3;
+
+COMMIT;
+
+Because we used:
+
+COMMIT;
+
+the change is permanently saved.
+
+51. Update two prices and ROLLBACK
+START TRANSACTION;
+
+UPDATE sales_orders
+SET price = 5000
+WHERE order_id = 2;
+
+UPDATE sales_orders
+SET price = 10000
+WHERE order_id = 4;
+
+SELECT order_id, price
+FROM sales_orders
+WHERE order_id IN (2, 4);
+
+ROLLBACK;
+
+Now verify:
+
+SELECT order_id, price
+FROM sales_orders
+WHERE order_id IN (2, 4);
+
+The original prices should be restored.
+
+52. Update status and create SAVEPOINT
+START TRANSACTION;
+
+UPDATE sales_orders
+SET status = 'Delivered'
+WHERE order_id = 7;
+
+SAVEPOINT status_change;
+
+We have now created a checkpoint called:
+
+status_change
+53. Make another update and undo only the second update
+
+Continue from the previous transaction:
+
+UPDATE sales_orders
+SET price = 15000
+WHERE order_id = 7;
+
+Check:
+
+SELECT *
+FROM sales_orders
+WHERE order_id = 7;
+
+Now undo only the change made after the savepoint:
+
+ROLLBACK TO SAVEPOINT status_change;
+
+Check again:
+
+SELECT *
+FROM sales_orders
+WHERE order_id = 7;
+
+The price update is undone, but the status update remains.
+
+Finally:
+
+ROLLBACK;
+
+This ends the transaction and undoes the remaining status change too.
+
+54. Update three orders and SAVEPOINT after two
+START TRANSACTION;
+
+UPDATE sales_orders
+SET price = 1300
+WHERE order_id = 2;
+
+UPDATE sales_orders
+SET price = 9000
+WHERE order_id = 3;
+
+SAVEPOINT after_two_updates;
+
+UPDATE sales_orders
+SET price = 16000
+WHERE order_id = 4;
+
+At this point:
+
+Order 2 → updated
+Order 3 → updated
+Savepoint created
+Order 4 → updated after savepoint
+55. Undo changes after SAVEPOINT and COMMIT remaining
+
+Continue from Q54:
+
+ROLLBACK TO SAVEPOINT after_two_updates;
+
+This removes the update to order 4.
+
+The updates to orders 2 and 3 remain.
+
+Now:
+
+COMMIT;
+
+So:
+
+Order 2 → saved
+Order 3 → saved
+Order 4 → undone
+
+This is one of the most important SAVEPOINT patterns.
+
+56. Insert an order and ROLLBACK
+START TRANSACTION;
+
+INSERT INTO sales_orders
+(order_id, customer_name, product_name, category,
+ quantity, price, discount, city, order_date, status)
+VALUES
+(21, 'Asha', 'USB Hub', 'Electronics',
+ 2, 1500, 5, 'Bengaluru', '2026-03-25', 'Pending');
+
+SELECT *
+FROM sales_orders
+WHERE order_id = 21;
+
+ROLLBACK;
+
+Now verify:
+
+SELECT *
+FROM sales_orders
+WHERE order_id = 21;
+
+It should return no row.
+
+57. Insert an order and COMMIT
+START TRANSACTION;
+
+INSERT INTO sales_orders
+(order_id, customer_name, product_name, category,
+ quantity, price, discount, city, order_date, status)
+VALUES
+(22, 'Riya', 'Power Bank', 'Electronics',
+ 1, 2200, 5, 'Hyderabad', '2026-03-26', 'Delivered');
+
+COMMIT;
+
+Verify:
+
+SELECT *
+FROM sales_orders
+WHERE order_id = 22;
+
+Order 22 should now remain in the table.
+
+58. Delete a Pending order and ROLLBACK
+
+Let's use order 7, which is originally Pending.
+
+START TRANSACTION;
+
+DELETE FROM sales_orders
+WHERE order_id = 7;
+
+SELECT *
+FROM sales_orders
+WHERE order_id = 7;
+
+ROLLBACK;
+
+Now verify:
+
+SELECT *
+FROM sales_orders
+WHERE order_id = 7;
+
+The order should be back.
+
+59. Update → SAVEPOINT → Update → Return to SAVEPOINT
+START TRANSACTION;
+
+UPDATE sales_orders
+SET price = 1300
+WHERE order_id = 2;
+
+SAVEPOINT first_update;
+
+UPDATE sales_orders
+SET price = 9500
+WHERE order_id = 3;
+
+SELECT order_id, price
+FROM sales_orders
+WHERE order_id IN (2, 3);
+
+ROLLBACK TO SAVEPOINT first_update;
+
+Now check:
+
+SELECT order_id, price
+FROM sales_orders
+WHERE order_id IN (2, 3);
+
+Order 2's update remains.
+
+Order 3's update is undone.
+
+Finish:
+
+ROLLBACK;
+60. Two correct updates and COMMIT
+START TRANSACTION;
+
+UPDATE sales_orders
+SET discount = 7
+WHERE order_id = 8;
+
+UPDATE sales_orders
+SET discount = 8
+WHERE order_id = 14;
+
+SELECT order_id, discount
+FROM sales_orders
+WHERE order_id IN (8, 14);
+
+COMMIT;
+
+Both changes are permanently saved.
+
+61. Two updates and complete ROLLBACK
+START TRANSACTION;
+
+UPDATE sales_orders
+SET price = 2000
+WHERE order_id = 2;
+
+UPDATE sales_orders
+SET price = 9000
+WHERE order_id = 4;
+
+SELECT order_id, price
+FROM sales_orders
+WHERE order_id IN (2, 4);
+
+ROLLBACK;
+
+Verify:
+
+SELECT order_id, price
+FROM sales_orders
+WHERE order_id IN (2, 4);
+
+Both updates should be undone.
+
+62. Two separate transactions
+Transaction 1 — COMMIT
+START TRANSACTION;
+
+UPDATE sales_orders
+SET discount = 6
+WHERE order_id = 2;
+
+COMMIT;
+
+Transaction 1 is saved.
+
+Transaction 2 — ROLLBACK
+START TRANSACTION;
+
+UPDATE sales_orders
+SET discount = 9
+WHERE order_id = 4;
+
+ROLLBACK;
+
+Verify:
+
+SELECT order_id, discount
+FROM sales_orders
+WHERE order_id IN (2, 4);
+
+Expected concept:
+
+Order 2 → first transaction saved
+Order 4 → second transaction undone
+63. Multiple changes + SAVEPOINT + undo later change + COMMIT
+
+This combines everything.
+
+START TRANSACTION;
+
+UPDATE sales_orders
+SET price = 1300
+WHERE order_id = 2;
+
+UPDATE sales_orders
+SET price = 9000
+WHERE order_id = 3;
+
+SAVEPOINT correct_changes;
+
+UPDATE sales_orders
+SET price = -500
+WHERE order_id = 4;
+
+SELECT order_id, price
+FROM sales_orders
+WHERE order_id IN (2, 3, 4);
+
+ROLLBACK TO SAVEPOINT correct_changes;
+
+COMMIT;
+
+Result:
+
+Order 2 → saved
+Order 3 → saved
+Order 4 → incorrect update undone
+
+This is basically the full TCL pattern:
+
+START TRANSACTION
+       ↓
+  Correct changes
+       ↓
+   SAVEPOINT
+       ↓
+  Wrong change
+       ↓
+ROLLBACK TO SAVEPOINT
+       ↓
+    COMMIT
