@@ -33,7 +33,7 @@ class Cat(Animal):
     def sound(self):
         print("Cat says Meow")
 d = Dog()
-c = Cat():
+c = Cat()
 
 d.sound()
 d.sound()

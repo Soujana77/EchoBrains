@@ -552,3 +552,308 @@ Replacing a view
 CREATE OR REPLACE VIEW
 Removing a view
 DROP VIEW view_name;
+
+31. Procedure with no input — display all orders
+DELIMITER //
+
+CREATE PROCEDURE show_all_orders()
+BEGIN
+    SELECT *
+    FROM sales_orders;
+END //
+
+DELIMITER ;
+Call it
+CALL show_all_orders();
+Idea
+
+No parameter is required, so the procedure simply displays the complete table.
+
+32. Procedure with no input — Delivered orders
+DELIMITER //
+
+CREATE PROCEDURE show_delivered_orders()
+BEGIN
+    SELECT *
+    FROM sales_orders
+    WHERE status = 'Delivered';
+END //
+
+DELIMITER ;
+
+Call:
+
+CALL show_delivered_orders();
+33. Procedure with one IN parameter — city
+
+The question asks for a procedure that displays orders for a given city.
+
+DELIMITER //
+
+CREATE PROCEDURE orders_by_city(IN p_city VARCHAR(30))
+BEGIN
+    SELECT *
+    FROM sales_orders
+    WHERE city = p_city;
+END //
+
+DELIMITER ;
+Call it
+
+For Bengaluru:
+
+CALL orders_by_city('Bengaluru');
+
+Notice:
+
+IN p_city VARCHAR(30)
+
+means the procedure receives a value from us.
+
+34. Call Question 33 for Bengaluru
+CALL orders_by_city('Bengaluru');
+
+This is simply calling the procedure we created in Q33.
+
+35. Procedure with one IN parameter — category
+DELIMITER //
+
+CREATE PROCEDURE orders_by_category(IN p_category VARCHAR(30))
+BEGIN
+    SELECT *
+    FROM sales_orders
+    WHERE category = p_category;
+END //
+
+DELIMITER ;
+Example call
+CALL orders_by_category('Electronics');
+
+You can also try:
+
+CALL orders_by_category('Furniture');
+36. Procedure with one IN parameter — status
+DELIMITER //
+
+CREATE PROCEDURE orders_by_status(IN p_status VARCHAR(20))
+BEGIN
+    SELECT *
+    FROM sales_orders
+    WHERE status = p_status;
+END //
+
+DELIMITER ;
+Example
+CALL orders_by_status('Pending');
+
+or:
+
+CALL orders_by_status('Delivered');
+37. Procedure with two IN parameters — city and status
+
+Now we need two inputs.
+
+DELIMITER //
+
+CREATE PROCEDURE orders_by_city_status(
+    IN p_city VARCHAR(30),
+    IN p_status VARCHAR(20)
+)
+BEGIN
+    SELECT *
+    FROM sales_orders
+    WHERE city = p_city
+      AND status = p_status;
+END //
+
+DELIMITER ;
+Example
+
+Find Delivered orders from Bengaluru:
+
+CALL orders_by_city_status('Bengaluru', 'Delivered');
+Remember
+
+Two parameters:
+
+IN p_city
+IN p_status
+
+Two conditions:
+
+WHERE city = p_city
+AND status = p_status
+38. Procedure with OUT parameter — total number of orders
+
+Now we're introducing OUT.
+
+DELIMITER //
+
+CREATE PROCEDURE total_orders(OUT p_total INT)
+BEGIN
+    SELECT COUNT(*)
+    INTO p_total
+    FROM sales_orders;
+END //
+
+DELIMITER ;
+What happens?
+
+This:
+
+SELECT COUNT(*)
+INTO p_total
+
+puts the count into the OUT parameter.
+
+39. Call Q38 and display returned value
+
+First create a session variable:
+
+SET @total = 0;
+
+Call the procedure:
+
+CALL total_orders(@total);
+
+Display the result:
+
+SELECT @total AS total_orders;
+Important difference
+
+@total is a session variable.
+
+The procedure puts its result into it.
+
+40. Procedure with OUT parameter — average product price
+DELIMITER //
+
+CREATE PROCEDURE average_product_price(OUT p_average DECIMAL(10,2))
+BEGIN
+    SELECT AVG(price)
+    INTO p_average
+    FROM sales_orders;
+END //
+
+DELIMITER ;
+
+Call it:
+
+SET @avg_price = 0;
+
+CALL average_product_price(@avg_price);
+
+SELECT @avg_price AS average_product_price;
+41. IN + OUT — number of orders for a city
+
+The question asks for a city as input and the number of orders from that city as output.
+
+DELIMITER //
+
+CREATE PROCEDURE city_order_count(
+    IN p_city VARCHAR(30),
+    OUT p_count INT
+)
+BEGIN
+    SELECT COUNT(*)
+    INTO p_count
+    FROM sales_orders
+    WHERE city = p_city;
+END //
+
+DELIMITER ;
+Call
+SET @city_count = 0;
+
+CALL city_order_count('Bengaluru', @city_count);
+
+SELECT @city_count AS bengaluru_orders;
+42. IN + OUT — average price for category
+DELIMITER //
+
+CREATE PROCEDURE category_average_price(
+    IN p_category VARCHAR(30),
+    OUT p_average DECIMAL(10,2)
+)
+BEGIN
+    SELECT AVG(price)
+    INTO p_average
+    FROM sales_orders
+    WHERE category = p_category;
+END //
+
+DELIMITER ;
+Example
+
+Find the average Electronics price:
+
+SET @electronics_avg = 0;
+
+CALL category_average_price('Electronics', @electronics_avg);
+
+SELECT @electronics_avg AS electronics_average_price;
+43. INOUT parameter — add 10
+
+This question specifically asks for an INOUT parameter that accepts a number and adds 10.
+
+DELIMITER //
+
+CREATE PROCEDURE add_ten(INOUT p_number INT)
+BEGIN
+    SET p_number = p_number + 10;
+END //
+
+DELIMITER ;
+
+Here the parameter works as both:
+
+IN → receives the original value
+OUT → returns the modified value
+44. Call INOUT procedure
+
+First:
+
+SET @number = 20;
+
+Call:
+
+CALL add_ten(@number);
+
+Display:
+
+SELECT @number AS updated_number;
+Result
+updated_number
+---------------
+30
+
+Because:
+
+20 + 10 = 30
+45. Status IN + OUT — count matching orders
+
+The question asks for a status as input and the number of matching orders through an OUT parameter.
+
+DELIMITER //
+
+CREATE PROCEDURE status_order_count(
+    IN p_status VARCHAR(20),
+    OUT p_count INT
+)
+BEGIN
+    SELECT COUNT(*)
+    INTO p_count
+    FROM sales_orders
+    WHERE status = p_status;
+END //
+
+DELIMITER ;
+Example
+
+Find the number of Delivered orders:
+
+SET @delivered_count = 0;
+
+CALL status_order_count('Delivered', @delivered_count);
+
+SELECT @delivered_count AS delivered_orders;

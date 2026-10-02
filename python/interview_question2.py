@@ -6,5 +6,17 @@ employees = [
     {"id": 105, "name": "Karthik", "department": "IT", "salary": 60000}
 ]
 
+def display_employee_details(employee):
+    print(employee["id"], employee["name"], employee["department"], employee["salary"])
+
 for employee in employees:
-    print( employee["id"], employee["name"], employee["department"], employee["salary"])
+    display_employee_details(employee)
+
+def emp_highest_salary(employees):
+    highest_salary = 0     
+
+    highest_salary_employee = None
+    for employee in employees:
+        if employee["salary"] > highest_salary:
+            highest_salary = employee["salary"]
+            highest_salary_employee = employee

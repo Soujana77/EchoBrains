@@ -1,0 +1,460 @@
+# 21. ALIAS
+
+Alias gives a temporary name to a column or table.
+
+```sql
+SELECT salary AS monthly_salary
+FROM employees;
+```
+
+Table alias:
+
+```sql
+SELECT e.name
+FROM employees e;
+```
+
+---
+
+# 22. SQL CLAUSE ORDER
+
+A very important order to remember:
+
+```text
+SELECT
+FROM
+WHERE
+GROUP BY
+HAVING
+ORDER BY
+LIMIT
+OFFSET
+```
+
+Example:
+
+```sql
+SELECT dept, AVG(salary) AS average_salary
+FROM employees
+WHERE salary > 40000
+GROUP BY dept
+HAVING AVG(salary) > 70000
+ORDER BY average_salary DESC
+LIMIT 5;
+```
+
+---
+
+# 23. CONSTRAINTS
+
+Constraints are rules applied to columns.
+
+Important constraints:
+
+```text
+PRIMARY KEY
+UNIQUE
+NOT NULL
+DEFAULT
+CHECK
+FOREIGN KEY
+```
+
+---
+
+# 24. PRIMARY KEY
+
+Uniquely identifies each row.
+
+Rules:
+
+* No duplicate values
+* Cannot be `NULL`
+* One primary key constraint per table
+
+```sql
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    name VARCHAR(50)
+);
+```
+
+---
+
+# 25. UNIQUE
+
+Prevents duplicate values.
+
+```sql
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    email VARCHAR(100) UNIQUE
+);
+```
+
+In MySQL, a `UNIQUE` column can generally contain multiple `NULL` values.
+
+---
+
+# 26. NOT NULL
+
+Prevents `NULL`.
+
+```sql
+CREATE TABLE employees (
+    name VARCHAR(50) NOT NULL
+);
+```
+
+---
+
+# 27. DEFAULT
+
+Automatically provides a value when one isn't supplied.
+
+```sql
+CREATE TABLE employees (
+    city VARCHAR(50) DEFAULT 'Bangalore'
+);
+```
+
+Example:
+
+```sql
+INSERT INTO employees (name)
+VALUES ('Rahul');
+```
+
+`city` automatically becomes:
+
+```text
+Bangalore
+```
+
+---
+
+# 28. CHECK
+
+Ensures that a condition is satisfied.
+
+```sql
+CREATE TABLE employees (
+    age INT CHECK (age >= 18)
+);
+```
+
+Another example:
+
+```sql
+salary DECIMAL(10,2) CHECK (salary > 0)
+```
+
+---
+
+# 29. FOREIGN KEY
+
+A **FOREIGN KEY** creates a relationship between tables.
+
+Example:
+
+```sql
+CREATE TABLE dept (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(50)
+);
+```
+
+Then:
+
+```sql
+CREATE TABLE emp (
+    employee_id INT PRIMARY KEY,
+    employee_name VARCHAR(50),
+    department_id INT,
+    FOREIGN KEY (department_id)
+    REFERENCES dept(department_id)
+);
+```
+
+Here:
+
+```text
+dept.department_id
+        ↑
+        |
+emp.department_id
+```
+
+The foreign key generally refers to a primary/unique key in another table.
+
+---
+
+# 30. JOINS
+
+JOINs combine data from multiple tables.
+
+Main joins:
+
+```text
+INNER JOIN
+LEFT JOIN
+RIGHT JOIN
+CROSS JOIN
+```
+
+---
+
+# 31. INNER JOIN
+
+Returns only matching rows from both tables.
+
+```sql
+SELECT e.employee_name, d.department_name
+FROM emp e
+INNER JOIN dept d
+ON e.department_id = d.department_id;
+```
+
+### Memory
+
+```text
+INNER → Matching rows only
+```
+
+---
+
+# 32. LEFT JOIN
+
+Returns all rows from the left table and matching rows from the right table.
+
+```sql
+SELECT e.employee_name, d.department_name
+FROM emp e
+LEFT JOIN dept d
+ON e.department_id = d.department_id;
+```
+
+If there is no match:
+
+```text
+right-side columns → NULL
+```
+
+### Memory
+
+```text
+LEFT → Keep everything from LEFT
+```
+
+---
+
+# 33. RIGHT JOIN
+
+Returns all rows from the right table and matching rows from the left table.
+
+```sql
+SELECT e.employee_name, d.department_name
+FROM emp e
+RIGHT JOIN dept d
+ON e.department_id = d.department_id;
+```
+
+### Memory
+
+```text
+RIGHT → Keep everything from RIGHT
+```
+
+---
+
+# 34. CROSS JOIN
+
+Combines every row of one table with every row of another.
+
+```sql
+SELECT *
+FROM emp
+CROSS JOIN dept;
+```
+
+If:
+
+```text
+emp = 6 rows
+dept = 5 rows
+```
+
+Then:
+
+```text
+6 × 5 = 30 rows
+```
+
+### Memory
+
+```text
+CROSS → Everything × Everything
+```
+
+---
+
+# 35. SELF JOIN
+
+A table is joined with itself.
+
+Very useful for employee-manager relationships.
+
+```sql
+SELECT
+    e.employee_name AS employee,
+    m.employee_name AS manager
+FROM emp e
+LEFT JOIN emp m
+ON e.manager_id = m.employee_id;
+```
+
+Here:
+
+```text
+e → employee
+m → manager
+```
+
+Both are the same `emp` table.
+
+---
+
+# 36. SUBQUERY
+
+A **subquery** is a query inside another query.
+
+Example:
+
+Find employees earning more than the average salary:
+
+```sql
+SELECT *
+FROM emp
+WHERE salary > (
+    SELECT AVG(salary)
+    FROM emp
+);
+```
+
+Inner query:
+
+```sql
+SELECT AVG(salary)
+FROM emp;
+```
+
+runs conceptually to provide a value for the outer query.
+
+---
+
+# 37. VIEW
+
+A **view** is a virtual table based on a SQL query.
+
+### Create view
+
+```sql
+CREATE VIEW employee_details AS
+SELECT employee_id, employee_name, salary
+FROM emp;
+```
+
+Use it:
+
+```sql
+SELECT *
+FROM employee_details;
+```
+
+### View with JOIN
+
+```sql
+CREATE VIEW employee_department AS
+SELECT e.employee_name, e.salary, d.department_name
+FROM emp e
+INNER JOIN dept d
+ON e.department_id = d.department_id;
+```
+
+### Show views
+
+```sql
+SHOW FULL TABLES
+WHERE TABLE_TYPE = 'VIEW';
+```
+
+### Delete view
+
+```sql
+DROP VIEW employee_details;
+```
+
+### Modify view
+
+```sql
+CREATE OR REPLACE VIEW employee_details AS
+SELECT employee_id, employee_name, salary, department_id
+FROM emp;
+```
+
+### Easy definition
+
+```text
+VIEW = Saved SQL query that behaves like a virtual table
+```
+
+---
+
+# 38. TRIGGERS
+
+A **trigger** is a database object that automatically executes when a specified event occurs.
+
+Events:
+
+```text
+INSERT
+UPDATE
+DELETE
+```
+
+Timing:
+
+```text
+BEFORE
+AFTER
+```
+
+Examples:
+
+```text
+BEFORE INSERT
+AFTER INSERT
+BEFORE UPDATE
+AFTER UPDATE
+BEFORE DELETE
+AFTER DELETE
+```
+
+---
+
+# 39. NEW AND OLD
+
+Very important in triggers.
+
+```text
+NEW → New value
+OLD → Previous value
+```
+
+| Operation | NEW | OLD |
+| --------- | --- | --- |
+| INSERT    | Yes | No  |
+| UPDATE    | Yes | Yes |
+| DELETE    | No  | Yes |
+
+---

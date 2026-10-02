@@ -1,0 +1,280 @@
+Sure! Let’s do this as a **complete MySQL practice set**. I’ll first create the `employee` table and insert sample data, then give the `UPDATE`, `DELETE`, and `SELECT` queries.
+
+## 1. Create `employee` table and insert data
+
+```sql
+CREATE DATABASE company;
+USE company;
+
+CREATE TABLE employee (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    age INT,
+    gender CHAR(1),
+    salary DECIMAL(10,2),
+    department VARCHAR(50)
+);
+```
+
+### Insert the data
+
+```sql
+INSERT INTO employee (emp_id, emp_name, age, gender, salary, department)
+VALUES
+(101, 'Raju', 25, 'M', 40000, 'IT'),
+(102, 'Priya', 28, 'F', 45000, 'HR'),
+(103, 'Rahul', 30, 'M', 50000, 'IT'),
+(104, 'Anjali', 26, 'F', 55000, 'HR'),
+(105, 'Kiran', 30, 'M', 48000, 'Sales'),
+(106, 'Sneha', 27, 'F', 52000, 'Sales');
+```
+
+You can check:
+
+```sql
+SELECT * FROM employee;
+```
+
+---
+
+# UPDATE Queries
+
+### 1. Update Raju's salary to 50000
+
+```sql
+UPDATE employee
+SET salary = 50000
+WHERE emp_name = 'Raju';
+```
+
+### 2. Update Raju's department to Developer
+
+```sql
+UPDATE employee
+SET department = 'Developer'
+WHERE emp_name = 'Raju';
+```
+
+### 3. Update Priya's salary to 55000 and department to Finance
+
+```sql
+UPDATE employee
+SET salary = 55000,
+    department = 'Finance'
+WHERE emp_name = 'Priya';
+```
+
+### 4. Update Rahul's department to Marketing
+
+```sql
+UPDATE employee
+SET department = 'Marketing'
+WHERE emp_name = 'Rahul';
+```
+
+### 5. Update Anjali's salary to 65000 and department to Developer
+
+```sql
+UPDATE employee
+SET salary = 65000,
+    department = 'Developer'
+WHERE emp_name = 'Anjali';
+```
+
+### 6. Update Kiran's age to 31
+
+```sql
+UPDATE employee
+SET age = 31
+WHERE emp_name = 'Kiran';
+```
+
+### 7. Update Sneha's department to HR
+
+```sql
+UPDATE employee
+SET department = 'HR'
+WHERE emp_name = 'Sneha';
+```
+
+---
+
+# DELETE Queries
+
+⚠️ **Important:** These are separate practice queries. If you execute them one after another, employees deleted by an earlier query won't be available for later queries.
+
+### 8. Delete employee whose `emp_id` is 101
+
+```sql
+DELETE FROM employee
+WHERE emp_id = 101;
+```
+
+### 9. Delete employee whose name is Priya
+
+```sql
+DELETE FROM employee
+WHERE emp_name = 'Priya';
+```
+
+### 10. Delete employee whose `emp_id` is 103
+
+```sql
+DELETE FROM employee
+WHERE emp_id = 103;
+```
+
+### 11. Delete employee whose name is Anjali
+
+```sql
+DELETE FROM employee
+WHERE emp_name = 'Anjali';
+```
+
+### 12. Delete employee whose department is HR
+
+```sql
+DELETE FROM employee
+WHERE department = 'HR';
+```
+
+### 13. Delete employee whose `emp_id` is 105
+
+```sql
+DELETE FROM employee
+WHERE emp_id = 105;
+```
+
+### 14. Delete employee whose name is Sneha
+
+```sql
+DELETE FROM employee
+WHERE emp_name = 'Sneha';
+```
+
+### 15. Delete employee whose department is Sales
+
+```sql
+DELETE FROM employee
+WHERE department = 'Sales';
+```
+
+---
+
+# SELECT Queries
+
+## Basic SELECT
+
+### 1. Display all columns from the employee table
+
+```sql
+SELECT * FROM employee;
+```
+
+### 2. Display only the `emp_id` column
+
+```sql
+SELECT emp_id FROM employee;
+```
+
+### 3. Display only the `emp_name` column
+
+```sql
+SELECT emp_name FROM employee;
+```
+
+### 4. Display `emp_name` and `salary`
+
+```sql
+SELECT emp_name, salary
+FROM employee;
+```
+
+### 5. Display `emp_name`, `age`, and `department`
+
+```sql
+SELECT emp_name, age, department
+FROM employee;
+```
+
+### 6. Display `emp_id`, `emp_name`, `gender`, and `salary`
+
+```sql
+SELECT emp_id, emp_name, gender, salary
+FROM employee;
+```
+
+---
+
+# Aliasing
+
+Aliasing means giving a **temporary alternate name** to a column in the output.
+
+### 7. Display `emp_name` with alias `employee_name`
+
+```sql
+SELECT emp_name AS employee_name
+FROM employee;
+```
+
+### 8. Display `salary` with alias `employee_salary`
+
+```sql
+SELECT salary AS employee_salary
+FROM employee;
+```
+
+### 9. Display `department` with alias `employee_department`
+
+```sql
+SELECT department AS employee_department
+FROM employee;
+```
+
+### 10. Display `emp_name` as `employee_name` and salary as `monthly_salary`
+
+```sql
+SELECT emp_name AS employee_name,
+       salary AS monthly_salary
+FROM employee;
+```
+
+---
+
+# SELECT with WHERE condition
+
+### 11. Display the employee whose `emp_id = 101`
+
+```sql
+SELECT *
+FROM employee
+WHERE emp_id = 101;
+```
+
+### 12. Display the employee whose department is `'IT'`
+
+```sql
+SELECT *
+FROM employee
+WHERE department = 'IT';
+```
+
+### 13. Display the employee whose gender is `'F'`
+
+```sql
+SELECT *
+FROM employee
+WHERE gender = 'F';
+```
+
+### 14. Display the employee whose name is Raju
+
+```sql
+SELECT *
+FROM employee
+WHERE emp_name = 'Raju';
+```
+
+### 15. Display the employee whose department ...
+
+Your question is cut off at **"department"**. Send the remaining part of **Question 15 onward**, and I'll continue the queries in exactly the same format.
