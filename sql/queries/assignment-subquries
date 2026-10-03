@@ -1311,3 +1311,441 @@ START TRANSACTION
 ROLLBACK TO SAVEPOINT
        ↓
     COMMIT
+
+    Part A — TCL
+61. Two transactions: COMMIT first, ROLLBACK second
+
+The question asks for two separate transactions, completing the first with COMMIT and the second with ROLLBACK.
+
+Transaction 1
+START TRANSACTION;
+
+UPDATE sales_orders
+SET price = 1300
+WHERE order_id = 2;
+
+COMMIT;
+
+The change to order 2 is saved.
+
+Transaction 2
+START TRANSACTION;
+
+UPDATE sales_orders
+SET price = 9000
+WHERE order_id = 4;
+
+ROLLBACK;
+
+The change to order 4 is undone.
+
+Verify:
+
+SELECT order_id, price
+FROM sales_orders
+WHERE order_id IN (2, 4);
+62. Multiple changes + SAVEPOINT + undo later change + COMMIT
+
+The final TCL question asks you to keep the earlier correct changes, undo a later incorrect change, and commit the remaining changes.
+
+START TRANSACTION;
+
+UPDATE sales_orders
+SET price = 1300
+WHERE order_id = 2;
+
+UPDATE sales_orders
+SET discount = 7
+WHERE order_id = 3;
+
+SAVEPOINT correct_changes;
+
+UPDATE sales_orders
+SET price = -1000
+WHERE order_id = 4;
+
+ROLLBACK TO SAVEPOINT correct_changes;
+
+COMMIT;
+What happened?
+Order 2 → saved
+Order 3 → saved
+Order 4 → wrong update undone
+Part B — Triggers
+
+Now we start Triggers 1–13. The assignment specifically asks for BEFORE INSERT, AFTER INSERT, BEFORE UPDATE, and AFTER UPDATE triggers.
+
+Before creating triggers, use:
+
+USE sales_practice;
+
+And because triggers contain multiple statements, use:
+
+DELIMITER //
+63. BEFORE INSERT — negative discount becomes 0
+
+The assignment asks for a trigger that changes a negative discount to 0.
+
+DELIMITER //
+
+CREATE TRIGGER before_order_insert_discount
+BEFORE INSERT ON sales_orders
+FOR EACH ROW
+BEGIN
+    IF NEW.discount < 0 THEN
+        SET NEW.discount = 0;
+    END IF;
+END //
+
+DELIMITER ;
+Understand this
+
+NEW.discount means:
+
+The discount value that is about to be inserted.
+
+So if:
+
+discount = -5
+
+the trigger changes it to:
+
+discount = 0
+64. Test the discount trigger
+
+Insert an order with a negative discount:
+
+INSERT INTO sales_orders
+(order_id, customer_name, product_name, category,
+ quantity, price, discount, city, order_date, status)
+VALUES
+(23, 'Asha', 'USB Cable', 'Electronics',
+ 2, 500, -5, 'Bengaluru', '2026-03-27', 'Pending');
+
+Now check:
+
+SELECT order_id, product_name, discount
+FROM sales_orders
+WHERE order_id = 23;
+
+You should see:
+
+discount = 0
+
+instead of -5.
+
+65. BEFORE INSERT — negative quantity becomes 1
+
+The assignment asks for negative quantity to be changed to 1.
+
+DELIMITER //
+
+CREATE TRIGGER before_order_insert_quantity
+BEFORE INSERT ON sales_orders
+FOR EACH ROW
+BEGIN
+    IF NEW.quantity < 0 THEN
+        SET NEW.quantity = 1;
+    END IF;
+END //
+
+DELIMITER ;
+66. Test the quantity trigger
+
+Insert an order with negative quantity:
+
+INSERT INTO sales_orders
+(order_id, customer_name, product_name, category,
+ quantity, price, discount, city, order_date, status)
+VALUES
+(24, 'Ravi', 'Keyboard', 'Electronics',
+ -3, 1800, 5, 'Delhi', '2026-03-28', 'Pending');
+
+Check:
+
+SELECT order_id, product_name, quantity
+FROM sales_orders
+WHERE order_id = 24;
+
+Expected:
+
+quantity = 1
+67. BEFORE INSERT — negative price becomes 0
+
+The assignment asks for a trigger that changes a negative price to 0.
+
+DELIMITER //
+
+CREATE TRIGGER before_order_insert_price
+BEFORE INSERT ON sales_orders
+FOR EACH ROW
+BEGIN
+    IF NEW.price < 0 THEN
+        SET NEW.price = 0;
+    END IF;
+END //
+
+DELIMITER ;
+68. AFTER INSERT — create audit table
+
+The assignment asks for an audit table that stores the new order_id and customer_name.
+
+First create the support table:
+
+CREATE TABLE order_audit (
+    order_id INT,
+    customer_name VARCHAR(50)
+);
+
+Now create the trigger:
+
+DELIMITER //
+
+CREATE TRIGGER after_order_insert_audit
+AFTER INSERT ON sales_orders
+FOR EACH ROW
+BEGIN
+    INSERT INTO order_audit
+    (order_id, customer_name)
+    VALUES
+    (NEW.order_id, NEW.customer_name);
+END //
+
+DELIMITER ;
+Important
+
+Here we use NEW because we're recording the newly inserted row.
+
+69. Insert two orders and verify AFTER INSERT
+INSERT INTO sales_orders
+(order_id, customer_name, product_name, category,
+ quantity, price, discount, city, order_date, status)
+VALUES
+(25, 'Kavya', 'Webcam', 'Electronics',
+ 1, 3500, 5, 'Bengaluru', '2026-03-29', 'Delivered'),
+
+(26, 'Manoj', 'Lamp', 'Furniture',
+ 2, 2200, 5, 'Mumbai', '2026-03-30', 'Pending');
+
+Now check the audit table:
+
+SELECT *
+FROM order_audit;
+
+You should see entries for:
+
+25 | Kavya
+26 | Manoj
+
+The trigger fires once for each inserted row.
+
+70. BEFORE UPDATE — prevent negative price
+
+The assignment asks for a trigger that keeps the OLD price if someone attempts to make the price negative.
+
+DELIMITER //
+
+CREATE TRIGGER before_order_update_price
+BEFORE UPDATE ON sales_orders
+FOR EACH ROW
+BEGIN
+    IF NEW.price < 0 THEN
+        SET NEW.price = OLD.price;
+    END IF;
+END //
+
+DELIMITER ;
+Important difference
+
+Here we have both:
+
+OLD.price → price before update
+NEW.price → price being updated
+
+If the new price is negative:
+
+NEW.price = OLD.price
+71. Test negative-price update
+
+First check the current price:
+
+SELECT order_id, price
+FROM sales_orders
+WHERE order_id = 1;
+
+Now attempt:
+
+UPDATE sales_orders
+SET price = -5000
+WHERE order_id = 1;
+
+Check again:
+
+SELECT order_id, price
+FROM sales_orders
+WHERE order_id = 1;
+
+The price should remain at its previous value.
+
+72. AFTER UPDATE — price history table
+
+The assignment asks for a price history table storing the old and new price when the price changes.
+
+Create the table:
+
+CREATE TABLE price_history (
+    order_id INT,
+    old_price DECIMAL(10,2),
+    new_price DECIMAL(10,2)
+);
+
+Create the trigger:
+
+DELIMITER //
+
+CREATE TRIGGER after_order_update_price
+AFTER UPDATE ON sales_orders
+FOR EACH ROW
+BEGIN
+    IF OLD.price <> NEW.price THEN
+        INSERT INTO price_history
+        (order_id, old_price, new_price)
+        VALUES
+        (OLD.order_id, OLD.price, NEW.price);
+    END IF;
+END //
+
+DELIMITER ;
+Why the IF?
+
+We only want to record the history when:
+
+old price ≠ new price
+73. Update price and verify history
+
+Update an order:
+
+UPDATE sales_orders
+SET price = 70000
+WHERE order_id = 1;
+
+Now:
+
+SELECT *
+FROM price_history;
+
+You should get something similar to:
+
+order_id | old_price | new_price
+---------------------------------
+1        | 65000.00  | 70000.00
+
+The exact old price depends on whether you previously changed the data during your testing.
+
+74. AFTER UPDATE — status history
+
+The assignment asks for a status-history trigger that records status changes.
+
+Create the support table:
+
+CREATE TABLE status_history (
+    order_id INT,
+    old_status VARCHAR(20),
+    new_status VARCHAR(20)
+);
+
+Create the trigger:
+
+DELIMITER //
+
+CREATE TRIGGER after_order_update_status
+AFTER UPDATE ON sales_orders
+FOR EACH ROW
+BEGIN
+    IF OLD.status <> NEW.status THEN
+        INSERT INTO status_history
+        (order_id, old_status, new_status)
+        VALUES
+        (OLD.order_id, OLD.status, NEW.status);
+    END IF;
+END //
+
+DELIMITER ;
+
+Again:
+
+OLD.status → previous status
+NEW.status → new status
+75. Update status and verify history
+
+For example, change order 3:
+
+UPDATE sales_orders
+SET status = 'Delivered'
+WHERE order_id = 3;
+
+Then:
+
+SELECT *
+FROM status_history;
+
+You should see something like:
+
+order_id | old_status | new_status
+-----------------------------------
+3        | Pending    | Delivered
+🧠 Trigger concepts from this batch
+BEFORE INSERT
+
+Runs before the row enters the table.
+
+BEFORE INSERT
+
+Good for validating or modifying incoming values.
+
+AFTER INSERT
+
+Runs after the row has been inserted.
+
+AFTER INSERT
+
+Good for audit/logging.
+
+BEFORE UPDATE
+
+Runs before an existing row is updated.
+
+BEFORE UPDATE
+AFTER UPDATE
+
+Runs after the update.
+
+AFTER UPDATE
+NEW vs OLD
+Situation	NEW	OLD
+INSERT	✅	❌
+UPDATE	✅	✅
+DELETE	❌	✅
+
+This table is worth remembering for your practical exam.
+
+📌 Git Commit
+
+After adding this batch:
+
+git add .
+git commit -m "Add TCL and trigger practice solutions"
+git push
+Commit message
+
+Add TCL and trigger practice solutions
+
+Your progress:
+
+Add subquery practice solutions 1-15
+Add view practice solutions 1-15
+Add stored procedure practice solutions 1-15
+Add stored procedure and TCL practice solutions
+Add TCL and trigger practice solutions
+
+Next batch: Questions 76–90 → Triggers 14–20 + Window Functions 1–7.
