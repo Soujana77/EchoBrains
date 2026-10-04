@@ -2086,3 +2086,226 @@ FUNCTION() OVER (
     PARTITION BY column
     ORDER BY column
 )
+
+91. Total price of all orders
+Display every order along with the total price of all orders using SUM() OVER().
+SELECT
+    order_id,
+    product_name,
+    price,
+    SUM(price) OVER () AS total_price
+FROM sales_orders;
+
+Important
+Unlike GROUP BY, this doesn't combine the rows.
+Every order remains visible, and the same overall total appears beside each order.
+92. Average price of all orders
+Use AVG() OVER():
+SELECT
+    order_id,
+    product_name,
+    price,
+    AVG(price) OVER () AS average_price
+FROM sales_orders;
+
+Every row gets the average price of the complete table.
+93. Highest price in the complete table
+Use MAX() OVER():
+SELECT
+    order_id,
+    product_name,
+    price,
+    MAX(price) OVER () AS highest_price
+FROM sales_orders;
+
+Every order will show the same highest price.
+94. Lowest price in the complete table
+SELECT
+    order_id,
+    product_name,
+    price,
+    MIN(price) OVER () AS lowest_price
+FROM sales_orders;
+
+Again, every row remains visible.
+95. Total number of orders
+Use COUNT() OVER():
+SELECT
+    order_id,
+    product_name,
+    COUNT(*) OVER () AS total_orders
+FROM sales_orders;
+
+This gives the total number of orders alongside every row.
+96. Total quantity for each category
+Now we introduce PARTITION BY.
+SELECT
+    order_id,
+    product_name,
+    category,
+    quantity,
+    SUM(quantity) OVER (
+        PARTITION BY category
+    ) AS category_total_quantity
+FROM sales_orders;
+
+Meaning
+PARTITION BY category
+
+divides the orders into:
+Electronics
+Furniture
+
+Then SUM(quantity) is calculated separately for each category.
+97. Average price for each category
+SELECT
+    order_id,
+    product_name,
+    category,
+    price,
+    AVG(price) OVER (
+        PARTITION BY category
+    ) AS category_average_price
+FROM sales_orders;
+
+Every Electronics order gets the Electronics average.
+Every Furniture order gets the Furniture average.
+98. Number of orders in each category
+SELECT
+    order_id,
+    product_name,
+    category,
+    COUNT(*) OVER (
+        PARTITION BY category
+    ) AS category_order_count
+FROM sales_orders;
+
+This tells you how many orders belong to the same category as each row.
+99. Highest price in each category
+SELECT
+    order_id,
+    product_name,
+    category,
+    price,
+    MAX(price) OVER (
+        PARTITION BY category
+    ) AS category_highest_price
+FROM sales_orders;
+
+For each row, you can see the maximum price within its category.
+100. Running total of price based on order_id
+The assignment asks for a running total based on order_id.    Pasted text
+SELECT
+    order_id,
+    product_name,
+    price,
+    SUM(price) OVER (
+        ORDER BY order_id
+    ) AS running_total_price
+FROM sales_orders;
+
+Concept
+Imagine prices are:
+Order 1 → 65000
+Order 2 → 1200
+Order 3 → 4500
+
+The running total becomes:
+65000
+66200
+70700
+
+Each row adds its price to everything before it.
+101. Running total of quantity
+Same concept, but use quantity.
+SELECT
+    order_id,
+    product_name,
+    quantity,
+    SUM(quantity) OVER (
+        ORDER BY order_id
+    ) AS running_total_quantity
+FROM sales_orders;
+
+102. Previous order's price using LAG()
+The assignment asks for the price of the previous order.    Pasted text
+SELECT
+    order_id,
+    product_name,
+    price,
+    LAG(price) OVER (
+        ORDER BY order_id
+    ) AS previous_price
+FROM sales_orders;
+
+Example
+Order 1 → price 65000 → previous = NULL
+Order 2 → price 1200  → previous = 65000
+Order 3 → price 4500  → previous = 1200
+
+The first row has no previous row, so it gets NULL.
+103. Next order's price using LEAD()
+SELECT
+    order_id,
+    product_name,
+    price,
+    LEAD(price) OVER (
+        ORDER BY order_id
+    ) AS next_price
+FROM sales_orders;
+
+Example
+Order 1 → price 65000 → next = 1200
+Order 2 → price 1200  → next = 4500
+Order 3 → price 4500  → next = ...
+
+The final row gets NULL because there is no next order.
+104. Previous order's quantity using LAG()
+SELECT
+    order_id,
+    product_name,
+    quantity,
+    LAG(quantity) OVER (
+        ORDER BY order_id
+    ) AS previous_quantity
+FROM sales_orders;
+
+Again, the first order has no previous order, so its value is NULL.
+105. Next order's quantity using LEAD()
+SELECT
+    order_id,
+    product_name,
+    quantity,
+    LEAD(quantity) OVER (
+        ORDER BY order_id
+    ) AS next_quantity
+FROM sales_orders;
+
+The last order will have NULL because there is no next order.
+🧠 The important Window Functions from this batch
+You should know these patterns:
+Overall calculation
+SUM(price) OVER ()
+
+Calculates over the entire table.
+Category-wise calculation
+SUM(price) OVER (
+    PARTITION BY category
+)
+
+Calculates separately for each category.
+Running total
+SUM(price) OVER (
+    ORDER BY order_id
+)
+
+Calculates a cumulative total.
+Previous row
+LAG(price) OVER (
+    ORDER BY order_id
+)
+
+Next row
+LEAD(price) OVER (
+    ORDER BY order_id
+)
