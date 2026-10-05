@@ -90,3 +90,11 @@ So, Department_Name depends on Employee_ID through Department_ID. This is called
 - 1NF: Each cell contains only one atomic value and there are no repeating groups.
 - 2NF: The table is in 1NF and has no partial dependency.
 - 3NF: The table is in 2NF and has no transitive dependency.
+
+
+""""
+Easy way to remember
+1NF → Atomic values
+2NF → No partial dependency
+3NF → No transitive dependency
+""""
