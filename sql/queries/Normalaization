@@ -1,0 +1,92 @@
+What is Normalization?
+Normalization is a way of designing database tables properly. When a table stores too much repeated or
+unrelated information together, managing that data becomes difficult. Normalization helps us divide the
+data into proper related tables.
+The main idea is not simply to create more tables. The main idea is to store each type of information in the
+correct place.
+
+
+1. Define normalization in your own words.
+Normalization is the process of organizing data in a database into smaller, related tables to reduce duplicate data and avoid data-related problems.
+2. Explain data redundancy using an Employee and Department example.
+Data redundancy means storing the same data unnecessarily multiple times.
+Example:
+Employee	Department	Department Manager
+Ravi	IT	Kumar
+Priya	IT	Kumar
+Arun	HR	Meena
+
+
+Here, the department manager Kumar is repeated for every IT employee. This unnecessary repetition is called data redundancy.
+3. Explain update anomaly with a simple example.
+An update anomaly occurs when the same information is stored in multiple places and we update it in one place but forget to update the others.
+Example:
+If Kumar becomes the new manager of the IT department, we must update Kumar's name for every IT employee. If one row is not updated, the database contains incorrect information.
+4. Explain insert anomaly with a simple example.
+An insert anomaly occurs when we cannot insert some information into a table without having some unrelated information.
+Example:
+Suppose a new department AI Department is created, but it has no employees yet. If the table stores department information only along with employee information, we may not be able to add the AI Department until an employee is assigned to it.
+5. Explain delete anomaly with a simple example.
+A delete anomaly occurs when deleting one piece of information accidentally causes another important piece of information to be lost.
+Example:
+Suppose the only employee working in the AI Department is Ravi. If we delete Ravi's employee record, we may also lose the information that the AI Department exists.
+6. Convert a table containing multiple phone numbers in one cell into 1NF.
+Suppose the original table is:
+Student_ID	Student_Name	Phone_Numbers
+101	Ravi	9876543210, 9123456789
+
+
+This violates 1NF because one cell contains multiple values.
+Convert it to:
+Student_ID	Student_Name	Phone_Number
+101	Ravi	9876543210
+101	Ravi	9123456789
+
+
+Now each cell contains only one atomic value, so the table follows 1NF.
+7. What is a composite primary key? Give an example.
+A composite primary key is a primary key made up of two or more columns together.
+Example:
+Student_Course
+Student_ID	Course_ID	Marks
+101	C01	85
+101	C02	90
+102	C01	78
+
+
+Here, neither Student_ID nor Course_ID alone uniquely identifies a record.
+So we can use:
+PRIMARY KEY (Student_ID, Course_ID)
+
+Together, they uniquely identify each record.
+8. Find the partial dependency in a Student–Course table.
+Consider:
+Student_ID	Course_ID	Student_Name	Course_Name	Marks
+
+
+Composite key:
+(Student_ID, Course_ID)
+
+Partial dependencies:
+- Student_ID → Student_Name
+- Course_ID → Course_Name
+Here, Student_Name depends only on Student_ID, and Course_Name depends only on Course_ID, instead of depending on the whole composite key.
+This is called partial dependency and violates 2NF.
+9. Find the transitive dependency in an Employee–Department table.
+Consider:
+Employee_ID	Employee_Name	Department_ID	Department_Name
+
+
+Dependencies:
+Employee_ID → Department_ID
+Department_ID → Department_Name
+
+Therefore:
+Employee_ID → Department_Name
+
+indirectly.
+So, Department_Name depends on Employee_ID through Department_ID. This is called a transitive dependency and violates 3NF.
+10. Explain the difference between 1NF, 2NF and 3NF using one line for each.
+- 1NF: Each cell contains only one atomic value and there are no repeating groups.
+- 2NF: The table is in 1NF and has no partial dependency.
+- 3NF: The table is in 2NF and has no transitive dependency.
